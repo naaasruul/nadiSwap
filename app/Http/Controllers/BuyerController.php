@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class BuyerController extends Controller
@@ -12,8 +13,9 @@ class BuyerController extends Controller
     public function index()
     {
         //
+        $products = Product::all(); // Fetch all products from the database
 
-        return view('buyer.dashboard');
+        return view('buyer.dashboard',compact('products')); // Pass the products to the view
     }
 
     /**

@@ -11,16 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('products', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->text('description');
-            $table->text('category');
-            $table->decimal('price', 10, 2);
-            $table->integer('stock');
-            $table->string('image')->nullable();
-            $table->timestamps();
+            $table->foreignId('buyer_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('seller_id')->constrained('users')->onDelete('cascade');
+            $table->json('items'); // Store cart items as JSON
+            $table->decimal('total', 10, 2);
+            $table->string('status')->default('Pending'); // e.g., Pending, Completed
+            $table->timestamps();
         });
     }
 
@@ -29,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('orders');
     }
 };

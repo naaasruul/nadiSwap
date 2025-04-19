@@ -42,7 +42,8 @@ class ProductController extends Controller
         if ($request->hasFile('image')) {
             $validated['image'] = $request->file('image')->store('products', 'public');
         }
-
+        // Automatically assign the authenticated seller's ID
+        $validated['seller_id'] = auth()->id();
         Product::create($validated);
 
         return redirect()->back()->with('success', 'Product created successfully.');
@@ -86,5 +87,10 @@ class ProductController extends Controller
         $product->delete();
 
         return redirect()->route('seller.products.index')->with('success', 'Product deleted successfully.');
+    }
+
+    public function show(Product $product)
+    {
+        return view('product.product-view', compact('product'));
     }
 }

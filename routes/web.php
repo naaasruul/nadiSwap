@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\SellerController;
 use App\Http\Controllers\BuyerController;
 use App\Http\Controllers\Seller\ProductController;
+use App\Http\Controllers\Buyer\CartController;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
@@ -35,11 +36,19 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 Route::middleware(['auth', 'role:seller'])->prefix('seller')->name('seller.')->group(function () {
     Route::get('/dashboard', [SellerController::class, 'index'])->name('dashboard');
 
-    Route::resource('products', ProductController::class);
+    Route::resource('products', ProductController::class)->except(['show']);
 });
 
 Route::middleware(['auth', 'role:buyer'])->group(function () {
+    Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
+    Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
     Route::get('/buyer/dashboard', [BuyerController::class, 'index'])->name('buyer.dashboard');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
 });
 
 require __DIR__.'/auth.php';
