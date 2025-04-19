@@ -14,7 +14,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
-        return view('seller.products.index', compact('products'));
+        return view('seller.products', compact('products'));
     }
 
     /**
@@ -35,6 +35,7 @@ class ProductController extends Controller
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
+            'category' => 'required|string|max:255',
             'image' => 'nullable|image|max:2048',
         ]);
 
@@ -44,7 +45,7 @@ class ProductController extends Controller
 
         Product::create($validated);
 
-        return redirect()->route('seller.products.index')->with('success', 'Product created successfully.');
+        return redirect()->back()->with('success', 'Product created successfully.');
     }
 
     /**
