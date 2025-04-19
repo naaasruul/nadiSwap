@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\SellerController;
 use App\Http\Controllers\BuyerController;
+use App\Http\Controllers\Seller\ProductController;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
@@ -29,8 +30,12 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 });
 
-Route::middleware(['auth', 'role:seller'])->group(function () {
-    Route::get('/seller/dashboard', [SellerController::class, 'index'])->name('seller.dashboard');
+
+
+Route::middleware(['auth', 'role:seller'])->prefix('seller')->name('seller.')->group(function () {
+    Route::get('/dashboard', [SellerController::class, 'index'])->name('dashboard');
+
+    Route::resource('products', ProductController::class);
 });
 
 Route::middleware(['auth', 'role:buyer'])->group(function () {
