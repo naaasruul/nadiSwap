@@ -13,6 +13,7 @@ use Livewire\Attributes\Validate;
 use Livewire\Component;
 
 #[Layout('components.layouts.auth')]
+
 class Login extends Component
 {
     #[Validate('required|string|email')]
@@ -43,7 +44,19 @@ class Login extends Component
         RateLimiter::clear($this->throttleKey());
         Session::regenerate();
 
-        $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
+        // Redirect based on role
+        $user = Auth::user();
+
+        if ($user->hasRole('admin')) {
+            $this->redirectIntended(default: route('admin.dashboard'), navigate: true);
+        } elseif ($user->hasRole('seller')) {
+            $this->redirectIntended(default: route('seller.dashboard'), navigate: true);
+        } elseif ($user->hasRole('buyer')) {
+            $this->redirectIntended(default: route('buyer.dashboard'), navigate: true);
+        } else {
+            // Default fallback (optional)
+            $this->redirectIntended(default: route('dashboard'), navigate: true);
+        }
     }
 
     /**
