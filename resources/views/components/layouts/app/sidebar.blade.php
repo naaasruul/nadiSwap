@@ -18,6 +18,7 @@
                     @endhasrole
                     @hasrole('seller')
                         <flux:navlist.item icon="home" :href="route('seller.dashboard')" :current="request()->routeIs('seller.dashboard')" wire:navigate>{{ __('Seller Dashboard') }}</flux:navlist.item>
+                        <flux:navlist.item icon="home" :href="route('seller.products.index')" :current="request()->routeIs('seller.products.index')" wire:navigate>{{ __('My Products') }}</flux:navlist.item>
                     @endhasrole
                     @hasrole('customer')
                         <flux:navlist.item icon="home" :href="route('customer.dashboard')" :current="request()->routeIs('customer.dashboard')" wire:navigate>{{ __('Customer Dashboard') }}</flux:navlist.item>
@@ -125,7 +126,6 @@
         </flux:header>
 
         {{ $slot }}
-
         @fluxScripts
     </body>
 </html>
