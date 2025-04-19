@@ -5,6 +5,7 @@
 
 <link rel="preconnect" href="https://fonts.bunny.net">
 <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
-
+<!-- Include Flowbite JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
 @vite(['resources/css/app.css', 'resources/js/app.js'])
 @fluxAppearance
