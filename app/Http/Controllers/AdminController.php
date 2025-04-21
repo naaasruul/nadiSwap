@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class AdminController extends Controller
 {
@@ -62,5 +64,13 @@ class AdminController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function showManageSeller()
+    {
+        // Show the manage seller view
+        // You can pass any data to the view if needed
+        $sellers = User::role('seller')->get(); // Fetch all sellers
+        return view('admin.manage-seller',compact('sellers'));
     }
 }
