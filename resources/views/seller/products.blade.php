@@ -20,7 +20,7 @@
         <!-- Add Product Modal Toggle -->
         <div class="w-full flex justify-end mb-4">
             <button data-modal-target="crud-modal" data-modal-toggle="crud-modal"
-                class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                class="block text-white bg-pink-700 hover:bg-pink-800 focus:ring-4 focus:outline-none focus:ring-pink-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-pink-600 dark:hover:bg-pink-700 dark:focus:ring-pink-800"
                 type="button">
                 Add Product
             </button>
@@ -36,6 +36,8 @@
                         <th scope="col" class="px-6 py-3">Description</th>
                         <th scope="col" class="px-6 py-3">Price</th>
                         <th scope="col" class="px-6 py-3">Stock</th>
+                        <th scope="col" class="px-6 py-3">Rating</th>
+                        <th scope="col" class="px-6 py-3">Total Reviews</th>
                         <th scope="col" class="px-6 py-3"></th>
                         <th scope="col" class="px-6 py-3"></th>
                         <th scope="col" class="px-6 py-3"></th>
@@ -65,13 +67,17 @@
                             {{ $product->stock }}
                         </td>
                         <td class="px-6 py-4">
+                            {{ $product->reviews->avg('rating') ? $product->reviews->avg('rating') : 'No reviews yet' }}
+                        </td>
+                        <td class="px-6 py-4">
+                           {{ $product->reviews->count() }}
+                        </td>
+                        <td class="px-6 py-4">
                             <!-- Edit Button -->
                             <button data-modal-target="edit-modal-{{ $product->id }}"
                                 data-modal-toggle="edit-modal-{{ $product->id }}" class="btn">
                                 Edit
                             </button>
-
-                           
                         </td>
                         <td class="px-6 py-4">
                              <!-- Delete Form -->
@@ -86,7 +92,7 @@
                         </td>
                         <td class="px-6 py-4">
                             <!-- View Reviews Button -->
-                            <a href="{{ route('products.show', $product->id) }}" class="btn text-blue-500 hover:text-blue-700">
+                            <a href="{{ route('products.show', $product->id) }}" class="btn text-pink-500 hover:text-pink-700">
                                 View Product
                             </a>
                         </td>
@@ -121,46 +127,63 @@
                                         enctype="multipart/form-data">
                                         @csrf
                                         @method('PUT')
+
+                                        {{-- Name Input --}}
                                         <div class="mb-4">
                                             <label for="name-{{ $product->id }}"
                                                 class="block text-sm font-medium text-gray-900 dark:text-white">Name</label>
                                             <input type="text" id="name-{{ $product->id }}" name="name"
                                                 value="{{ $product->name }}"
-                                                class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                                class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-pink-500 focus:border-pink-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                                 required>
                                         </div>
+                                        
+                                        {{-- Price Input --}}
                                         <div class="mb-4">
                                             <label for="price-{{ $product->id }}"
                                                 class="block text-sm font-medium text-gray-900 dark:text-white">Price</label>
                                             <input type="number" id="price-{{ $product->id }}" name="price"
                                                 value="{{ $product->price }}"
-                                                class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                                class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-pink-500 focus:border-pink-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                                 required>
                                         </div>
+
+                                        {{-- Stock Input --}}
                                         <div class="mb-4">
                                             <label for="stock-{{ $product->id }}"
                                                 class="block text-sm font-medium text-gray-900 dark:text-white">Stock</label>
                                             <input type="number" id="stock-{{ $product->id }}" name="stock"
                                                 value="{{ $product->stock }}"
-                                                class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                                class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-pink-500 focus:border-pink-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                                 required>
                                         </div>
+
+                                        {{-- Image Input --}}
                                         <div class="mb-4">
-                                            <label for="image-{{ $product->id }}"
-                                                class="block text-sm font-medium text-gray-900 dark:text-white">Image</label>
-                                            <input type="file" id="image-{{ $product->id }}" name="image"
-                                                class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                                                accept="image/*">
+                                            <label for="image-{{ $product->id }}" class="block text-sm font-medium text-gray-900 dark:text-white">Image</label>
+                                            <div class="flex items-center justify-center w-full">
+                                                <label for="image-{{ $product->id }}"
+                                                    class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                                                    <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                                        <i class="fa-solid fa-cloud-arrow-up fa-xl mb-4 text-accent-content"></i>
+                                                        
+                                                        <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span>
+                                                            </p>
+                                                    </div>
+                                                    <input id="image-{{ $product->id }}" name="image" type="file" class="hidden" accept="image/*" />
+                                                </label>
+                                            </div>
                                         </div>
+
                                         <div class="mb-4">
                                             <label for="description-{{ $product->id }}"
                                                 class="block text-sm font-medium text-gray-900 dark:text-white">Description</label>
                                             <textarea id="description-{{ $product->id }}" name="description" rows="4"
-                                                class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                                class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-pink-500 focus:border-pink-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                                 required>{{ $product->description }}</textarea>
                                         </div>
                                         <button type="submit"
-                                            class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                            class="w-full text-white bg-pink-700 hover:bg-pink-800 focus:ring-4 focus:outline-none focus:ring-pink-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-pink-600 dark:hover:bg-pink-700 dark:focus:ring-pink-800">
                                             Update Product
                                         </button>
                                     </form>
@@ -203,46 +226,56 @@
                                 <label for="name"
                                     class="block text-sm font-medium text-gray-900 dark:text-white">Name</label>
                                 <input type="text" id="name" name="name"
-                                    class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                    class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-pink-500 focus:border-pink-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                     placeholder="Product Name" required>
                             </div>
                             <div class="mb-4">
                                 <label for="price"
                                     class="block text-sm font-medium text-gray-900 dark:text-white">Price</label>
                                 <input type="number" id="price" name="price"
-                                    class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                    class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-pink-500 focus:border-pink-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                     placeholder="Product Price" required>
                             </div>
                             <div class="mb-4">
                                 <label for="stock"
                                     class="block text-sm font-medium text-gray-900 dark:text-white">Stock</label>
                                 <input type="number" id="stock" name="stock"
-                                    class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                    class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-pink-500 focus:border-pink-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                     placeholder="Product Price" required>
                             </div>
+                            
                             <div class="mb-4">
-                                <label for="image"
-                                    class="block text-sm font-medium text-gray-900 dark:text-white">Image</label>
-                                <input type="file" id="image" name="image"
-                                    class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                                    accept="image/*">
+                                <label for="add-image" class="block text-sm font-medium text-gray-900 dark:text-white">Image</label>
+                                <div class="flex items-center justify-center w-full">
+                                    <label for="add-image"
+                                        class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                                        <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                            <i class="fa-solid fa-cloud-arrow-up fa-xl mb-4 text-accent-content"></i>
+                                            
+                                            <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span>
+                                                </p>
+                                        </div>
+                                        <input type="file" id="add-image" name="image" class="hidden" accept="image/*" />
+                                    </label>
+                                </div>
+                                
                             </div>
                             <div class="mb-4">
                                 <label for="description"
                                     class="block text-sm font-medium text-gray-900 dark:text-white">Description</label>
                                 <textarea id="description" name="description" rows="4"
-                                    class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                    class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-pink-500 focus:border-pink-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                     placeholder="Product Description"></textarea>
                             </div>
                             <div class="mb-4">
                                 <label for="category"
                                     class="block text-sm font-medium text-gray-900 dark:text-white">Category</label>
                                 <input type="text" id="category" name="category"
-                                    class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                    class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-pink-500 focus:border-pink-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                     placeholder="Product Category" required>
                             </div>
                             <button type="submit"
-                                class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                class="w-full text-white bg-pink-700 hover:bg-pink-800 focus:ring-4 focus:outline-none focus:ring-pink-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-pink-600 dark:hover:bg-pink-700 dark:focus:ring-pink-800">
                                 Save Product
                             </button>
                         </form>
