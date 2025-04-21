@@ -12,9 +12,10 @@ use App\Livewire\Settings\Profile;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return redirect()->route('login');
+    return redirect()->route('buyer.dashboard');
 })->name('home');
 
+Route::get('/welcome', [BuyerController::class, 'index'])->name('buyer.dashboard');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
@@ -28,8 +29,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/appearance', Appearance::class)->name('settings.appearance');
 });
 
-Route::middleware(['auth', 'role:admin'])->group(function () {  
-    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {  
+    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('dashboard');
+    Route::get('/admin/manage-seller', [AdminController::class, 'showManageSeller'])->name('manage-seller');
 });
 
 
@@ -45,11 +47,11 @@ Route::middleware(['auth', 'role:buyer'])->group(function () {
     Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 
-    
-    
     Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
     Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
-    Route::get('/buyer/dashboard', [BuyerController::class, 'index'])->name('buyer.dashboard');
+
+    // buyer account
+    Route::get('/my-account', [BuyerController::class, 'showAccount'])->name('my-account');
 });
 
 Route::middleware(['auth'])->group(function () {
