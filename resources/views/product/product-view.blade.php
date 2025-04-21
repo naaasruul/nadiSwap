@@ -38,7 +38,7 @@
                             <p class="text-sm font-medium leading-none text-gray-500 dark:text-gray-400">
                                 ({{ number_format($averageRating, 1)}})
                             </p>
-                            <a href="#"
+                            <a href="#review-section"
                                 class="text-sm font-medium leading-none text-gray-900 underline hover:no-underline dark:text-white">
                                 {{ $product->reviews_count }} Reviews
                             </a>
@@ -51,9 +51,9 @@
                             @csrf
                             <input type="hidden" name="product_id" value="{{ $product->id }}">
                             <input type="number" name="quantity" value="1" min="1"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-15 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                class="bg-gray-50 border border-pink-500 text-gray-900 text-sm rounded-lg focus:ring-pink-600 focus:border-pink-600 block w-15 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-pink-500 dark:focus:border-pink-500">
                             <button type="submit"
-                                class="ml-4 text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 flex items-center justify-center">
+                                class="ml-4 text-accent-content dark:text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 flex items-center justify-center">
                                 <svg class="w-5 h-5 -ms-2 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                     width="24" height="24" fill="none" viewBox="0 0 24 24">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -75,8 +75,9 @@
         </div>
     </x-section>
 
-    <x-section class="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
-        <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
+    {{-- review section  --}}
+    <x-section  class="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
+        <div id='review-section' class="mx-auto max-w-screen-xl px-4 2xl:px-0">
             <h2 class="text-2xl font-semibold text-gray-900 dark:text-white">Reviews</h2>
             <x-review-progress-bar :product-id="$product->id" />
 
