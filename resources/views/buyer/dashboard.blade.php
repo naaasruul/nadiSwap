@@ -104,7 +104,10 @@
           </a>
         </div>
       </section>
-    <x-section>
+
+
+    
+      <x-section>
         <!-- Section Title -->
         <section class="bg-gray-50 py-8 antialiased dark:bg-gray-900 md:py-12">
             <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
@@ -121,26 +124,11 @@
                           Home
                         </a>
                       </li>
-                      <li>
-                        <div class="flex items-center">
-                          <svg class="h-5 w-5 text-gray-400 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7" />
-                          </svg>
-                          <a href="#" class="ms-1 text-sm font-medium text-gray-700 hover:text-primary-600 dark:text-gray-400 dark:hover:text-white md:ms-2">Products</a>
-                        </div>
-                      </li>
-                      <li aria-current="page">
-                        <div class="flex items-center">
-                          <svg class="h-5 w-5 text-gray-400 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7" />
-                          </svg>
-                          <span class="ms-1 text-sm font-medium text-gray-500 dark:text-gray-400 md:ms-2">Electronics</span>
-                        </div>
-                      </li>
                     </ol>
                   </nav>
                   <h2 class="mt-3 text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Electronics</h2>
                 </div>
+                {{-- fILTTERS   --}}
                 <div class="flex items-center space-x-4">
                   <button data-modal-toggle="filterModal" data-modal-target="filterModal" type="button" class="flex w-full items-center justify-center rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700 sm:w-auto">
                     <svg class="-ms-0.5 me-2 h-4 w-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -184,6 +172,7 @@
                   </div>
                 </div>
               </div>
+              <!-- End Heading & Filters -->
                 <!-- Products Grid -->
               <div class="mb-4 grid gap-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4">
                 @foreach ($products as $product)
@@ -198,33 +187,19 @@
                   <div class="pt-6">
                     
           
-                    <a href="#" class="text-lg font-semibold leading-tight text-gray-900 hover:underline dark:text-white"> {{ $product->name }}</a>
+                    <a href="{{ route('products.show', $product->id) }}" class="text-lg font-semibold leading-tight text-gray-900 hover:underline dark:text-white"> {{ $product->name }}</a>
           
                     <div class="mt-2 flex items-center gap-2">
                       <div class="flex items-center">
-                        <svg class="h-4 w-4 text-yellow-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
-                        </svg>
-          
-                        <svg class="h-4 w-4 text-yellow-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
-                        </svg>
-          
-                        <svg class="h-4 w-4 text-yellow-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
-                        </svg>
-          
-                        <svg class="h-4 w-4 text-yellow-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
-                        </svg>
-          
-                        <svg class="h-4 w-4 text-yellow-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
-                        </svg>
+                          @for ($i = 1; $i <= 5; $i++)
+                          <i class="fa-solid fa-star {{ $i < number_format($product->reviews->avg('rating'), 1) ? 'text-yellow-300' : 'text-gray-300 dark:text-gray-500' }}"></i>
+                          @endfor
                       </div>
           
-                      <p class="text-sm font-medium text-gray-900 dark:text-white">4.9</p>
-                      <p class="text-sm font-medium text-gray-500 dark:text-gray-400">(879)</p>
+                        <p class="text-sm font-medium text-gray-900 dark:text-white">
+                        {{ number_format($product->reviews->avg('rating'), 1) }}
+                        </p>
+                      <p class="text-sm font-medium text-gray-500 dark:text-gray-400">({{ $product->reviews->count() }})</p>
                     </div>
           
                     {{-- <ul class="mt-2 flex items-center gap-4">
