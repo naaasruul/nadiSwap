@@ -14,6 +14,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
+        // $avgRating = $product->reviews()->avg('rating') ?? 0 ;
         return view('seller.products', compact('products'));
     }
 
@@ -91,6 +92,9 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
-        return view('product.product-view', compact('product'));
+        // Calculate the average rating for the product
+        $averageRating = $product->reviews()->avg('rating') ?? 0;
+
+        return view('product.product-view', compact('product','averageRating'));
     }
 }
