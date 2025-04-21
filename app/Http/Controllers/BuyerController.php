@@ -65,4 +65,15 @@ class BuyerController extends Controller
     {
         //
     }
+
+    public function showAccount()
+    {
+        $user = auth()->user();
+        $ordersCount = $user->orders()->count() ?? 0;
+        $reviewsCount = $user->reviews()->count() ?? 0;
+        $latestOrders = $user->orders()->latest()->take(5)->get();
+
+        // Logic to show the buyer's account details
+        return view('buyer.account-profile', compact('user', 'ordersCount', 'reviewsCount', 'latestOrders')); // Return the view for the buyer's account
+    }
 }
