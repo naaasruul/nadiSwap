@@ -6,6 +6,7 @@ use App\Http\Controllers\BuyerController;
 use App\Http\Controllers\Seller\ProductController;
 use App\Http\Controllers\Buyer\CartController;
 use App\Http\Controllers\Buyer\ReviewController;
+use App\Http\Controllers\DeliveryAddressController;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
@@ -52,6 +53,7 @@ Route::middleware(['auth', 'role:buyer'])->group(function () {
 
     // buyer account
     Route::get('/my-account', [BuyerController::class, 'showAccount'])->name('my-account');
+    Route::resource('delivery-addresses', DeliveryAddressController::class);
 });
 
 Route::middleware(['auth'])->group(function () {
