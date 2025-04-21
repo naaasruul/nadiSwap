@@ -1,18 +1,15 @@
-<div>
-  <!-- Live as if you were to die tomorrow. Learn as if you were to live forever. - Mahatma Gandhi -->
-</div>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Customer Site</title>
+  <title>Welcome</title>
   @include('partials.head')
 </head>
 
-<body>
-  <nav class="bg-white dark:bg-gray-800 antialiased">
+<body class="bg-gray-50 dark:bg-gray-900 antialiased">
+  <nav class="bg-pink dark:bg-gray-800 antialiased">
     <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0 py-4">
       <div class="flex items-center justify-between">
 
@@ -37,7 +34,16 @@
         </div>
 
         <div class="flex items-center lg:space-x-2">
+          @if(!Auth::check())
 
+          <a id="sign-in-button" href='{{ Route('login') }}'
+            class="inline-flex btn items-center rounded-lg justify-center p-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-sm font-medium leading-none text-gray-900 dark:text-white">
+            <span class="hidden sm:flex">Sign In</span>
+            <i class="fa-solid fa-arrow-right-to-bracket w-5 lg:ms-2"></i>
+          </a>
+
+
+          @else
           <button id="myCartDropdownButton1" data-dropdown-toggle="myCartDropdown1" type="button"
             class="inline-flex items-center rounded-lg justify-center p-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-sm font-medium leading-none text-gray-900 dark:text-white">
             <span class="sr-only">
@@ -55,7 +61,6 @@
                 d="m19 9-7 7-7-7" />
             </svg>
           </button>
-
           <div id="myCartDropdown1"
             class="hidden z-10 mx-auto max-w-sm space-y-4 overflow-hidden rounded-lg bg-white p-4 antialiased shadow-lg dark:bg-gray-800">
             @if (empty($cart))
@@ -101,10 +106,9 @@
             @endif
 
             <a href="{{ Route('cart.index') }}" title=""
-              class="mb-2 me-2 inline-flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+              class="mb-2 me-2 inline-flex w-full items-center justify-center text-pink-500 rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium dark:text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
               role="button"> Proceed to Checkout </a>
           </div>
-
           <button id="userDropdownButton1" data-dropdown-toggle="userDropdown1" type="button"
             class="inline-flex items-center rounded-lg justify-center p-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-sm font-medium leading-none text-gray-900 dark:text-white">
             <svg class="w-5 h-5 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -123,7 +127,10 @@
           <div id="userDropdown1"
             class="hidden z-10 w-56 divide-y divide-gray-100 overflow-hidden overflow-y-auto rounded-lg bg-white antialiased shadow dark:divide-gray-600 dark:bg-gray-700">
             <ul class="p-2 text-start text-sm font-medium text-gray-900 dark:text-white">
-              <li><a href="#" title=""
+              <li><p title=""
+                  class="inline-flex w-full text-gray-500 dark:text-gray-400 items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600">
+                  Hi, {{ Auth::user()->name }}! </p></li>
+              <li><a href="{{ Route('my-account') }}" title=""
                   class="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600">
                   My Account </a></li>
               <li><a href="#" title=""
@@ -142,16 +149,16 @@
                   class="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600">
                   Billing Data </a></li>
             </ul>
-
             <div class="p-2 text-sm font-medium text-gray-900 dark:text-white">
               <form action="{{ Route('logout') }}" method="POST">
-                @csrf  
+                @csrf
                 <button type="submit" title=""
-                class="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600">
-                Sign Out </button>
+                  class="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600">
+                  Sign Out </button>
               </form>
             </div>
           </div>
+          @endif
 
           <button type="button" data-collapse-toggle="ecommerce-navbar-menu-1" aria-controls="ecommerce-navbar-menu-1"
             aria-expanded="false"
