@@ -16,13 +16,9 @@
         <div class="flex items-center space-x-8">
           <div class="shrink-0">
             <a href="#" title="" class="">
-              <img class="block w-auto h-8 dark:hidden"
-                src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/logo-full.svg" alt="">
-              <img class="hidden w-auto h-8 dark:block"
-                src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/logo-full-dark.svg" alt="">
+              <x-app-icon/>
             </a>
           </div>
-
           <ul class="hidden lg:flex items-center justify-start gap-6 md:gap-8 py-3 sm:justify-center">
             <li>
               <a href="{{ Route('buyer.dashboard') }}" title=""
@@ -36,7 +32,7 @@
         <div class="flex items-center lg:space-x-2">
           @if(!Auth::check())
 
-          <a id="sign-in-button" href='{{ Route('login') }}'
+          <a id="sign-in-button" href='{{ Route(' login') }}'
             class="inline-flex btn items-center rounded-lg justify-center p-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-sm font-medium leading-none text-gray-900 dark:text-white">
             <span class="hidden sm:flex">Sign In</span>
             <i class="fa-solid fa-arrow-right-to-bracket w-5 lg:ms-2"></i>
@@ -127,9 +123,11 @@
           <div id="userDropdown1"
             class="hidden z-10 w-56 divide-y divide-gray-100 overflow-hidden overflow-y-auto rounded-lg bg-white antialiased shadow dark:divide-gray-600 dark:bg-gray-700">
             <ul class="p-2 text-start text-sm font-medium text-gray-900 dark:text-white">
-              <li><p title=""
+              <li>
+                <p title=""
                   class="inline-flex w-full text-gray-500 dark:text-gray-400 items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600">
-                  Hi, {{ Auth::user()->name }}! </p></li>
+                  Hi, {{ Auth::user()->name }}! </p>
+              </li>
               <li><a href="{{ Route('my-account') }}" title=""
                   class="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600">
                   My Account </a></li>
@@ -176,7 +174,7 @@
 
       <div id="ecommerce-navbar-menu-1"
         class="bg-gray-50 dark:bg-gray-700 dark:border-gray-600 border border-gray-200 rounded-lg py-3 hidden px-4 mt-4">
-        <ul class="text-gray-900 dark:text-white text-sm font-medium dark:text-white space-y-3">
+        <ul class="text-gray-900 text-sm font-medium dark:text-white space-y-3">
           <li>
             <a href="#" class="hover:text-primary-700 dark:hover:text-primary-500">Home</a>
           </li>
@@ -284,8 +282,8 @@
   <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
     <div class="sm:flex sm:items-center sm:justify-between">
       <a href="https://flowbite.com/" class="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse">
-        <img src="https://flowbite.com/docs/images/logo.svg" class="h-8" alt="Flowbite Logo" />
-        <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
+        <x-app-icon/>
+        <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Nadiswap</span>
       </a>
       <ul class="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
         <li>
