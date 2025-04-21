@@ -38,6 +38,7 @@
                         <th scope="col" class="px-6 py-3">Stock</th>
                         <th scope="col" class="px-6 py-3"></th>
                         <th scope="col" class="px-6 py-3"></th>
+                        <th scope="col" class="px-6 py-3"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -82,6 +83,12 @@
                                  Delete
                              </button>
                          </form>
+                        </td>
+                        <td class="px-6 py-4">
+                            <!-- View Reviews Button -->
+                            <a href="{{ route('products.show', $product->id) }}" class="btn text-blue-500 hover:text-blue-700">
+                                View Product
+                            </a>
                         </td>
                     </tr>
 
