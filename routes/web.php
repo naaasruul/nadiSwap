@@ -7,6 +7,7 @@ use App\Http\Controllers\Seller\ProductController;
 use App\Http\Controllers\Buyer\CartController;
 use App\Http\Controllers\Buyer\ReviewController;
 use App\Http\Controllers\DeliveryAddressController;
+use App\Http\Controllers\ProfileController;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
@@ -43,6 +44,9 @@ Route::middleware(['auth', 'role:seller'])->prefix('seller')->name('seller.')->g
     Route::resource('products', ProductController::class)->except(['show']);
 });
 
+Route::middleware(['auth'])->prefix('profile')->name('profile.')->group(function () {
+    Route::put('/profile/update', [ProfileController::class, 'update'])->name('update');
+});
 
 Route::middleware(['auth', 'role:buyer'])->group(function () {
     Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
