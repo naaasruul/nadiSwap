@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
         // Create an admin user
         $admin = User::create([
             'name' => 'Admin User',
-            'email' => 'admin@example.com',
+            'email' => 'admin@demo.oo',
             'password' => bcrypt('password'), // Use a secure password
         ]);
         $admin->assignRole('admin');
@@ -27,7 +27,7 @@ class UserSeeder extends Seeder
         // Create a seller user
         $seller = User::create([
             'name' => 'Seller User',
-            'email' => 'seller@example.com',
+            'email' => 'seller@demo.oo',
             'password' => bcrypt('password'), // Use a secure password
         ]);
         $seller->assignRole('seller');
