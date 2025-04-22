@@ -32,7 +32,7 @@
         <div class="flex items-center lg:space-x-2">
           @if(!Auth::check())
 
-          <a id="sign-in-button" href='{{ Route(' login') }}'
+          <a id="sign-in-button" href='{{ Route('login') }}'
             class="inline-flex btn items-center rounded-lg justify-center p-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-sm font-medium leading-none text-gray-900 dark:text-white">
             <span class="hidden sm:flex">Sign In</span>
             <i class="fa-solid fa-arrow-right-to-bracket w-5 lg:ms-2"></i>
