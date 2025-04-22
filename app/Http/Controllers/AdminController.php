@@ -73,4 +73,12 @@ class AdminController extends Controller
         $sellers = User::role('seller')->get(); // Fetch all sellers
         return view('admin.manage-seller',compact('sellers'));
     }
+
+    public function showManageBuyer()
+    {
+        // Show the manage buyer view
+        // You can pass any data to the view if needed
+        $buyers = User::role('buyer')->get(); // Fetch all buyers
+        return view('admin.manage-buyer',compact('buyers'));
+    }
 }

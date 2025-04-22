@@ -34,6 +34,7 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {  
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('dashboard');
     Route::get('/admin/manage-seller', [AdminController::class, 'showManageSeller'])->name('manage-seller');
+    Route::get('/admin/manage-buyer', [AdminController::class, 'showManageBuyer'])->name('manage-buyer');
 });
 
 

@@ -31,6 +31,7 @@
                 <x-sidebar-item route="admin.dashboard" icon="fa-solid fa-grip-vertical" label="Dashboard" />
                 <x-dropdown-item label="Manage Users" icon="fa-solid fa-users" :items="[
                     ['label' => 'Seller', 'route' => route('admin.manage-seller')],
+                    ['label' => 'Buyer', 'route' => route('admin.manage-buyer')],
                 ]" />
                 @endhasrole
                 {{-- SELLER NAVIGATIONS --}}
