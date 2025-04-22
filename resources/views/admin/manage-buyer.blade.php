@@ -13,7 +13,7 @@
                 </th>
                 <th>
                     <span class="flex items-center">
-                        Ticker
+                        Email
                     </span>
                 </th>
             </tr>
