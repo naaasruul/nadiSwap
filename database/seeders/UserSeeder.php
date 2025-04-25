@@ -24,7 +24,7 @@ class UserSeeder extends Seeder
             'username' => 'adminuser',
             'gender'=>'male',
             'email' => 'admin@demo.oo',
-            'phone_number' => '1234567890',
+            'phone_number' => '0167797762',
             'password' => bcrypt('password'), // Use a secure password
         ]);
         $admin->assignRole('admin');
