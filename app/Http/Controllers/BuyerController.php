@@ -32,14 +32,39 @@ class BuyerController extends Controller
                 })
                 ->get();
 
-            // Increment weight for the first matching product's category
-            if ($user && $products->count() > 0 && $products[0]->category) {
-                $pref = \App\Models\UserCategoryPreference::firstOrCreate(
-                    ['user_id' => $user->id, 'category' => $products[0]->category],
-                    ['weight' => 0]
-                );
-                $pref->increment('weight');
-                $preferredCategories[$products[0]->category] = $pref->weight;
+            // Adjust weights based on search frequency
+            if ($user && $products->count() > 0) {
+                // Count categories in search results
+                $categoryCounts = [];
+                foreach ($products as $product) {
+                    if ($product->category) {
+                        $categoryCounts[$product->category] = ($categoryCounts[$product->category] ?? 0) + 1;
+                    }
+                }
+                // Increase weight for categories found, decrease for others
+                foreach ($categoryCounts as $category => $count) {
+                    $pref = \App\Models\UserCategoryPreference::firstOrCreate(
+                        ['user_id' => $user->id, 'category' => $category],
+                        ['weight' => 0]
+                    );
+                    $pref->increment('weight', $count); // Increase by frequency in search results
+                    $preferredCategories[$category] = $pref->weight;
+                }
+                // Decay weights for categories not found in this search (by 1 per search, not by count)
+                //TODO- decay weights slower
+                $allCategories = array_keys($preferredCategories);
+                foreach ($allCategories as $category) {
+                    if (!isset($categoryCounts[$category])) {
+                        $pref = \App\Models\UserCategoryPreference::where([
+                            'user_id' => $user->id,
+                            'category' => $category
+                        ])->first();
+                        if ($pref && $pref->weight > 0) {
+                            $pref->decrement('weight', 1); // Only decrement by 1 per search
+                            $preferredCategories[$category] = $pref->weight;
+                        }
+                    }
+                }
             }
         } else {
             $products = Product::all();
@@ -86,5 +111,14 @@ class BuyerController extends Controller
 
         // Logic to show the buyer's account details
         return view('buyer.account-profile', compact('user', 'ordersCount', 'reviewsCount', 'latestOrders','deliveryAddresses')); // Return the view for the buyer's account
+    }
+
+    public function resetRecommendations(Request $request)
+    {
+        $user = auth()->user();
+        if ($user) {
+            $user->categoryPreferences()->delete();
+        }
+        return redirect()->route('buyer.dashboard')->with('status', 'Recommendations reset.');
     }
 }

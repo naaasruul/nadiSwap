@@ -79,4 +79,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(DeliveryAddress::class);
     }
+
+    public function categoryPreferences()
+    {
+        return $this->hasMany(\App\Models\UserCategoryPreference::class);
+    }
 }
