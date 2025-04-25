@@ -1,6 +1,6 @@
 <x-layouts.app :title="__('My Products')">
     <div class="container">
-        <h1 class="text-5xl font-medium">My Products</h1>
+        <x-dashboard-header>My Products</x-dashboard-header>
         @if (session('success'))
         <div class="p-4 my-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
             role="alert">
@@ -17,6 +17,7 @@
             </ul>
         </div>
         @endif
+        
         <!-- Add Product Modal Toggle -->
         <div class="w-full flex justify-end mb-4">
             <button data-modal-target="crud-modal" data-modal-toggle="crud-modal"

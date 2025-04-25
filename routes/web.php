@@ -8,6 +8,7 @@ use App\Http\Controllers\Buyer\CartController;
 use App\Http\Controllers\Buyer\ReviewController;
 use App\Http\Controllers\DeliveryAddressController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Seller\CategoryController;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
@@ -41,8 +42,9 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
 Route::middleware(['auth', 'role:seller'])->prefix('seller')->name('seller.')->group(function () {
     Route::get('/dashboard', [SellerController::class, 'index'])->name('dashboard');
-
+    
     Route::resource('products', ProductController::class)->except(['show']);
+    Route::get('/categories', [CategoryController::class, 'index'])->name('categories');
 });
 
 Route::middleware(['auth'])->prefix('profile')->name('profile.')->group(function () {
