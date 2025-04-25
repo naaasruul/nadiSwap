@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\UserCategoryPreference;
 use Illuminate\Http\Request;
 
 class BuyerController extends Controller
@@ -12,58 +13,67 @@ class BuyerController extends Controller
      */
     public function index()
     {
-        //
-        $products = Product::all(); // Fetch all products from the database
+        $search = request('search');
+        $user = auth()->user();
+        $preferredCategories = [];
 
-        return view('buyer.dashboard',compact('products')); // Pass the products to the view
+        // Get user's category preferences with weights
+        if ($user) {
+            $preferredCategories = $user->categoryPreferences()
+                ->orderByDesc('weight')
+                ->pluck('weight', 'category')
+                ->toArray();
+        }
+
+        if ($search) {
+            $products = Product::query()
+                ->when($search, function($query, $search) {
+                    return $query->where('name', 'like', '%' . $search . '%');
+                })
+                ->get();
+
+            // Increment weight for the first matching product's category
+            if ($user && $products->count() > 0 && $products[0]->category) {
+                $pref = \App\Models\UserCategoryPreference::firstOrCreate(
+                    ['user_id' => $user->id, 'category' => $products[0]->category],
+                    ['weight' => 0]
+                );
+                $pref->increment('weight');
+                $preferredCategories[$products[0]->category] = $pref->weight;
+            }
+        } else {
+            $products = Product::all();
+        }
+
+        // Sort products by user's category weights
+        if ($user && count($preferredCategories)) {
+            $products = $products->sortByDesc(function($product) use ($preferredCategories) {
+                return $preferredCategories[$product->category] ?? 0;
+            })->values();
+        }
+
+        // Show the top preferred category (optional)
+        $topCategory = count($preferredCategories) ? array_key_first($preferredCategories) : null;
+
+        return view('buyer.dashboard', [
+            'products' => $products,
+            'recommendedCategory' => $topCategory,
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $product = Product::findOrFail($id);
+        $user = auth()->user();
+        if ($user && $product->category) {
+            $pref = \App\Models\UserCategoryPreference::firstOrCreate(
+                ['user_id' => $user->id, 'category' => $product->category],
+                ['weight' => 0]
+            );
+            $pref->increment('weight');
+        }
+        // Logic to show the product details
+        return view('buyer.product-details', compact('product')); // Return the view for the product details
     }
 
     public function showAccount()
