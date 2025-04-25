@@ -42,5 +42,19 @@ class UserSeeder extends Seeder
             'matrix_number' => 'M123',
         ]);
         $seller->assignRole('seller');
+
+        // Create a buyer user
+        $seller = User::create([
+            'name' => 'Buyer User',
+            'first_name' => 'Buyer',
+            'last_name' => 'User',
+            'username' => 'buyeruser',
+            'gender'=>'male',
+            'email' => 'buyer@demo.oo',
+            'password' => bcrypt('password'), // Use a secure password
+            'phone_number' => '1234567890',
+            'matrix_number' => 'B123',
+        ]);
+        $seller->assignRole('buyer');
     }
 }
