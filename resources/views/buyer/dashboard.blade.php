@@ -1,5 +1,5 @@
 <x-layouts.customer-layout>
-    <section class="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
+    {{-- <section class="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
         <div class="mx-auto grid max-w-screen-xl px-4 pb-8 md:grid-cols-12 lg:gap-12 lg:pb-16 xl:gap-0">
           <div class="content-center justify-self-start md:col-span-7 md:text-start">
             <h1
@@ -57,7 +57,7 @@
             </svg>
           </a>
         </div>
-      </section>
+      </section> --}}
 
 
     
@@ -96,6 +96,18 @@
                           <span class="sr-only">Search</span>
                       </button>
                   </form>
+                  @if(isset($recommendedCategory) && $recommendedCategory)
+                    <form action="{{ route('buyer.reset_recommendations') }}" method="POST" class="mt-2">
+                        @csrf
+                        <button type="submit"
+                            class="inline-flex items-center rounded-lg border border-red-600 bg-red-600 px-3 py-2 text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400">
+                            <svg class="h-4 w-4 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582M20 20v-5h-.581M5.635 19A9 9 0 1 1 19 5.635" />
+                            </svg>
+                            Reset Recommendations
+                        </button>
+                    </form>
+                  @endif
                 </div>
                 {{-- fILTTERS   --}}
                 <div class="flex items-center space-x-4">
@@ -224,7 +236,7 @@
               </div>
             </div>
 
-            <!-- Filter modal -->
+            {{-- <!-- Filter modal -->
             <form action="#" method="get" id="filterModal" tabindex="-1" aria-hidden="true" class="fixed left-0 right-0 top-0 z-50 hidden h-modal w-full overflow-y-auto overflow-x-hidden p-4 md:inset-0 md:h-full">
               <div class="relative h-full w-full max-w-xl md:h-auto">
                 <!-- Modal content -->
@@ -778,7 +790,7 @@
                   </div>
                 </div>
               </div>
-            </form>
+            </form> --}}
           </section>
 
     </x-section>
