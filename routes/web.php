@@ -44,8 +44,7 @@ Route::middleware(['auth', 'role:seller'])->prefix('seller')->name('seller.')->g
     Route::get('/dashboard', [SellerController::class, 'index'])->name('dashboard');
     
     Route::resource('products', ProductController::class)->except(['show']);
-    Route::get('/categories', [CategoryController::class, 'index'])->name('categories');
-    Route::post('/categories/store', [CategoryController::class, 'store'])->name('categories.store');
+    Route::resource('categories', CategoryController::class)->except(['show']);
 });
 
 Route::middleware(['auth'])->prefix('profile')->name('profile.')->group(function () {
