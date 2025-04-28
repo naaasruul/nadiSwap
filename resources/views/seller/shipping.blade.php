@@ -63,9 +63,14 @@
                     @push('modal')
                         @include('Modal.edit-shipping')
                     @endpush
-                    <td>
-                        <button class="btn btn-sm btn-danger delete-shipping"
-                            data-id="{{ $shipping->id }}">Delete</button>
+<td>
+                    <form method="POST" action="{{ route('seller.shippings.destroy',$shipping->id) }}">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-sm btn-danger delete-shipping"
+                        data-id="{{ $shipping->id }}">Delete
+                        </button>
+                    </form>
                     </td>
                 
                 </tr>
