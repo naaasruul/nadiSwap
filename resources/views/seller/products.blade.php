@@ -20,232 +20,304 @@
 
         <!-- Add Product Modal Toggle -->
         <div class="w-full flex justify-end mb-4">
-            
+
         </div>
-        
-{{-- <table id="product-filter-table">
-    <thead>
-        <tr>
-            <th>
-                <span class="flex items-center">
-                    Image
-                    <i class="fa-solid fa-sort ms-3"></i>
-                </span>
-            </th>
-            <th>
-                <span class="flex items-center">
-                    Product Name
-                <i class="fa-solid fa-sort ms-3"></i>
 
-                </span>
-            </th>
-            <th>
-                <span class="flex items-center">
-                    Category
-                <i class="fa-solid fa-sort ms-3"></i>
+        {{-- <table id="product-filter-table">
+            <thead>
+                <tr>
+                    <th>
+                        <span class="flex items-center">
+                            Image
+                            <i class="fa-solid fa-sort ms-3"></i>
+                        </span>
+                    </th>
+                    <th>
+                        <span class="flex items-center">
+                            Product Name
+                            <i class="fa-solid fa-sort ms-3"></i>
 
-                </span>
-            </th>
-            <th>
-                <span class="flex items-center">
-                    Price
-                 <i class="fa-solid fa-sort ms-3"></i>
+                        </span>
+                    </th>
+                    <th>
+                        <span class="flex items-center">
+                            Category
+                            <i class="fa-solid fa-sort ms-3"></i>
 
-                </span>
-            </th>
-            <th>
-                <span class="flex items-center">
-                    Description
-                 <i class="fa-solid fa-sort ms-3"></i>
+                        </span>
+                    </th>
+                    <th>
+                        <span class="flex items-center">
+                            Price
+                            <i class="fa-solid fa-sort ms-3"></i>
 
-                </span>
-            </th>
-            <th>
-                <span class="flex items-center">
-                    Rating
-                <i class="fa-solid fa-sort ms-3"></i>
-                </span>
-            </th>
-            <th>
-                <span class="flex items-center">
-                    Total Reviews
-                    <i class="fa-solid fa-sort ms-3"></i>
-                </span>
-            </th>
+                        </span>
+                    </th>
+                    <th>
+                        <span class="flex items-center">
+                            Description
+                            <i class="fa-solid fa-sort ms-3"></i>
 
-            <th>
-                <span class="flex items-center">
-                    <i class="fa-solid fa-sort ms-3"></i>
-                </span>
-            </th>
-            <th>
-                <span class="flex items-center">
-                    <i class="fa-solid fa-sort ms-3"></i>
-                </span>
-            </th>
-            <th>
-                <span class="flex items-center">
-                    <i class="fa-solid fa-sort ms-3"></i>
-                </span>
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($products as $product)
-        <tr>
-            <td class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                @if ($product->image)
-                            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"
-                                class="w-16 h-16 object-cover rounded">
-                            @else
-                            <span class="text-gray-500">No Image</span>
-                            @endif
-            </td>
-            <td class="font-medium text-gray-900 whitespace-nowrap dark:text-white"> {{ $product->name }}</td>
-            <td> {{ $product->category }}</td>
-            <td> RM{{ $product->price }}</td>
-            <td> {{ $product->description }}</td>
-            <td> {{ $product->reviews->avg('rating') ? $product->reviews->avg('rating') : 'No reviews yet' }}</td>
-            <td> {{ $product->reviews->count() }}</td>
-            <td>  <!-- Edit Button -->
-                <button data-modal-target="edit-modal-{{ $product->id }}"
-                    data-modal-toggle="edit-modal-{{ $product->id }}" class="btn">
-                    Edit
-                </button></td>
-            <td><!-- Delete Form -->
-                <form action="{{ route('seller.products.destroy', $product) }}" method="POST"
-                    style="display:inline;">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn">
-                        Delete
-                    </button>
-                </form></td>
-            <td>
-                <!-- View Reviews Button -->
-                <a href="{{ route('products.show', $product->id) }}"
-                    class="btn text-pink-500 hover:text-pink-700">
-                    View Product
-                </a>    
-            </td>
-        </tr>
-        @endforeach
-        
-    </tbody>
-</table> --}}
+                        </span>
+                    </th>
+                    <th>
+                        <span class="flex items-center">
+                            Rating
+                            <i class="fa-solid fa-sort ms-3"></i>
+                        </span>
+                    </th>
+                    <th>
+                        <span class="flex items-center">
+                            Total Reviews
+                            <i class="fa-solid fa-sort ms-3"></i>
+                        </span>
+                    </th>
 
-<table id="export-table">
-    <thead>
-        <tr>
-            <th>
-                <span class="flex items-center">
-                    Image
-                    {{-- <i class="fa-solid fa-sort ms-3"></i> --}}
-                </span>
-            </th>
-            <th>
-                <span class="flex items-center">
-                    Product Name
-                <i class="fa-solid fa-sort ms-3"></i>
+                    <th>
+                        <span class="flex items-center">
+                            <i class="fa-solid fa-sort ms-3"></i>
+                        </span>
+                    </th>
+                    <th>
+                        <span class="flex items-center">
+                            <i class="fa-solid fa-sort ms-3"></i>
+                        </span>
+                    </th>
+                    <th>
+                        <span class="flex items-center">
+                            <i class="fa-solid fa-sort ms-3"></i>
+                        </span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($products as $product)
+                <tr>
+                    <td class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        @if ($product->image)
+                        <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"
+                            class="w-16 h-16 object-cover rounded">
+                        @else
+                        <span class="text-gray-500">No Image</span>
+                        @endif
+                    </td>
+                    <td class="font-medium text-gray-900 whitespace-nowrap dark:text-white"> {{ $product->name }}</td>
+                    <td> {{ $product->category }}</td>
+                    <td> RM{{ $product->price }}</td>
+                    <td> {{ $product->description }}</td>
+                    <td> {{ $product->reviews->avg('rating') ? $product->reviews->avg('rating') : 'No reviews yet' }}
+                    </td>
+                    <td> {{ $product->reviews->count() }}</td>
+                    <td>
+                        <!-- Edit Button -->
+                        <button data-modal-target="edit-modal-{{ $product->id }}"
+                            data-modal-toggle="edit-modal-{{ $product->id }}" class="btn">
+                            Edit
+                        </button>
+                    </td>
+                    <td>
+                        <!-- Delete Form -->
+                        <form action="{{ route('seller.products.destroy', $product) }}" method="POST"
+                            style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn">
+                                Delete
+                            </button>
+                        </form>
+                    </td>
+                    <td>
+                        <!-- View Reviews Button -->
+                        <a href="{{ route('products.show', $product->id) }}"
+                            class="btn text-pink-500 hover:text-pink-700">
+                            View Product
+                        </a>
+                    </td>
+                </tr>
+                @endforeach
 
-                </span>
-            </th>
-            <th>
-                <span class="flex items-center">
-                    Category
-                <i class="fa-solid fa-sort ms-3"></i>
+            </tbody>
+        </table> --}}
 
-                </span>
-            </th>
-            <th>
-                <span class="flex items-center">
-                    Price
-                 <i class="fa-solid fa-sort ms-3"></i>
+        <table id="export-table" class="relative z-0">
+            <thead>
+                <tr>
+                    <th>
+                        <span class="flex items-center">
+                            Image
+                            {{-- <i class="fa-solid fa-sort ms-3"></i> --}}
+                        </span>
+                    </th>
+                    <th>
+                        <span class="flex items-center">
+                            Product Name
+                            <i class="fa-solid fa-sort ms-3"></i>
 
-                </span>
-            </th>
-            <th>
-                <span class="flex items-center">
-                    Description
-                 <i class="fa-solid fa-sort ms-3"></i>
+                        </span>
+                    </th>
+                    <th>
+                        <span class="flex items-center">
+                            Category
+                            <i class="fa-solid fa-sort ms-3"></i>
 
-                </span>
-            </th>
-            <th>
-                <span class="flex items-center">
-                    Rating
-                <i class="fa-solid fa-sort ms-3"></i>
-                </span>
-            </th>
-            <th>
-                <span class="flex items-center">
-                    Total Reviews
-                    <i class="fa-solid fa-sort ms-3"></i>
-                </span>
-            </th>
+                        </span>
+                    </th>
+                    <th>
+                        <span class="flex items-center">
+                            Price
+                            <i class="fa-solid fa-sort ms-3"></i>
 
-            <th>
-                <span class="flex items-center">
-                    {{-- <i class="fa-solid fa-sort ms-3"></i> --}}
-                </span>
-            </th>
-            <th>
-                <span class="flex items-center">
-                    {{-- <i class="fa-solid fa-sort ms-3"></i> --}}
-                </span>
-            </th>
-            <th>
-                <span class="flex items-center">
-                    {{-- <i class="fa-solid fa-sort ms-3"></i> --}}
-                </span>
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($products as $product)
-        <tr data-id="{{ $product->id }}" class="product-row">
-            <td class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                @if ($product->image)
-                            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"
-                                class="w-16 h-16 object-cover rounded">
-                            @else
-                            <span class="text-gray-500">No Image</span>
-                            @endif
-            </td>
-            <td class="font-medium text-gray-900 whitespace-nowrap dark:text-white"> {{ $product->name }}</td>
-            <td> {{ $product->category }}</td>
-            <td> RM{{ $product->price }}</td>
-            <td> {{ $product->description }}</td>
-            <td> {{ $product->reviews->avg('rating') ? $product->reviews->avg('rating') : 'No reviews yet' }}</td>
-            <td> {{ $product->reviews->count() }}</td>
-            <td>  <!-- Edit Button -->
-                <button data-modal-target="edit-modal-{{ $product->id }}"
-                    data-modal-toggle="edit-modal-{{ $product->id }}" class="btn">
-                    Edit
-                </button></td>
-            <td><!-- Delete Form -->
-                <form action="{{ route('seller.products.destroy', $product) }}" method="POST"
-                    style="display:inline;">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn">
-                        Delete
-                    </button>
-                </form></td>
-            <td>
-                <!-- View Reviews Button -->
-                <a href="{{ route('products.show', $product->id) }}"
-                    class="btn text-pink-500 hover:text-pink-700">
-                    View Product
-                </a>    
-            </td>
-        </tr>
-        @endforeach
-        
-    </tbody>
-</table>
+                        </span>
+                    </th>
+                    <th>
+                        <span class="flex items-center">
+                            Description
+                            <i class="fa-solid fa-sort ms-3"></i>
 
-       
+                        </span>
+                    </th>
+                    <th>
+                        <span class="flex items-center">
+                            Rating
+                            <i class="fa-solid fa-sort ms-3"></i>
+                        </span>
+                    </th>
+                    <th>
+                        <span class="flex items-center">
+                            Total Reviews
+                            <i class="fa-solid fa-sort ms-3"></i>
+                        </span>
+                    </th>
+
+                    <th>
+                    </th>
+                    <th>
+                    </th>
+                    <th>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($products as $product)
+                <tr data-id="{{ $product->id }}" class="product-row">
+                    <td class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        @if ($product->image)
+                        <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"
+                            class="w-16 h-16 object-cover rounded">
+                        @else
+                        <span class="text-gray-500">No Image</span>
+                        @endif
+                    </td>
+                    <td class="font-medium text-gray-900 whitespace-nowrap dark:text-white"> {{ $product->name }}</td>
+                    <td> {{ $product->category }}</td>
+                    <td> RM{{ $product->price }}</td>
+                    <td> {{ $product->description }}</td>
+                    <td> {{ $product->reviews->avg('rating') ? $product->reviews->avg('rating') : 'No reviews yet' }}
+                    </td>
+                    <td> {{ $product->reviews->count() }}</td>
+                    <td>
+                        <!-- Edit Button -->
+                        <button data-modal-target="edit-modal-{{ $product->id }}"
+                            data-modal-toggle="edit-modal-{{ $product->id }}" class="btn">
+                            Edit
+                        </button>
+                        @push('modal')
+                        <!-- Edit Modal -->
+                        <div id="edit-modal-{{ $product->id }}" tabindex="-1" aria-hidden="true"
+                            class="hidden fixed top-0 left-0 right-0 z-100 flex items-center justify-center w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full modal">
+                            <div class="relative w-full max-w-md max-h-full">
+                                <!-- Modal content -->
+                                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                    <!-- Modal header -->
+                                    <div
+                                        class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+                                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                            Edit Product
+                                        </h3>
+                                        <button type="button"
+                                            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                            data-modal-toggle="edit-modal-{{ $product->id }}">
+                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd"
+                                                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                    clip-rule="evenodd"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <!-- Modal body -->
+                                    <div class="p-6 space-y-6">
+                                        <form action="{{ route('seller.products.update', $product->id) }}"
+                                            method="POST">
+                                            @csrf
+                                            @method('PUT')
+                                            <div class="mb-4">
+                                                <label for="name-{{ $product->id }}"
+                                                    class="block text-sm font-medium text-gray-900 dark:text-white">Name</label>
+                                                <input type="text" id="name-{{ $product->id }}" name="name"
+                                                    value="{{ $product->name }}"
+                                                    class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-pink-500 focus:border-pink-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                                    required>
+                                            </div>
+                                            <div class="mb-4">
+                                                <label for="price-{{ $product->id }}"
+                                                    class="block text-sm font-medium text-gray-900 dark:text-white">Price</label>
+                                                <input type="number" id="price-{{ $product->id }}" name="price"
+                                                    value="{{ $product->price }}"
+                                                    class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-pink-500 focus:border-pink-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                                    required>
+                                            </div>
+                                            <div class="mb-4">
+                                                <label for="description-{{ $product->id }}"
+                                                    class="block text-sm font-medium text-gray-900 dark:text-white">Description</label>
+                                                <textarea id="description-{{ $product->id }}" name="description"
+                                                    rows="4"
+                                                    class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-pink-500 focus:border-pink-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                                    required>{{ $product->description }}</textarea>
+                                            </div>
+                                            <div class="flex justify-end space-x-2">
+                                                <button type="button"
+                                                    class="edit-modal-cancel text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
+                                                    Cancel
+                                                </button>
+                                                <button type="submit"
+                                                    class="edit-modal-save text-white bg-pink-700 hover:bg-pink-800 focus:ring-4 focus:outline-none focus:ring-pink-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-pink-600 dark:hover:bg-pink-700 dark:focus:ring-pink-800">
+                                                    Save
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endpush
+
+                    </td>
+                    <td>
+                        <!-- Delete Form -->
+                        <form action="{{ route('seller.products.destroy', $product) }}" method="POST"
+                            style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn">
+                                Delete
+                            </button>
+                        </form>
+                    </td>
+                    <td>
+                        <!-- View Reviews Button -->
+                        <a href="{{ route('products.show', $product->id) }}"
+                            class="btn text-pink-500 hover:text-pink-700">
+                            View Product
+                        </a>
+                    </td>
+                </tr>
+                @endforeach
+
+            </tbody>
+        </table>
+
+
 
         <!-- Main modal -->
         <div id="crud-modal" tabindex="-1" aria-hidden="true"
@@ -344,20 +416,6 @@
             </div>
         </div>
     </div>
-    @push('scripts')
-    <script>
-        if (document.getElementById("product-search-table") && typeof simpleDatatables.DataTable !== 'undefined') {
-    const dataTable = new simpleDatatables.DataTable("#search-table", {
-        searchable: true,
-        sortable: false
-    });
-}
 
 
-
-
-
-    </script>
-    @endpush
-    
 </x-layouts.app>

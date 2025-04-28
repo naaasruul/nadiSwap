@@ -4,6 +4,7 @@
         <div class="p-4 rounded-lg dark:border-gray-700">
             {{ $slot }}
         </div>
+        @stack('modal')
     </div>
     <script>
         if (document.getElementById("search-table") && typeof simpleDatatables.DataTable !== 'undefined') {
