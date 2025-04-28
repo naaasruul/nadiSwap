@@ -9,6 +9,7 @@ use App\Http\Controllers\Buyer\ReviewController;
 use App\Http\Controllers\DeliveryAddressController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Seller\CategoryController;
+use App\Http\Controllers\Seller\ShippingController;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
@@ -45,6 +46,7 @@ Route::middleware(['auth', 'role:seller'])->prefix('seller')->name('seller.')->g
     
     Route::resource('products', ProductController::class)->except(['show']);
     Route::resource('categories', CategoryController::class)->except(['show']);
+    Route::resource('shippings', ShippingController::class);
 });
 
 Route::middleware(['auth'])->prefix('profile')->name('profile.')->group(function () {
