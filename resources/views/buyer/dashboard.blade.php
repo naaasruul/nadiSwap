@@ -1,8 +1,7 @@
 <x-layouts.customer-layout>
   <!-- Section Title -->
-  <section class="bg-gray-50 py-8 antialiased dark:bg-gray-900 md:py-12">
-    <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
-      <!-- Heading & Filters -->
+  <section class="bg-gray-50 py-8 antialiased dark:bg-gray-900 md:py-12 mx-auto max-w-screen-xl px-4 2xl:px-0">
+    <!-- Heading & Filters -->
       <div class="mb-4 items-end justify-between space-y-4 sm:flex sm:space-y-0 md:mb-8">
         <div class="flex-1">
           <nav class="flex" aria-label="Breadcrumb">
@@ -71,18 +70,21 @@
                 <input type="text" id="search" name="search" value="{{ request('search') }}"
                   class="block w-full rounded-lg border border-gray-300 bg-white p-2.5 pl-10 text-sm text-gray-900 hover:bg-gray-50 focus:border-primary-500 focus:ring-4 focus:ring-primary-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-400 dark:hover:bg-gray-700 dark:focus:border-primary-500"
                   placeholder="Search products..." />
-                </div>
-                <button type="submit"
+              </div>
+              <button type="submit"
                 class="ml-2 inline-flex cursor-pointer items-center rounded-lg border border-gray-300 bg-white p-2.5 text-center text-sm font-medium text-gray-900 hover:bg-gray-50 focus:ring-4 focus:ring-primary-300 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:border-primary-500">
-                <svg class="h-4 w-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 14.5A6 6 0 1 0 8.5 2.5a6 6 0 0 0 0 12Zm11.5 5L14.5 14"/>
+                <svg class="h-4 w-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                  viewBox="0 0 20 20">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M8.5 14.5A6 6 0 1 0 8.5 2.5a6 6 0 0 0 0 12Zm11.5 5L14.5 14" />
                 </svg>
                 <span class="sr-only">Search</span>
               </button>
             </form>
 
             <!-- Category Filter Dropdown -->
-            <div class="relative z-[5]">  <!-- Changed from z-10 to z-[5] -->
+            <div class="relative z-[5]">
+              <!-- Changed from z-10 to z-[5] -->
               <button id="category-dropdown-button"
                 class="inline-flex items-center rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700">
                 <span>Categories</span>
@@ -101,27 +103,30 @@
 
                   <!-- All Categories Section -->
                   <div class="border-t border-gray-100 pt-1 dark:border-gray-700">
-                    <span class="block px-4 py-1 text-xs font-medium text-gray-500 dark:text-gray-400">All Categories</span>
+                    <span class="block px-4 py-1 text-xs font-medium text-gray-500 dark:text-gray-400">All
+                      Categories</span>
                     @if(isset($allCategories))
-                      @foreach($allCategories as $category)
-                        <a href="{{ route('buyer.dashboard', ['category' => $category->id]) }}"
-                          class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
-                          role="menuitem">
-                          {{ $category->name }}
-                          @if(isset($preferredCategories[$category->id]))
-                            <span class="ml-2 inline-flex items-center rounded-full bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-800 dark:bg-blue-900 dark:text-blue-300">
-                              Recommended
-                            </span>
-                          @endif
-                          @foreach($trendingCategories as $trendCat)
-                            @if($trendCat['id'] == $category->id)
-                              <span class="ml-2 inline-flex items-center rounded-full bg-primary-100 px-2 py-0.5 text-xs font-medium text-primary-800 dark:bg-primary-900 dark:text-primary-300">
-                                Popular
-                              </span>
-                            @endif
-                          @endforeach
-                        </a>
+                    @foreach($allCategories as $category)
+                    <a href="{{ route('buyer.dashboard', ['category' => $category->id]) }}"
+                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
+                      role="menuitem">
+                      {{ $category->name }}
+                      @if(isset($preferredCategories[$category->id]))
+                      <span
+                        class="ml-2 inline-flex items-center rounded-full bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-800 dark:bg-blue-900 dark:text-blue-300">
+                        Recommended
+                      </span>
+                      @endif
+                      @foreach($trendingCategories as $trendCat)
+                      @if($trendCat['id'] == $category->id)
+                      <span
+                        class="ml-2 inline-flex items-center rounded-full bg-primary-100 px-2 py-0.5 text-xs font-medium text-primary-800 dark:bg-primary-900 dark:text-primary-300">
+                        Popular
+                      </span>
+                      @endif
                       @endforeach
+                    </a>
+                    @endforeach
                     @endif
                   </div>
                 </div>
@@ -129,7 +134,8 @@
             </div>
           </div>
 
-          <!-- Featured Categories Display - New Section -->
+          {{-- broken af --}}
+          {{-- <!-- Featured Categories Display - New Section -->
           <div class="mt-6 mb-8">
             <div class="flex items-center justify-between mb-4">
               <h3 class="text-lg font-medium text-gray-900 dark:text-white">Featured Categories</h3>
@@ -152,14 +158,14 @@
               @endforeach
               @endif
             </div>
-          </div>
+          </div> --}}
 
           <!-- Recommendation Section (Only show if there's a recommended category) -->
           @if(isset($recommendedCategory) && $recommendedCategory && !$isSearchResults && !request('category'))
           <div class="mt-4 flex items-center justify-between">
             <div class="flex items-center">
               <div
-                class="recommendation-badge inline-flex h-8 w-8 items-center justify-center rounded-lg bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-300">
+                class="recommendation-badge inline-flex items-center justify-center rounded-lg bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-300">
                 <svg class="h-4 w-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                   viewBox="0 0 20 18">
                   <path
@@ -173,10 +179,13 @@
             <form action="{{ route('buyer.reset_recommendations') }}" method="POST">
               @csrf
               <button type="submit"
-                class="inline-flex items-center rounded-lg border border-red-600 bg-red-600 px-3 py-2 text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400">
-                <svg class="h-4 w-4 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M4 4v5h.582M20 20v-5h-.581M5.635 19A9 9 0 1 1 19 5.635" />
+                class="hover:cursor-pointer inline-flex items-center rounded-lg border border-red-600 bg-red-600 px-3 py-2 text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mr-2"
+                  viewBox="0 0 16 16">
+                  <path
+                    d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                  <path
+                    d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
                 </svg>
                 Reset Recommendations
               </button>
@@ -187,78 +196,69 @@
       </div>
 
       <!-- Products Grid -->
-      <div class="mb-4">
+      <div class="mx-auto max-w-screen-xl 2xl:px-0">
         @if($isSearchResults && $products->count() > 0)
-          <!-- Direct Matches Section -->
-          @php
-            $directMatches = $products->filter(function($product) {
-                return $product->is_direct_match ?? false;
-            });
-          @endphp
-          
-          @if($directMatches->count() > 0)
-            <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Products Matching "{{ $searchTerm }}"</h3>
-            <div class="products-grid grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mb-8">
-              @foreach($directMatches as $product)
-                @include('components.product-card', ['product' => $product])
-              @endforeach
-            </div>
-          @endif
+        <!-- Direct Matches Section -->
+        @php
+        $directMatches = $products->filter(function($product) {
+        return $product->is_direct_match ?? false;
+        });
+        @endphp
 
-          <!-- Recommendations Section -->
-          @php
-            $recommendations = $products->filter(function($product) {
-                return !($product->is_direct_match ?? true);
-            });
-          @endphp
-          
-          @if($recommendations->count() > 0)
-            <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Similar Products You Might Like</h3>
-            <div class="products-grid grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              @foreach($recommendations as $product)
-                @include('components.product-card', ['product' => $product])
-              @endforeach
-            </div>
-          @endif
+        @if($directMatches->count() > 0)
+        <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Products Matching "{{ $searchTerm }}"</h3>
+        <div class="products-grid grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mb-8">
+          @foreach($directMatches as $product)
+          @include('components.product-card', ['product' => $product])
+          @endforeach
+        </div>
+        @endif
+
+        <!-- Recommendations Section -->
+        @php
+        $recommendations = $products->filter(function($product) {
+        return !($product->is_direct_match ?? true);
+        });
+        @endphp
+
+        @if($recommendations->count() > 0)
+        <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Similar Products You Might Like</h3>
+        <div class="products-grid grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          @foreach($recommendations as $product)
+          @include('components.product-card', ['product' => $product])
+          @endforeach
+        </div>
+        @endif
         @else
-          <div class="products-grid grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            @if($products->count() > 0)
-              @foreach($products as $product)
-                @include('components.product-card', ['product' => $product])
-              @endforeach
-            @else
-              <div class="col-span-full flex flex-col items-center justify-center rounded-lg border border-gray-200 bg-white p-8 text-center shadow dark:border-gray-700 dark:bg-gray-800">
-                <svg class="mb-4 h-12 w-12 text-gray-400 dark:text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none"
-                  viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <h3 class="mb-2 text-lg font-medium text-gray-900 dark:text-white">No products found</h3>
-                <p class="text-gray-500 dark:text-gray-400">Try adjusting your search or filter to find what you're looking
-                  for.</p>
-                <a href="{{ route('buyer.dashboard') }}"
-                  class="mt-4 inline-flex items-center rounded-lg bg-primary-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                  View all products
-                </a>
-              </div>
-            @endif
+        <div class="products-grid grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          @if($products->count() > 0)
+          @foreach($products as $product)
+          @include('components.product-card', ['product' => $product])
+          @endforeach
+          @else
+          <div
+            class="col-span-full flex flex-col items-center justify-center rounded-lg border border-gray-200 bg-white p-8 text-center shadow dark:border-gray-700 dark:bg-gray-800">
+            <svg class="mb-4 h-12 w-12 text-gray-400 dark:text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none"
+              viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <h3 class="mb-2 text-lg font-medium text-gray-900 dark:text-white">No products found</h3>
+            <p class="text-gray-500 dark:text-gray-400">Try adjusting your search or filter to find what you're looking
+              for.</p>
+            <a href="{{ route('buyer.dashboard') }}"
+              class="mt-4 inline-flex items-center rounded-lg bg-primary-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+              View all products
+            </a>
           </div>
+          @endif
+        </div>
         @endif
-      </div>
+    </div>
 
-      <!-- Pagination/Show More -->
-      @if($products->count() > 0)
-      <div class="mt-6 flex justify-center w-full">
-        @if(method_exists($products, 'links') && !$products instanceof \Illuminate\Database\Eloquent\Collection)
-        {{ $products->links() }}
-        @else
-        <button id="load-more" type="button"
-          class="rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700">
-          Show more
-        </button>
-        @endif
-      </div>
-      @endif
+    <!-- Pagination -->
+    <div class="mt-8 mx-auto max-w-screen-xl px-4 2xl:px-0">
+      <x-paginator :paginator="$products" />
     </div>
   </section>
   <script>
@@ -315,47 +315,47 @@
             }
         });
 
-        // Recommended products section - add hover effects
+        // Improved hover effects and cart functionality
         $('.product-card').hover(
             function() {
-                $(this).find('.quick-add-button').fadeIn(200);
-                $(this).addClass('shadow-lg').removeClass('shadow-sm');
+                $(this).addClass('shadow-lg border-primary-100 dark:border-primary-900').removeClass('shadow-sm');
             },
             function() {
-                $(this).find('.quick-add-button').fadeOut(200);
-                $(this).removeClass('shadow-lg').addClass('shadow-sm');
+                $(this).removeClass('shadow-lg border-primary-100 dark:border-primary-900').addClass('shadow-sm');
             }
         );
 
-        // Add to cart button with animation
+        // Enhanced cart button animation
         $('.add-to-cart-btn').on('click', function(e) {
             e.preventDefault();
-            const form = $(this).closest('form');
-            const productName = $(this).closest('.product-card').find('.product-name').text().trim();
+            const btn = $(this);
+            const form = btn.closest('form');
+            const loadingText = btn.find('.loading-text');
+            const productName = btn.closest('.product-card').find('.product-name').text().trim();
             
-            // Show loading state
-            $(this).prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Adding...');
+            // Disable button and show loading state
+            btn.prop('disabled', true).addClass('opacity-75 cursor-not-allowed');
+            loadingText.html('<svg class="animate-spin -ml-1 mr-2 h-5 w-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 1 0 8-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>Adding...');
             
-            // Submit form via AJAX
             $.ajax({
                 url: form.attr('action'),
                 method: form.attr('method'),
                 data: form.serialize(),
                 success: function(response) {
-                    // Update cart count in header (assuming you have a cart counter element)
-                    if (response.cartCount) {
-                        $('#cart-count').text(response.cartCount);
-                    }
-                    
-                    // Show success message
                     showToast(`${productName} added to cart!`, 'success');
+                    // Update only the cart items content
+                    $("#myCartDropdown1 #cart-items").html(response);
                 },
                 error: function() {
                     showToast('Could not add to cart. Please try again.', 'error');
                 },
                 complete: function() {
-                    // Reset button state
-                    $('.add-to-cart-btn').prop('disabled', false).html('<svg class="mr-2 h-4 w-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7v14" /></svg> Add');
+                    btn.prop('disabled', false).removeClass('opacity-75 cursor-not-allowed');
+                    loadingText.html('Add to Cart');
+                    btn.addClass('bg-green-500 text-white').delay(500).queue(function(next) {
+                        $(this).removeClass('bg-green-500 text-white');
+                        next();
+                    });
                 }
             });
         });
@@ -436,12 +436,10 @@
                         // Apply hover effects to new products
                         $('.product-card').hover(
                             function() {
-                                $(this).find('.quick-add-button').fadeIn(200);
-                                $(this).addClass('shadow-lg').removeClass('shadow-sm');
+                                $(this).addClass('shadow-lg border-primary-100 dark:border-primary-900').removeClass('shadow-sm');
                             },
                             function() {
-                                $(this).find('.quick-add-button').fadeOut(200);
-                                $(this).removeClass('shadow-lg').addClass('shadow-sm');
+                                $(this).removeClass('shadow-lg border-primary-100 dark:border-primary-900').addClass('shadow-sm');
                             }
                         );
                     } else {
