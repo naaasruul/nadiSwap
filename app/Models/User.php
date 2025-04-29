@@ -82,6 +82,6 @@ class User extends Authenticatable
 
     public function categoryPreferences()
     {
-        return $this->hasMany(\App\Models\UserCategoryPreference::class);
+        return $this->hasMany(UserCategoryPreference::class);
     }
 }
