@@ -61,12 +61,19 @@ class BuyerController extends Controller
                 ->latest()
                 ->paginate(12);
         }
-        // Show recommended or all products
+        // Show all products with weighted ordering if user is logged in, else show latest products
         else {
-            if ($user && $recommendedProducts->isNotEmpty()) {
-                $products = $recommendedProducts;
+            if ($user) {
+                $products = Product::with('category')
+                    ->leftJoin('user_category_preferences', function ($join) use ($user) {
+                        $join->on('products.category_id', '=', 'user_category_preferences.category_id')
+                             ->where('user_category_preferences.user_id', $user->id);
+                    })
+                    ->select('products.*', 'user_category_preferences.weight as user_weight')
+                    ->orderByDesc('user_weight')
+                    ->orderByDesc('products.created_at')
+                    ->paginate(12);
             } else {
-                // Default to showing latest products for guests or users with no preferences
                 $products = Product::with('category')
                     ->latest()
                     ->paginate(12);
