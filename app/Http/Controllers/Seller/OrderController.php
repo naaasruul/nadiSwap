@@ -67,4 +67,57 @@ class OrderController extends Controller
     {
         //
     }
+
+    public function updatePaymentStatus(Request $request, Order $order)
+{
+    try {
+        // Validate the request
+        $request->validate([
+            'payment_status' => 'required|string|in:pending,paid,failed',
+        ]);
+
+        // Update the payment status
+        $order->update(['payment_status' => $request->payment_status]);
+
+        session()->flash('success', 'Payment status updated successfully.');
+
+        // Return success response
+        return response()->json([
+            'message' => 'Payment status updated successfully.',
+            'payment_status' => $order->payment_status,
+        ], 200);
+    } catch (\Exception $e) {
+        // Handle any unexpected errors
+        return response()->json([
+            'message' => 'Failed to update payment status.',
+            'error' => $e->getMessage(),
+        ], 500);
+    }
+}
+
+public function updateDeliveryStatus(Request $request, Order $order)
+{
+    
+    try {
+        // Validate the request
+        $request->validate([
+            'delivery_status' => 'required|string|in:Pending,Shipped,Delivered,Cancelled',
+        ]);
+
+        // Update the delivery status
+        $order->update(['delivery_status' => $request->delivery_status]);
+
+        // Return success response
+        return response()->json([
+            'message' => 'Delivery status updated successfully.',
+            'delivery_status' => $order->delivery_status,
+        ], 200);
+    } catch (\Exception $e) {
+        // Handle any unexpected errors
+        return response()->json([
+            'message' => 'Failed to update delivery status.',
+            'error' => $e->getMessage(),
+        ], 500);
+    }
+}
 }

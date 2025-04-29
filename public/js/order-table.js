@@ -81,10 +81,6 @@ const table = new simpleDatatables.DataTable("#order-table", {
         //     "</div>" : ""
         // ) + 
         `
-        <button id="deleteSelectionButton" type="button" class="flex w-full items-center justify-center rounded-lg pointer-events-auto px-3 py-2 text-sm font-medium text-red-500  sm:w-auto">
-            Delete Selection
-        </button>
-    
         <button id='exportDropdownButton' type='button' class='flex w-full items-center justify-center rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700 sm:w-auto'>
          Export as   
          <svg class='-me-0.5 ms-1.5 h-4 w-4' aria-hidden='true' xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none' viewBox='0 0 24 24'>
@@ -133,45 +129,45 @@ document.getElementById("export-csv").addEventListener("click", () => {
         columnDelimiter: ";"
     })
 })
-let selectedRows = []; // Array to store selected rows
+// let selectedRows = []; // Array to store selected rows
 
-table.on("datatable.selectrow", (rowIndex, event) => {
-                event.preventDefault();
-                const row = table.data.data[rowIndex];
-                const productId = row.attributes['data-id'];
-                console.log("row", row);
-                if (row.selected) {
-                    row.attributes['class'] = ''
+// table.on("datatable.selectrow", (rowIndex, event) => {
+//                 event.preventDefault();
+//                 const row = table.data.data[rowIndex];
+//                 const productId = row.attributes['data-id'];
+//                 console.log("row", row);
+//                 if (row.selected) {
+//                     row.attributes['class'] = ''
 
-                    row.selected = false;
-                    selectedRows = selectedRows.filter(id => id !== productId);
-                } else {
-                    row.attributes['class'] = ''
-                    row.attributes['class'] = 'selected'
+//                     row.selected = false;
+//                     selectedRows = selectedRows.filter(id => id !== productId);
+//                 } else {
+//                     row.attributes['class'] = ''
+//                     row.attributes['class'] = 'selected'
 
-                    row.selected = true;
-                    selectedRows.push(productId);
-                    console.log("push:", productId);
-                }
-                table.update();
+//                     row.selected = true;
+//                     selectedRows.push(productId);
+//                     console.log("push:", productId);
+//                 }
+//                 table.update();
 
-                // Enable or disable the Delete Selection button
-                document.getElementById("deleteSelectionButton").disabled = selectedRows.length === 0;
+//                 // Enable or disable the Delete Selection button
+//                 document.getElementById("deleteSelectionButton").disabled = selectedRows.length === 0;
 
-                console.log("Selected product id:", selectedRows);
+//                 console.log("Selected product id:", selectedRows);
 
-            });
-            // Handle Delete Selection Button
-            document.getElementById("deleteSelectionButton").addEventListener("click", () => {
-                if (selectedRows.length > 0) {
-                    if (confirm("Are you sure you want to delete the selected rows?")) {
-                        console.log("Deleting rows:", selectedRows.map(
-                            id=>id
-                        ));
-                        // Perform your delete logic here (e.g., send an AJAX request)
-                    }
-                } else {
-                    alert("No rows selected.");
-                }
-            });
+//             });
+//             // Handle Delete Selection Button
+//             document.getElementById("deleteSelectionButton").addEventListener("click", () => {
+//                 if (selectedRows.length > 0) {
+//                     if (confirm("Are you sure you want to delete the selected rows?")) {
+//                         console.log("Deleting rows:", selectedRows.map(
+//                             id=>id
+//                         ));
+//                         // Perform your delete logic here (e.g., send an AJAX request)
+//                     }
+//                 } else {
+//                     alert("No rows selected.");
+//                 }
+//             });
 };
