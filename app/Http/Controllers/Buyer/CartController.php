@@ -16,30 +16,32 @@ class CartController extends Controller
     public function index()
     {
         $cart = Session::get('cart', []);
-        return view('cart.index', compact('cart'));
+        return view('partials.cart-items', compact('cart'));
     }
 
     public function add(Request $request)
     {
         $product = Product::findOrFail($request->product_id);
-
         $cart = Session::get('cart', []);
 
-        // Check if the product is already in the cart
         if (isset($cart[$product->id])) {
             $cart[$product->id]['quantity'] += $request->quantity;
         } else {
             $cart[$product->id] = [
-                'name' => $product->name,
-                'price' => $product->price,
+                'name'     => $product->name,
+                'price'    => $product->price,
                 'quantity' => $request->quantity,
-                'image' => $product->image,
+                'image'    => $product->image,
             ];
         }
 
         Session::put('cart', $cart);
 
-        return redirect()->back()->with('success', 'Product added to cart successfully!');
+        if ($request->ajax()) {
+            return view('partials.cart-items', compact('cart'));
+        } else {
+            return redirect()->back()->with('success', 'Product added to cart successfully!');
+        }
     }
 
     public function checkout(Request $request)
