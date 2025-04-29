@@ -38,6 +38,11 @@
                 @hasrole('seller')
                 <x-sidebar-item route="seller.dashboard" icon="fa-solid fa-grip-vertical" label="Dashboard" />
                 <x-sidebar-item route="seller.products.index" icon="fa-solid fa-shirt" label="My Products" />
+                <x-sidebar-item route="seller.categories.index" icon="fa-solid fa-list" label="Categories" />
+                <x-sidebar-item route="seller.shippings.index" icon="fa-solid fa-location-dot" label="Shipping Location & Fee" />
+                <x-sidebar-item route="seller.dashboard" icon="fa-solid fa-boxes-stacked" label="Orders" />
+                <x-sidebar-item route="seller.dashboard" icon="fa-solid fa-star" label="Rating & Review" />
+                <x-sidebar-item route="seller.dashboard" icon="fa-solid fa-square-poll-vertical" label="Report" />
                 @endhasrole
             </ul>
 

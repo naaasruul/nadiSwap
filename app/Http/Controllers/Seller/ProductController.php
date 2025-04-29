@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Seller;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -14,8 +15,9 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
+        $categories = Category::all();
         // $avgRating = $product->reviews()->avg('rating') ?? 0 ;
-        return view('seller.products', compact('products'));
+        return view('seller.products', compact('products','categories'));
     }
 
     /**
@@ -67,7 +69,6 @@ class ProductController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
-            'stock' => 'required|integer|min:0',
             'image' => 'nullable|image|max:2048',
         ]);
 
