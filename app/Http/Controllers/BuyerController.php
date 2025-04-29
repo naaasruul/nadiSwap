@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\UserCategoryPreference;
 use App\Models\Category;
+use App\Models\SearchHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -568,6 +569,7 @@ class BuyerController extends Controller
         $user = auth()->user();
         if ($user) {
             UserCategoryPreference::where('user_id', $user->id)->delete();
+            SearchHistory::where('user_id', $user->id)->delete();
             Cache::forget("user_{$user->id}_recommendations");
         }
         return redirect()->route('buyer.dashboard')->with('status', 'Recommendations have been reset.');
@@ -584,5 +586,15 @@ class BuyerController extends Controller
         ]);
     }
 
-    // Other methods can remain the same...
+    public function showAccount()
+    {
+        $user = auth()->user();
+        $ordersCount = $user->orders()->count() ?? 0;
+        $reviewsCount = $user->reviews()->count() ?? 0;
+        $latestOrders = $user->orders()->latest()->take(5)->get();
+        $deliveryAddresses = $user->deliveryAddresses; // Fetch all delivery addresses for the user
+
+        // Logic to show the buyer's account details
+        return view('buyer.account-profile', compact('user', 'ordersCount', 'reviewsCount', 'latestOrders','deliveryAddresses')); // Return the view for the buyer's account
+    }
 }
