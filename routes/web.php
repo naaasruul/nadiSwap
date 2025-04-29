@@ -70,6 +70,7 @@ Route::middleware(['auth', 'role:buyer'])->group(function () {
     // buyer account
     Route::get('/my-account', [BuyerController::class, 'showAccount'])->name('my-account');
     Route::resource('delivery-addresses', DeliveryAddressController::class);
+    Route::post('/buyer/profile/update', [ProfileController::class, 'update'])->name('buyer.profile.update');
 });
 
 Route::middleware(['auth'])->group(function () {
