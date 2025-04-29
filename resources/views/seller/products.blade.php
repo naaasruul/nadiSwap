@@ -18,10 +18,7 @@
         </div>
         @endif
 
-        <!-- Add Product Modal Toggle -->
-        <div class="w-full flex justify-end mb-4">
 
-        </div>
 
         {{-- <table id="product-filter-table">
             <thead>
@@ -139,7 +136,7 @@
             </tbody>
         </table> --}}
 
-        <table id="export-table" class="relative z-0">
+        <table id="product-table" class="relative z-0">
             <thead>
                 <tr>
                     <th>
@@ -349,6 +346,10 @@
             </div>
         </div>
     </div>
+
+    @push('js')
+        <script src="{{ asset('js/product-table.js') }}"></script>
+    @endpush
 
 
 </x-layouts.app>
