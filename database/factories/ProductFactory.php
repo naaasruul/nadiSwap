@@ -3,31 +3,26 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Arr;
+use App\Models\User;
+use App\Models\Category;
 
 class ProductFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
-        $categories = ['Electronics', 'Clothing', 'Home & Garden', 'Books', 'Toys', 'Sports', 'Beauty', 'Food'];
+        $category = Category::inRandomOrder()->first();
 
-        // Try to get a random user ID from the users table
-        $userId = \App\Models\User::inRandomOrder()->value('id');
-
-        // If no users exist, create one using the factory
-        if (!$userId) {
-            $userId = \App\Models\User::factory()->create()->id;
+        // If no categories are seeded, throw a helpful error
+        if (!$category) {
+            throw new \Exception('No categories found. Please run CategorySeeder before seeding products.');
         }
+
+        $userId = User::inRandomOrder()->value('id') ?? \App\Models\User::factory()->create()->id;
 
         return [
             'name' => $this->faker->unique()->words(rand(1, 3), true),
             'description' => $this->faker->paragraphs(rand(1, 3), true),
-            'category' => Arr::random($categories),
+            'category_id' => $category->id,
             'price' => $this->faker->randomFloat(2, 1, 1000),
             'stock' => $this->faker->numberBetween(0, 500),
             'image' => 'storage/random' . rand(1, 6) . '.webp',
@@ -37,40 +32,29 @@ class ProductFactory extends Factory
         ];
     }
 
-    /**
-     * Indicate that the product is out of stock
-     */
     public function outOfStock(): static
     {
-        return $this->state(function (array $attributes) {
-            return [
-                'stock' => 0,
-            ];
-        });
+        return $this->state(fn(array $attributes) => ['stock' => 0]);
     }
 
-    /**
-     * Indicate that the product has a specific category
-     */
-    public function inCategory(string $category): static
+    public function inCategory(string $categoryName): static
     {
-        return $this->state(function (array $attributes) use ($category) {
-            return [
-                'category' => $category,
-            ];
+        return $this->state(function (array $attributes) use ($categoryName) {
+            $category = Category::where('name', $categoryName)->first();
+
+            if (!$category) {
+                throw new \Exception("Category '{$categoryName}' not found. Make sure it's seeded.");
+            }
+
+            return ['category_id' => $category->id];
         });
     }
 
-    /**
-     * Indicate that the product has a discount price
-     */
     public function discounted(float $percentage): static
     {
         return $this->state(function (array $attributes) use ($percentage) {
             $discount = $attributes['price'] * ($percentage / 100);
-            return [
-                'price' => $attributes['price'] - $discount,
-            ];
+            return ['price' => $attributes['price'] - $discount];
         });
     }
 }
