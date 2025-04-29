@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\Order;
+use App\Models\Product;
+
 
 class SellerController extends Controller
 {
@@ -11,8 +15,19 @@ class SellerController extends Controller
      */
     public function index()
     {
-        //
-        return view('seller.dashboard');
+        $orders = Order::where('seller_id', auth()->id())->get();
+        $totalProducts = Product::where('seller_id', auth()->id())->count();
+        $totalBuyers = Order::where('seller_id', auth()->id())->distinct('buyer_id')->count();
+        $newOrdersToday = Order::whereDate('created_at', now()->toDateString())->count();
+        $totalSales = Order::sum('total');
+
+        return view('seller.dashboard', compact(
+            'totalProducts',
+            'totalBuyers',
+            'newOrdersToday',
+            'totalSales',
+            'orders'
+        ));
     }
 
     /**
@@ -61,5 +76,24 @@ class SellerController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    /**
+     * Update the tracking status for an order.
+     */
+    public function updateTracking(Request $request, $orderId)
+    {
+        $request->validate([
+            'tracking_status' => 'required|in:pending,shipped,delivered,cancelled',
+        ]);
+
+        $order = Order::where('id', $orderId)
+            ->where('seller_id', auth()->id())
+            ->firstOrFail();
+
+        $order->tracking_status = $request->input('tracking_status');
+        $order->save();
+
+        return redirect()->back()->with('success', 'Tracking status updated.');
     }
 }
