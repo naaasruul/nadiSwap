@@ -101,7 +101,7 @@ public function updateDeliveryStatus(Request $request, Order $order)
     try {
         // Validate the request
         $request->validate([
-            'delivery_status' => 'required|string|in:Pending,Shipped,Delivered,Cancelled',
+            'delivery_status' => 'required|string|in:ood,shipped,delivered,cancelled',
         ]);
 
         // Update the delivery status
