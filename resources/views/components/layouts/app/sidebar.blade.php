@@ -41,7 +41,7 @@
                 <x-sidebar-item route="seller.categories.index" icon="fa-solid fa-list" label="Categories" />
                 <x-sidebar-item route="seller.shippings.index" icon="fa-solid fa-location-dot" label="Shipping Location & Fee" />
                 <x-sidebar-item route="seller.orders.index" icon="fa-solid fa-boxes-stacked" label="Orders" />
-                <x-sidebar-item route="seller.dashboard" icon="fa-solid fa-star" label="Rating & Review" />
+                <x-sidebar-item route="seller.reviews.index" icon="fa-solid fa-star" label="Rating & Review" />
                 <x-sidebar-item route="seller.dashboard" icon="fa-solid fa-square-poll-vertical" label="Report" />
                 @endhasrole
             </ul>
