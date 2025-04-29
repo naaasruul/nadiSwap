@@ -49,6 +49,8 @@ Route::middleware(['auth', 'role:seller'])->prefix('seller')->name('seller.')->g
     Route::resource('categories', CategoryController::class)->except(['show']);
     Route::resource('shippings', ShippingController::class)->except(['show']);
     Route::resource('orders', OrderController::class)->except(['show']);
+    Route::resource('reviews', ReviewController::class)->except(['show']);
+    Route::post('reviews/{review}', [ReviewController::class, 'respond'])->name('reviews.respond');
     Route::post('orders/{order}/update-payment-status', [OrderController::class, 'updatePaymentStatus']);
     Route::post('orders/{order}/update-delivery-status', [OrderController::class, 'updateDeliveryStatus']);
 
