@@ -202,7 +202,7 @@
                 <tr data-id="{{ $product->id }}" class="product-row">
                     <td class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         @if ($product->image)
-                        <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"
+                        <img src="{{ asset($product->image) }}" alt="{{ $product->name }}"
                             class="w-16 h-16 object-cover rounded">
                         @else
                         <span class="text-gray-500">No Image</span>
