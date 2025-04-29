@@ -68,6 +68,11 @@ Route::middleware(['auth', 'role:buyer'])->group(function () {
     // buyer account
     Route::get('/my-account', [BuyerController::class, 'showAccount'])->name('my-account');
     Route::resource('delivery-addresses', DeliveryAddressController::class);
+    
+    Route::post('/buyer/reset-recommendations', [BuyerController::class, 'resetRecommendations'])->name('buyer.reset_recommendations')->middleware('auth');
+    
+    // Add this route for all categories
+    Route::get('/categories', [BuyerController::class, 'allCategories'])->name('buyer.all_categories');
 });
 
 Route::middleware(['auth'])->group(function () {
@@ -78,9 +83,5 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
 });
 
-Route::post('/buyer/reset-recommendations', [BuyerController::class, 'resetRecommendations'])->name('buyer.reset_recommendations')->middleware('auth');
-
-// Add this route for all categories
-Route::get('/categories', [BuyerController::class, 'allCategories'])->name('buyer.all_categories');
 
 require __DIR__ . '/auth.php';
