@@ -14,6 +14,11 @@ use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
 use Illuminate\Support\Facades\Route;
+use App\Models\Product;
+use App\Models\Category;
+use App\Models\UserCategoryPreference;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 Route::get('/', function () {
     return redirect()->route('buyer.dashboard');
@@ -33,7 +38,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/appearance', Appearance::class)->name('settings.appearance');
 });
 
-Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {  
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('dashboard');
     Route::get('/admin/manage-seller', [AdminController::class, 'showManageSeller'])->name('manage-seller');
     Route::get('/admin/manage-buyer', [AdminController::class, 'showManageBuyer'])->name('manage-buyer');
@@ -75,4 +80,7 @@ Route::middleware(['auth'])->group(function () {
 
 Route::post('/buyer/reset-recommendations', [BuyerController::class, 'resetRecommendations'])->name('buyer.reset_recommendations')->middleware('auth');
 
-require __DIR__.'/auth.php';
+// Add this route for all categories
+Route::get('/categories', [BuyerController::class, 'allCategories'])->name('buyer.all_categories');
+
+require __DIR__ . '/auth.php';
