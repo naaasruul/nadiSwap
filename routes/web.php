@@ -9,6 +9,7 @@ use App\Http\Controllers\Buyer\ReviewController;
 use App\Http\Controllers\DeliveryAddressController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Seller\CategoryController;
+use App\Http\Controllers\ShippingFeeController;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
@@ -45,6 +46,10 @@ Route::middleware(['auth', 'role:seller'])->prefix('seller')->name('seller.')->g
     
     Route::resource('products', ProductController::class)->except(['show']);
     Route::resource('categories', CategoryController::class)->except(['show']);
+    Route::resource('shipping-fee', ShippingFeeController::class)->except(['show']);
+
+    // Add tracking status update route
+    Route::patch('orders/{order}/update-tracking', [SellerController::class, 'updateTracking'])->name('orders.update-tracking');
 });
 
 Route::middleware(['auth'])->prefix('profile')->name('profile.')->group(function () {
