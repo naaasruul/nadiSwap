@@ -73,7 +73,7 @@
                                 <label for="username" class="block text-sm font-medium">Username</label>
                                 <input type="text" name="username" id="username" value="{{ $user->username }}" required
                                     class="mt-1 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    value="Disabled input" disabled>
+                                    value="Disabled input" readonly>
                                 @error('username')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                                 @enderror
