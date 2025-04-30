@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text('category');
             $table->decimal('price', 10, 2);
             $table->integer('stock');
-            $table->string('image')->nullable();
+            $table->json('images')->nullable(); // Add a JSON column for images
             $table->timestamps();
             $table->foreignId('seller_id')->constrained('users')->onDelete('cascade');
         });
