@@ -22,6 +22,7 @@ class CartController extends Controller
     public function add(Request $request)
     {
         $product = Product::findOrFail($request->product_id);
+        $productThumbnail = json_decode($product->images)[0];
         $cart = Session::get('cart', []);
 
         if (isset($cart[$product->id])) {
@@ -32,7 +33,7 @@ class CartController extends Controller
                 'price' => $product->price,
                 'category' => $product->category,
                 'quantity' => $request->quantity,
-                'image'    => $product->image,
+                'image'    => $productThumbnail,
             ];
         }
 
