@@ -32,6 +32,7 @@ class CartController extends Controller
             $cart[$product->id] = [
                 'name' => $product->name,
                 'price' => $product->price,
+                'category' => $product->category,
                 'quantity' => $request->quantity,
                 'image' => $product->image,
             ];
@@ -66,6 +67,7 @@ class CartController extends Controller
                 'seller_id' => $sellerId,
                 'items' => $items,
                 'total' => $total,
+                'payment_method' => 'qr',
                 'status' => 'Pending',
             ]);
         }

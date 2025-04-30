@@ -1,6 +1,6 @@
 <x-layouts.app.sidebar :title="$title ?? null">
 
-    <div class="p-4 sm:ml-64">
+    <div class="p-4 print:ml-0 sm:ml-64">
         <div class="p-4 rounded-lg dark:border-gray-700">
             {{ $slot }}
         </div>
