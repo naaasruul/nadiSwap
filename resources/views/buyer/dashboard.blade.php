@@ -113,7 +113,7 @@
                       {{ $category->name }}
                       @if(isset($preferredCategories[$category->id]))
                       <span
-                        class="ml-2 inline-flex items-center rounded-full bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-800 dark:bg-blue-900 dark:text-blue-300">
+                        class="ml-2 inline-flex items-center rounded-full bg-pink-100 px-2 py-0.5 text-xs font-medium text-pink-800 dark:bg-pink-900 dark:text-pink-300">
                         Recommended
                       </span>
                       @endif

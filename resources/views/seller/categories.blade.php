@@ -46,7 +46,7 @@
                         <!-- Edit Button -->
                         <button data-modal-target="edit-category-{{ $category->id }}"
                             data-modal-toggle="edit-category-{{ $category->id }}"
-                            class="text-blue-600 hover:underline dark:text-blue-500">Edit</button>
+                            class="text-pink-600 hover:underline dark:text-pink-500">Edit</button>
                     </td>
                     <td>
                         <!-- Delete Button -->

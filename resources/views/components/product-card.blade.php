@@ -26,7 +26,7 @@
 
         <!-- Recommendation Badge -->
         @if(isset($product->relevance_score) && $product->relevance_score > 0 && !($product->is_direct_match ?? false))
-            <span class="absolute right-2 top-2 rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800 dark:bg-blue-900 dark:text-blue-300">
+            <span class="absolute right-2 top-2 rounded-full bg-pink-100 px-2.5 py-0.5 text-xs font-medium text-pink-800 dark:bg-pink-900 dark:text-pink-300">
                 Recommended
             </span>
         @endif
@@ -35,7 +35,7 @@
     <div class="p-5">
         <!-- Category Badge -->
         @if($product->category)
-            <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-blue-900 dark:text-blue-300">
+            <span class="bg-pink-100 text-pink-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-pink-900 dark:text-pink-300">
                 {{ $product->category->name }}
             </span>
         @endif

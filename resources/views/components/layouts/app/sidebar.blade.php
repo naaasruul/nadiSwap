@@ -29,6 +29,9 @@
                 {{-- ADMIN NAVIGATIONS --}}
                 @hasrole('admin')
                 <x-sidebar-item route="admin.dashboard" icon="fa-solid fa-grip-vertical" label="Dashboard" />
+                <x-sidebar-item route="admin.transactions.index" icon="fa-solid fa-money-bill-transfer" label="Transactions List" />
+                <x-sidebar-item route="admin.orders.index" icon="fa-solid fa-cube" label="List Orders" />
+                <x-sidebar-item route="admin.ratings.index" icon="fa-solid fa-star" label="Rating & Review" />
                 <x-dropdown-item label="Manage Users" icon="fa-solid fa-users" :items="[
                     ['label' => 'Seller', 'route' => route('admin.manage-seller')],
                     ['label' => 'Buyer', 'route' => route('admin.manage-buyer')],
