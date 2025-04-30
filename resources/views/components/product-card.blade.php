@@ -2,9 +2,9 @@
     <div class="relative h-56 w-full overflow-hidden bg-gray-100 dark:bg-gray-700">
         <a href="{{ route('products.show', $product->id) }}">
             <img class="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105 dark:hidden"
-                src="{{ asset($product->image) }}" alt="{{ $product->name }}" />
+                src="{{ asset(json_decode($product->images)[0]) }}" alt="{{ $product->name }}" />
             <img class="absolute inset-0 hidden h-full w-full object-cover transition-transform duration-300 group-hover:scale-105 dark:block"
-                src="{{ asset($product->image) }}" alt="{{ $product->name }}" />
+                src="{{ asset(json_decode($product->images)[0]) }}" alt="{{ $product->name }}" />
         </a>
         <!-- Quick Add Button -->
         <div class="quick-add-button absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 backdrop-blur-[2px] transition-opacity duration-300 group-hover:opacity-100">
