@@ -1,10 +1,16 @@
 <x-layouts.customer-layout>
     <div class="container mx-auto p-6">
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-2 gap-6 border-b border-t border-gray-200 py-4 dark:border-gray-700 md:py-8">
+            <x-order-card icon="fa-regular fa-chart-bar" title="Orders made" :count="$ordersCount" />
+            <x-order-card icon="fa-regular fa-star" title="Reviews added" :count="$reviewsCount" />
+        </div>
+
         <form action="{{ route('buyer.profile.update') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
             @csrf
             
             <!-- Profile Header -->
-            <div class="flex items-center gap-4 mb-6">
+            <div class="flex items-center gap-4 mb-6 mt-6">
                 <div class="flex-shrink-0">
                     @if($user->avatar)
                         <img src="{{ Storage::url($user->avatar) }}" alt="Profile picture" class="w-20 h-20 rounded-full object-cover">
@@ -16,7 +22,6 @@
                         </div>
                     @endif
                 </div>
-                
                 <div class="flex-grow">
                     <h2 class="text-xl font-bold text-gray-900 dark:text-white">{{ $user->name }}</h2>
                     <div class="mt-4">
@@ -26,12 +31,6 @@
                         <p class="mt-1 text-xs text-gray-500">PNG, JPG or GIF (MAX. 2MB)</p>
                     </div>
                 </div>
-            </div>
-
-            <!-- Stats Cards -->
-            <div class="grid grid-cols-2 gap-6 border-b border-t border-gray-200 py-4 dark:border-gray-700 md:py-8">
-                <x-order-card icon="fa-regular fa-chart-bar" title="Orders made" :count="$ordersCount" />
-                <x-order-card icon="fa-regular fa-star" title="Reviews added" :count="$reviewsCount" />
             </div>
 
             <!-- Profile Information -->
@@ -52,7 +51,7 @@
                         <div class="space-y-2">
                             <label for="username" class="block text-sm font-medium">Username</label>
                             <input type="text" name="username" id="username" value="{{ $user->username }}" required
-                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500">
+                            class="mt-1 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" value="Disabled input" disabled>
                             @error('username')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
@@ -102,6 +101,13 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="mt-8">
+                <button type="submit" class="w-full sm:w-auto px-6 py-3 bg-blue-700 text-white font-medium rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300">
+                    Save Changes
+                </button>
             </div>
 
             <!-- Delivery Addresses -->
@@ -188,12 +194,7 @@
                 @endif
             </div>
 
-            <!-- Submit Button -->
-            <div class="mt-8">
-                <button type="submit" class="w-full sm:w-auto px-6 py-3 bg-blue-700 text-white font-medium rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300">
-                    Save Changes
-                </button>
-            </div>
+            
         </form>
     </div>
 </x-layouts.customer-layout>
