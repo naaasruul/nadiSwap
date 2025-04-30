@@ -1,40 +1,86 @@
 <x-layouts.customer-layout>
+
     <section class="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
         <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
             <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Shopping Cart</h2>
+            <!-- Delivery Address Section Outside of Order Summary Box -->
+            <div class="mx-auto max-w-screen-xl 2xl:px-0 mt-6">
+                @if($addresses->isEmpty())
+                <div class="mb-4 p-4 bg-yellow-100 text-yellow-800 rounded">
+                    Warning: You have no delivery addresses. Please add one.
+                </div>
+                @endif
+                <div>
+                    <label for="delivery_address" class="block text-base font-medium text-gray-900 dark:text-white">
+                        Delivery Address
+                    </label>
+                    <select id="delivery_address" name="delivery_address"
+                        class="hover:cursor-pointer mt-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        @if($addresses->isEmpty())
+                            <option value="">No addresses available</option>
+                        @else
+                            @foreach($addresses as $address)
+                            <option value="{{ $address->id }}">
+                                {{ $address->address_line_1 }}@if($address->address_line_2), {{ $address->address_line_2 }}@endif, {{ $address->city }}, {{ $address->state }}, {{ $address->postal_code }}, {{ $address->country }}
+                            </option>
+                            @endforeach
+                        @endif
+                    </select>
+                </div>
+            </div>
 
             <div class="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8">
                 <div class="mx-auto w-full flex-none lg:max-w-2xl xl:max-w-4xl">
-                    @if (empty($cart))
+                    @if (empty($cartItems))
                     <p class="text-gray-500 dark:text-gray-400">Your cart is empty.</p>
                     @else
                     <div class="space-y-6">
-                        @foreach ($cart as $id => $item)
+                        @foreach ($cartItems as $id => $item)
                         <div
                             class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6">
+                            <div class="flex justify-end">
+                                <form action="{{ route('cart.remove', $id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
+                                        class="hover:cursor-pointer inline-flex items-center text-sm font-medium text-red-600 hover:underline dark:text-red-500">
+                                        <svg class="me-1.5 h-5 w-5" aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                                            viewBox="0 0 24 24">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                stroke-width="2" d="M6 18 17.94 6M18 18 6.06 6" />
+                                        </svg>
+                                        Remove
+                                    </button>
+                                </form>
+                            </div>
                             <div class="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
                                 <!-- Product Image -->
                                 <a href="#" class="shrink-0 md:order-1">
-                                    <img class="h-20 w-20 object-cover rounded-lg"
-                                        src="{{ asset('storage/' . $item['image']) }}" alt="{{ $item['name'] }}" />
+                                    <img class="h-32 w-32 object-cover rounded-lg" src="{{ asset($item['image']) }}"
+                                        alt="{{ $item['name'] }}" />
                                 </a>
 
                                 <!-- Quantity Controls -->
                                 <div class="flex items-center justify-between md:order-3 md:justify-end">
                                     <div class="flex items-center">
+                                        <!-- Minus Button -->
                                         <button type="button"
-                                            class="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700">
+                                            class="btn-minus hover:cursor-pointer inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700">
                                             <svg class="h-2.5 w-2.5 text-gray-900 dark:text-white" aria-hidden="true"
                                                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
                                                 <path stroke="currentColor" stroke-linecap="round"
                                                     stroke-linejoin="round" stroke-width="2" d="M1 1h16" />
                                             </svg>
                                         </button>
-                                        <input type="text"
-                                            class="w-10 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0 dark:text-white"
-                                            value="{{ $item['quantity'] }}" readonly />
+                                        <!-- Quantity Input with data-price and unique id -->
+                                        <input id="quantity-{{ $id }}" data-price="{{ $item['price'] }}" type="text"
+                                            value="{{ $item['quantity'] }}"
+                                            class="quantity-input w-10 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0 dark:text-white"
+                                            readonly />
+                                        <!-- Plus Button -->
                                         <button type="button"
-                                            class="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700">
+                                            class="btn-plus hover:cursor-pointer inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700">
                                             <svg class="h-2.5 w-2.5 text-gray-900 dark:text-white" aria-hidden="true"
                                                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
                                                 <path stroke="currentColor" stroke-linecap="round"
@@ -54,23 +100,24 @@
                                         class="text-base font-medium text-gray-900 hover:underline dark:text-white">{{
                                         $item['name'] }}</a>
 
-                                    <div class="flex items-center gap-4">
-                                        <form action="{{ route('cart.remove', $id) }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit"
-                                                class="inline-flex items-center text-sm font-medium text-red-600 hover:underline dark:text-red-500">
-                                                <svg class="me-1.5 h-5 w-5" aria-hidden="true"
-                                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                    fill="none" viewBox="0 0 24 24">
-                                                    <path stroke="currentColor" stroke-linecap="round"
-                                                        stroke-linejoin="round" stroke-width="2"
-                                                        d="M6 18 17.94 6M18 18 6.06 6" />
-                                                </svg>
-                                                Remove
-                                            </button>
-                                        </form>
+                                    {{-- Shipping dropdown updated with data attributes --}}
+                                    @if($item['shippings']->isNotEmpty())
+                                    <div class="mt-2">
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                            Shipping Area
+                                        </label>
+                                        <select name="shipping[{{ $id }}]"
+                                            class="shipping-select hover:cursor-pointer mt-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                            data-quantity="{{ $item['quantity'] }}">
+                                            @foreach ($item['shippings'] as $shipping)
+                                            <option value="{{ $shipping->id }}"
+                                                data-fee="{{ $shipping->shipping_fee }}">
+                                                {{ $shipping->place }} - RM{{ number_format($shipping->shipping_fee, 2) }}
+                                            </option>
+                                            @endforeach
+                                        </select>
                                     </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -78,6 +125,16 @@
                     </div>
                     @endif
                 </div>
+
+                @php
+                $productsTotal = array_sum(array_map(fn($item) => $item['price'] * $item['quantity'], $cartItems));
+                $shippingTotal = array_sum(array_map(fn($item) => $item['selected_shipping_fee'] * $item['quantity'],
+                $cartItems));
+                $grandTotal = $productsTotal + $shippingTotal;
+                @endphp
+
+                <!-- Hidden element to pass product total to JS -->
+                <span id="productTotal" data-total="{{ $productsTotal }}" class="hidden"></span>
 
                 <!-- Order Summary -->
                 <div class="mx-auto mt-6 max-w-4xl flex-1 space-y-6 lg:mt-0 lg:w-full">
@@ -89,29 +146,122 @@
                             <div class="space-y-2">
                                 <dl class="flex items-center justify-between gap-4">
                                     <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Total Items</dt>
-                                    <dd class="text-base font-medium text-gray-900 dark:text-white">{{ count($cart) }}
+                                    <dd class="text-base font-medium text-gray-900 dark:text-white">{{ count($cartItems)
+                                        }}
                                     </dd>
                                 </dl>
 
                                 <dl
                                     class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
-                                    <dt class="text-base font-bold text-gray-900 dark:text-white">Total</dt>
-                                    <dd class="text-base font-bold text-gray-900 dark:text-white">
-                                        ${{ array_sum(array_map(fn($item) => $item['price'] * $item['quantity'], $cart))
-                                        }}
+                                    <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Products Total
+                                    </dt>
+                                    <dd id="productTotalDisplay"
+                                        class="text-base font-medium text-gray-900 dark:text-white">
+                                        ${{ number_format($productsTotal, 2) }}
+                                    </dd>
+                                </dl>
+
+                                <dl
+                                    class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
+                                    <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Shipping Total
+                                    </dt>
+                                    <dd id="shippingTotal" class="text-base font-medium text-gray-900 dark:text-white">
+                                        ${{ number_format($shippingTotal, 2) }}
+                                    </dd>
+                                </dl>
+
+                                <dl
+                                    class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
+                                    <dt class="text-base font-bold text-gray-900 dark:text-white">Grand Total</dt>
+                                    <dd id="grandTotal" class="text-base font-bold text-gray-900 dark:text-white">
+                                        ${{ number_format($grandTotal, 2) }}
                                     </dd>
                                 </dl>
                             </div>
                         </div>
-                        <form action="{{ route('cart.checkout') }}" method="POST">
+
+                        <!-- Delivery address selection moved outside -->
+                        <form action="{{ route('cart.checkout') }}" method="POST" class="mt-6">
                             @csrf
                             <button type="submit"
-                                class="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-accent-content dark:text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Proceed
-                                to Checkout</button>
+                                class="{{ $addresses->isEmpty() ? 'hover:cursor-not-allowed text-white bg-blue-400 dark:bg-blue-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center' : 'hover:cursor-pointer text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800' }} w-full"
+                                @if($addresses->isEmpty()) disabled @endif>
+                                Proceed to Checkout
+                            </button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+
+
+    <!-- Updated JavaScript to make quantity buttons functional -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function(){
+        function recalcTotals() {
+            let productTotal = 0;
+            let shippingTotal = 0;
+            // Recalculate product total from each quantity input
+            document.querySelectorAll('.quantity-input').forEach(function(input){
+                const price = parseFloat(input.dataset.price) || 0;
+                const qty = parseInt(input.value) || 0;
+                productTotal += price * qty;
+            });
+            // Update hidden and displayed product total
+            document.getElementById('productTotal').dataset.total = productTotal;
+            document.getElementById('productTotalDisplay').innerText = '$' + productTotal.toFixed(2);
+            
+            // Recalculate shipping total from each shipping select (using updated quantity)
+            document.querySelectorAll('.shipping-select').forEach(function(select){
+                const fee = parseFloat(select.options[select.selectedIndex].getAttribute('data-fee')) || 0;
+                const qty = parseInt(select.getAttribute('data-quantity')) || 1;
+                shippingTotal += fee * qty;
+            });
+            document.getElementById('shippingTotal').innerText = '$' + shippingTotal.toFixed(2);
+            document.getElementById('grandTotal').innerText = '$' + (productTotal + shippingTotal).toFixed(2);
+        }
+
+        function updateQuantity(button, increment) {
+            // Locate the quantity input within the same control container
+            const container = button.closest('.flex.items-center');
+            const quantityInput = container.querySelector('.quantity-input');
+            const id = quantityInput.id.split('-')[1];
+            const price = parseFloat(quantityInput.dataset.price);
+            let quantity = parseInt(quantityInput.value);
+            quantity = Math.max(1, quantity + increment);
+            quantityInput.value = quantity;
+            // Update the data-quantity attribute on the respective shipping select
+            const shippingSelect = document.querySelector(`select[name="shipping[${id}]"]`);
+            if(shippingSelect) {
+                shippingSelect.setAttribute('data-quantity', quantity);
+            }
+            // Update the product total display for this item
+            const priceDisplay = button.closest('.flex.items-center').parentElement.querySelector('.text-end .text-base.font-bold');
+            if(priceDisplay) {
+                priceDisplay.innerText = '$' + (price * quantity).toFixed(2);
+            }
+            recalcTotals();
+        }
+
+        document.querySelectorAll('.btn-minus').forEach(function(button){
+            button.addEventListener('click', function(){
+                updateQuantity(button, -1);
+            });
+        });
+
+        document.querySelectorAll('.btn-plus').forEach(function(button){
+            button.addEventListener('click', function(){
+                updateQuantity(button, 1);
+            });
+        });
+
+        document.querySelectorAll('.shipping-select').forEach(function(select){
+            select.addEventListener('change', recalcTotals);
+        });
+
+        recalcTotals();
+    });
+    </script>
 </x-layouts.customer-layout>
