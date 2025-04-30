@@ -25,7 +25,10 @@ class ProductFactory extends Factory
             'category_id' => $category->id,
             'price' => $this->faker->randomFloat(2, 1, 1000),
             'stock' => $this->faker->numberBetween(0, 500),
-            'image' => 'storage/random' . rand(1, 6) . '.webp',
+            'images' => json_encode(array_map(
+                fn() => 'storage/random' . rand(1, 6) . '.webp',
+                range(1, 3)
+            )),
             'seller_id' => $userId,
             'created_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
             'updated_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
