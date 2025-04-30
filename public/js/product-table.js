@@ -172,10 +172,48 @@ table.on("datatable.selectrow", (rowIndex, event) => {
                         console.log("Deleting rows:", selectedRows.map(
                             id=>id
                         ));
-                        // Perform your delete logic here (e.g., send an AJAX request)
+
+                        deleteSelectedProducts(selectedRows);
+
+                       
                     }
                 } else {
                     alert("No rows selected.");
                 }
             });
+
+            // Function to delete selected products via AJAX
+function deleteSelectedProducts(productIds) {
+    if (productIds.length === 0) {
+        alert("No products selected for deletion.");
+        return;
+    }
+
+    if (confirm("Are you sure you want to delete the selected products?")) {
+        $.ajax({
+            url: "/seller/products/delete-multiple", // Adjust the URL to match your route
+            type: "POST",
+            data: {
+                product_ids: productIds, // Pass the list of product IDs
+                _token: $('meta[name="csrf-token"]').attr('content') // Include CSRF token
+            },
+            success: function (response) {
+                alert(response.message || "Products deleted successfully.");
+                // Refresh the table or remove the deleted rows
+                productIds.forEach(id => {
+                    const row = document.querySelector(`#product-table tr[data-id="${id}"]`);
+                    if (row) {
+                        row.remove();
+                    }
+                });
+                selectedRows = []; // Clear the selected rows array
+                document.getElementById("deleteSelectionButton").disabled = true; // Disable the delete button
+            },
+            error: function (xhr, status, error) {
+                console.error("Error deleting products:", error);
+                alert("An error occurred while deleting the products. Please try again.");
+            }
+        });
+    }
+}
 };

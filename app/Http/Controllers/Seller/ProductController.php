@@ -98,4 +98,21 @@ class ProductController extends Controller
 
         return view('product.product-view', compact('product','averageRating'));
     }
+
+    public function deleteMultiple(Request $request)
+{
+    $request->validate([
+        'product_ids' => 'required|array',
+        'product_ids.*' => 'exists:products,id',
+    ]);
+
+    $productIds = $request->product_ids;
+
+    // Ensure the products belong to the authenticated seller
+    Product::whereIn('id', $productIds)
+        ->where('seller_id', auth()->id())
+        ->delete();
+
+    return response()->json(['message' => 'Selected products deleted successfully.']);
+}
 }
