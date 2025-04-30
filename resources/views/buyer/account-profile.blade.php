@@ -1,4 +1,20 @@
 <x-layouts.customer-layout>
+    @if (session('success'))
+    <div class="p-4 my-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
+        role="alert">
+        {{ session('success') }}
+    </div>
+    @endif
+
+    @if ($errors->any())
+    <div class="p-4 my-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+        <ul>
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
     <div class="container mx-auto p-6">
         <x-section>
             <!-- Stats Cards -->
@@ -94,7 +110,7 @@
                         <div class="space-y-4">
                             <div class="space-y-2">
                                 <label for="password" class="block text-sm font-medium">New Password</label>
-                                <input type="password" name="password" id="password"
+                                <input type="password" name="password" id="password" placeholder="New Password"
                                     class="block w-full rounded-lg border border-gray-300 bg-white p-2.5 text-sm text-gray-900 hover:bg-gray-50 focus:border-primary-500 focus:ring-4 focus:ring-primary-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-400 dark:hover:bg-gray-700 dark:focus:border-primary-500">
                                 @error('password')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -105,7 +121,9 @@
                                 <label for="password_confirmation" class="block text-sm font-medium">Confirm
                                     Password</label>
                                 <input type="password" name="password_confirmation" id="password_confirmation"
+                                    placeholder="Confirm Password"
                                     class="block w-full rounded-lg border border-gray-300 bg-white p-2.5 text-sm text-gray-900 hover:bg-gray-50 focus:border-primary-500 focus:ring-4 focus:ring-primary-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-400 dark:hover:bg-gray-700 dark:focus:border-primary-500">
+                                <p class="mt-1 text-xs text-gray-500 italic">Leave blank to keep current password</p>
                             </div>
                         </div>
                     </div>
