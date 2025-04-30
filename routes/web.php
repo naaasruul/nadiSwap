@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\ListOrderController;
+use App\Http\Controllers\Admin\RatingController;
+use App\Http\Controllers\Admin\TransactionController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\SellerController;
 use App\Http\Controllers\BuyerController;
@@ -44,6 +47,10 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('dashboard');
     Route::get('/admin/manage-seller', [AdminController::class, 'showManageSeller'])->name('manage-seller');
     Route::get('/admin/manage-buyer', [AdminController::class, 'showManageBuyer'])->name('manage-buyer');
+
+    Route::resource('transactions', TransactionController::class)->except(['show']);
+    Route::resource('ratings', RatingController::class)->except(['show']);
+    Route::resource('orders', ListOrderController::class)->except(['show']);
 });
 
 
