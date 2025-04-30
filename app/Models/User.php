@@ -80,4 +80,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(DeliveryAddress::class);
     }
+
+    public function categoryPreferences()
+    {
+        return $this->hasMany(UserCategoryPreference::class);
+    }
 }
