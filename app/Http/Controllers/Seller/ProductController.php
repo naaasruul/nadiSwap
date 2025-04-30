@@ -39,15 +39,26 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'category' => 'required|string|max:255',
-            'image' => 'nullable|image|max:2048',
+            'images.*' => 'nullable|image|max:2048',
         ]);
 
-        if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')->store('products', 'public');
+        $imagePaths = [];
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $imagePaths[] = $image->store('products', 'public');
+            }
         }
         // Automatically assign the authenticated seller's ID
         $validated['seller_id'] = auth()->id();
-        Product::create($validated);
+        Product::create([
+        'name' => $validated['name'],
+        'description' => $validated['description'],
+        'price' => $validated['price'],
+        'stock' => $validated['stock'],
+        'category' => $validated['category'],
+        'seller_id' => $validated['seller_id'],
+        'images' => json_encode($imagePaths), // Save images as JSON
+    ]);
 
         return redirect()->back()->with('success', 'Product created successfully.');
     }
@@ -86,6 +97,16 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
+        // Decode the JSON images field to get the list of image paths
+        if ($product->images) {
+            $images = json_decode($product->images, true);
+            foreach ($images as $image) {
+                // Delete each image from storage
+                \Storage::disk('public')->delete($image);
+            }
+        }
+
+        // Delete the product from the database
         $product->delete();
 
         return redirect()->route('seller.products.index')->with('success', 'Product deleted successfully.');
@@ -100,19 +121,33 @@ class ProductController extends Controller
     }
 
     public function deleteMultiple(Request $request)
-{
-    $request->validate([
-        'product_ids' => 'required|array',
-        'product_ids.*' => 'exists:products,id',
-    ]);
-
-    $productIds = $request->product_ids;
-
-    // Ensure the products belong to the authenticated seller
-    Product::whereIn('id', $productIds)
-        ->where('seller_id', auth()->id())
-        ->delete();
-
-    return response()->json(['message' => 'Selected products deleted successfully.']);
-}
+    {
+        $request->validate([
+            'product_ids' => 'required|array',
+            'product_ids.*' => 'exists:products,id',
+        ]);
+    
+        $productIds = $request->product_ids;
+    
+        // Retrieve the products that belong to the authenticated seller
+        $products = Product::whereIn('id', $productIds)
+            ->where('seller_id', auth()->id())
+            ->get();
+    
+        foreach ($products as $product) {
+            // Decode the JSON images field to get the list of image paths
+            if ($product->images) {
+                $images = json_decode($product->images, true);
+                foreach ($images as $image) {
+                    // Delete each image from storage
+                    \Storage::disk('public')->delete($image);
+                }
+            }
+    
+            // Delete the product from the database
+            $product->delete();
+        }
+    
+        return response()->json(['message' => 'Selected products and their images deleted successfully.']);
+    }
 }
