@@ -1,18 +1,29 @@
 <x-layouts.customer-layout>
+    <x-section class="py-8 bg-white md:py-16 dark:bg-gray-900 antialiased">
     @if (session('success'))
     <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400">
         {{ session('success') }}
     </div>
     @endif
-    <x-section class="py-8 bg-white md:py-16 dark:bg-gray-900 antialiased">
         <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0">
             <div class="lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16">
-                <!-- Product Image -->
+                <!-- Product Image Carousel -->
                 <div class="shrink-0 max-w-md lg:max-w-lg mx-auto">
-                    <img class="w-full dark:hidden" src="{{ asset('storage/' . $product->image) }}"
-                        alt="{{ $product->name }}" />
-                    <img class="w-full hidden dark:block" src="{{ asset('storage/' . $product->image) }}"
-                        alt="{{ $product->name }}" />
+                    <div class="relative aspect-square">
+                        <!-- Left and Right Arrow Buttons -->
+                        <button id="prevBtn" class="absolute top-1/2 left-2 transform -translate-y-1/2 z-10 bg-black/50 text-white p-2 rounded-full">&lt;</button>
+                        <button id="nextBtn" class="absolute top-1/2 right-2 transform -translate-y-1/2 z-10 bg-black/50 text-white p-2 rounded-full">&gt;</button>
+
+                        <!-- Focused Main Image (for light and dark modes) -->
+                        <img id="mainImage" class="absolute inset-0 w-full h-full object-contain object-center dark:hidden" src="{{ asset(json_decode($product->images)[0]) }}" alt="{{ $product->name }}">
+                        <img id="mainImageDark" class="absolute inset-0 w-full h-full object-contain object-center hidden dark:block" src="{{ asset(json_decode($product->images)[0]) }}" alt="{{ $product->name }}">
+                    </div>
+                    <!-- Thumbnail Grid -->
+                    <div id="thumbnailGrid" class="mt-4 flex space-x-2 overflow-x-auto whitespace-nowrap">
+                        @foreach(json_decode($product->images) as $img)
+                            <img class="thumb inline-block cursor-pointer w-20 h-20 object-contain border border-transparent hover:border-pink-500" src="{{ asset($img) }}" alt="Thumbnail">
+                        @endforeach
+                    </div>
                 </div>
 
                 <!-- Product Details -->
@@ -107,8 +118,63 @@
     
     @push('scripts')
     <script src='{{ asset('js/add-review.js') }}'></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    $(document).ready(function(){
+        var images = @json(json_decode($product->images));
+        var currentIndex = 0;
         
+        // Initialize first thumbnail as active
+        $('#thumbnailGrid img.thumb').removeClass('active');
+        $('#thumbnailGrid img.thumb').eq(0).addClass('active');
+        
+        // Function to scroll the thumbnail container to the active thumbnail
+        function scrollThumbnailIntoView(index) {
+            var container = $('#thumbnailGrid');
+            var thumbnail = container.find('img.thumb').eq(index);
+            var containerWidth = container.width();
+            var thumbWidth = thumbnail.outerWidth(true);
+            // Calculate target scroll position: center the thumbnail within the container
+            var targetScrollLeft = thumbnail.position().left + container.scrollLeft() - (containerWidth/2) + (thumbWidth/2);
+            container.animate({ scrollLeft: targetScrollLeft }, 300);
+        }
+        
+        // Thumbnail click: update main image and active class
+        $('#thumbnailGrid img.thumb').on('click', function(){
+            currentIndex = $(this).index();
+            var newSrc = $(this).attr('src');
+            $('#mainImage, #mainImageDark').attr('src', newSrc);
+            $('#thumbnailGrid img.thumb').removeClass('active');
+            $(this).addClass('active');
+        });
+        
+        // Left arrow: show previous image and update active thumbnail
+        $('#prevBtn').on('click', function(){
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            var newSrc = "{{ asset('') }}" + images[currentIndex];
+            $('#mainImage, #mainImageDark').attr('src', newSrc);
+            $('#thumbnailGrid img.thumb').removeClass('active');
+            $('#thumbnailGrid img.thumb').eq(currentIndex).addClass('active');
+            scrollThumbnailIntoView(currentIndex);
+        });
+        
+        // Right arrow: show next image and update active thumbnail
+        $('#nextBtn').on('click', function(){
+            currentIndex = (currentIndex + 1) % images.length;
+            var newSrc = "{{ asset('') }}" + images[currentIndex];
+            $('#mainImage, #mainImageDark').attr('src', newSrc);
+            $('#thumbnailGrid img.thumb').removeClass('active');
+            $('#thumbnailGrid img.thumb').eq(currentIndex).addClass('active');
+            scrollThumbnailIntoView(currentIndex);
+        });
+    });
     </script>
+    <style>
+        /* Add border effect on the focused thumbnail */
+        #thumbnailGrid img.thumb.active {
+            border-color: #ec4899; /* pink-500 */
+        }
+    </style>
     @endpush
   
 </x-layouts.customer-layout>
