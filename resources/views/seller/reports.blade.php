@@ -34,7 +34,6 @@
         </table>
 
         <h2 class="text-[14px] font-bold mt-8 mb-4">Frequent Product Category Purchases</h2>
-        <div class="py-6" id="print-pie-chart"></div>
         <table class="w-full text-sm text-left text-gray-500 border border-gray-200">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                 <tr>
