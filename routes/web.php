@@ -9,6 +9,8 @@ use App\Http\Controllers\Buyer\ReviewController;
 use App\Http\Controllers\DeliveryAddressController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Seller\CategoryController;
+use App\Http\Controllers\Seller\OrderController;
+use App\Http\Controllers\Seller\ReportController;
 use App\Http\Controllers\Seller\ShippingController;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
@@ -52,6 +54,13 @@ Route::middleware(['auth', 'role:seller'])->prefix('seller')->name('seller.')->g
     Route::resource('products', ProductController::class)->except(['show']);
     Route::resource('categories', CategoryController::class)->except(['show']);
     Route::resource('shippings', ShippingController::class)->except(['show']);
+    Route::resource('orders', OrderController::class)->except(['show']);
+    Route::resource('reviews', ReviewController::class)->except(['show']);
+    Route::resource('reports', ReportController::class)->except(['show']);
+    Route::post('reviews/{review}', [ReviewController::class, 'respond'])->name('reviews.respond');
+    Route::post('orders/{order}/update-payment-status', [OrderController::class, 'updatePaymentStatus']);
+    Route::post('orders/{order}/update-delivery-status', [OrderController::class, 'updateDeliveryStatus']);
+
 });
 
 Route::middleware(['auth'])->prefix('profile')->name('profile.')->group(function () {
@@ -68,6 +77,7 @@ Route::middleware(['auth', 'role:buyer'])->group(function () {
     // buyer account
     Route::get('/my-account', [BuyerController::class, 'showAccount'])->name('my-account');
     Route::resource('delivery-addresses', DeliveryAddressController::class);
+    Route::post('/buyer/profile/update', [ProfileController::class, 'update'])->name('buyer.profile.update');
     
     Route::post('/buyer/reset-recommendations', [BuyerController::class, 'resetRecommendations'])->name('buyer.reset_recommendations')->middleware('auth');
     

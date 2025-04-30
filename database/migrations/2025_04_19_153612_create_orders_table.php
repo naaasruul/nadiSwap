@@ -17,7 +17,9 @@ return new class extends Migration
             $table->foreignId('seller_id')->constrained('users')->onDelete('cascade');
             $table->json('items'); // Store cart items as JSON
             $table->decimal('total', 10, 2);
-            $table->string('status')->default('Pending'); // e.g., Pending, Completed
+            $table->string('delivery_status')->default('Pending'); // e.g., Pending, Completed
+            $table->string('payment_status')->default('Pending'); // e.g., Pending, Completed
+            $table->string('payment_method'); // e.g., Pending, Completed
             $table->timestamps();
         });
     }
