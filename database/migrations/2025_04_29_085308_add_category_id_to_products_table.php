@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::table('products', function (Blueprint $table) {
             $table->unsignedBigInteger('category_id')->nullable()->after('stock');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('set null');
-            $table->dropColumn('category'); // only if you want to fully migrate
+            // $table->dropColumn('category'); // only if you want to fully migrate
         });
     }
 

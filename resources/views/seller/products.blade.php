@@ -213,7 +213,7 @@
                         @endif
                     </td>
                     <td class="font-medium text-gray-900 whitespace-nowrap dark:text-white"> {{ $product->name }}</td>
-                    <td> {{ $product->category }}</td>
+                    <td> {{ $product->category->name ?? 'Unavalaible'}} </td>
                     <td> RM{{ $product->price }}</td>
                     <td> {{ $product->description }}</td>
                     <td> {{ $product->reviews->avg('rating') ? $product->reviews->avg('rating') : 'No reviews yet' }}

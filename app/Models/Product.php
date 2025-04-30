@@ -15,7 +15,7 @@ class Product extends Model
         'seller_id',
         'price',
         'stock',
-        'category',
+        'category_id',
         'images',
         'rating'
     ];

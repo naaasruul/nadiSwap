@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description');
-            $table->text('category');
+            // $table->text('category');
             $table->decimal('price', 10, 2);
             $table->integer('stock');
             $table->json('images')->nullable(); // Add a JSON column for images

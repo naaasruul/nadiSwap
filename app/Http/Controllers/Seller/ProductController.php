@@ -38,7 +38,7 @@ class ProductController extends Controller
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
-            'category' => 'required|string|max:255',
+            'category_id' => 'required|exists:categories,id',
             'images.*' => 'nullable|image|max:2048',
         ]);
 
@@ -55,7 +55,7 @@ class ProductController extends Controller
         'description' => $validated['description'],
         'price' => $validated['price'],
         'stock' => $validated['stock'],
-        'category' => $validated['category'],
+        'category_id' => $validated['category_id'],
         'seller_id' => $validated['seller_id'],
         'images' => json_encode($imagePaths), // Save images as JSON
     ]);
