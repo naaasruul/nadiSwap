@@ -89,7 +89,7 @@
                                         </button>
                                     </div>
                                     <div class="text-end md:order-4 md:w-32">
-                                        <p class="text-base font-bold text-gray-900 dark:text-white">${{ $item['price']
+                                        <p class="text-base font-bold text-gray-900 dark:text-white">RM{{ $item['price']
                                             * $item['quantity'] }}</p>
                                     </div>
                                 </div>
@@ -184,7 +184,7 @@
                         <form action="{{ route('cart.checkout') }}" method="POST" class="mt-6">
                             @csrf
                             <button type="submit"
-                                class="{{ $addresses->isEmpty() ? 'hover:cursor-not-allowed text-white bg-blue-400 dark:bg-blue-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center' : 'hover:cursor-pointer text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800' }} w-full"
+                                class="{{ $addresses->isEmpty() ? 'hover:cursor-not-allowed text-white bg-pink-400 dark:bg-pink-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center' : 'hover:cursor-pointer text-white bg-pink-700 hover:bg-pink-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-pink-600 dark:hover:bg-pink-700 focus:outline-none dark:focus:ring-pink-800' }} w-full"
                                 @if($addresses->isEmpty()) disabled @endif>
                                 Proceed to Checkout
                             </button>

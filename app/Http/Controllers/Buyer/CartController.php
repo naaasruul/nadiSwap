@@ -92,7 +92,7 @@ class CartController extends Controller
                 'items' => $items,
                 'total' => $total,
                 'payment_method' => 'qr',
-                'status' => 'Pending',
+                // 'status' => 'Pending',
             ]);
             Log::debug("Order created for seller_id: {$sellerId} with total: {$total}", $items);
         }
