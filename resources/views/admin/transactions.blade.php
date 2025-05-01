@@ -11,9 +11,7 @@
                         <th scope="col" class="px-6 py-3">Seller</th>
                         <th scope="col" class="px-6 py-3">Items</th>
                         <th scope="col" class="px-6 py-3">Total</th>
-                        <th scope="col" class="px-6 py-3">Payment Status</th>
-                        <th scope="col" class="px-6 py-3">Delivery Status</th>
-                        <th scope="col" class="px-6 py-3">Actions</th>
+                        <th scope="col" class="px-6 py-3"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -30,21 +28,9 @@
                                 </ul>
                             </td>
                             <td class="px-6 py-4">RM{{ number_format($order->total, 2) }}</td>
-                            <td class="px-6 py-4">
-                                <span class="px-2 py-1 text-xs font-medium rounded 
-                                    {{ $order->payment_status == 'paid' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-                                    {{ ucfirst($order->payment_status) }}
-                                </span>
-                            </td>
-                            <td class="px-6 py-4">
-                                <span class="px-2 py-1 text-xs font-medium rounded 
-                                    {{ $order->delivery_status == 'delivered' ? 'bg-blue-100 text-blue-800' : 'bg-yellow-100 text-yellow-800' }}">
-                                    {{ ucfirst($order->delivery_status) }}
-                                </span>
-                            </td>
-                            <td class="px-6 py-4">
-                                <a href="{{ route('admin.transactions.index', $order->id) }}" class="text-blue-600 hover:underline">View</a>
-                            </td>
+                            {{-- <td class="px-6 py-4">
+                                <a href="{{ route('admin.transactions.index', $order->id) }}" class="text-pink-600 hover:underline">View</a>
+                            </td> --}}
                         </tr>
                     @endforeach
                 </tbody>

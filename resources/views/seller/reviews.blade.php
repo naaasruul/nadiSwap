@@ -36,7 +36,7 @@
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                     <td class="px-6 py-4">{{ $review->product->name }}</td>
                     <td class="px-6 py-4 flex items-center gap-3">
-                        <img class="w-10 h-10 rounded-full" src="{{ $review }}" alt="Customer Avatar">
+                        <img class="w-5 h-5 rounded-full" src="{{ $review->user->avatar ? asset('storage/'.$review->user->avatar) : '' }}" alt="Customer Avatar">
                         <span>{{ $review->user->name }}</span>
                     </td>
                     <td class="px-6 py-4">{{ $review->title }}</td>

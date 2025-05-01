@@ -157,7 +157,7 @@
                                     </dt>
                                     <dd id="productTotalDisplay"
                                         class="text-base font-medium text-gray-900 dark:text-white">
-                                        ${{ number_format($productsTotal, 2) }}
+                                        RM{{ number_format($productsTotal, 2) }}
                                     </dd>
                                 </dl>
 
@@ -166,7 +166,7 @@
                                     <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Shipping Total
                                     </dt>
                                     <dd id="shippingTotal" class="text-base font-medium text-gray-900 dark:text-white">
-                                        ${{ number_format($shippingTotal, 2) }}
+                                        RM{{ number_format($shippingTotal, 2) }}
                                     </dd>
                                 </dl>
 
@@ -174,7 +174,7 @@
                                     class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
                                     <dt class="text-base font-bold text-gray-900 dark:text-white">Grand Total</dt>
                                     <dd id="grandTotal" class="text-base font-bold text-gray-900 dark:text-white">
-                                        ${{ number_format($grandTotal, 2) }}
+                                        RM{{ number_format($grandTotal, 2) }}
                                     </dd>
                                 </dl>
                             </div>

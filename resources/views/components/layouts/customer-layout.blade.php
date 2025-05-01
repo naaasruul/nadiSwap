@@ -85,24 +85,27 @@
                   class="inline-flex w-full text-gray-500 dark:text-gray-400 items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600">
                   Hi, {{ Auth::user()->name }}! </p>
               </li>
-              <li><a href="{{ Route('my-account') }}" title=""
+              <li>
+                @hasrole('buyer')
+                <a href="{{ Route('my-account') }}" title=""
                   class="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600">
-                  My Account </a></li>
-              <li><a href="#" title=""
+                  My Account 
+                </a>
+                @endrole
+                @hasrole('seller')
+                <a href="{{ Route('seller.dashboard') }}" title=""
                   class="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600">
-                  My Orders </a></li>
-              <li><a href="#" title=""
+                  My Account 
+                </a>
+                @endrole
+                @hasrole('admin')
+                <a href="{{ Route('admin.dashboard') }}" title=""
                   class="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600">
-                  Settings </a></li>
-              <li><a href="#" title=""
-                  class="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600">
-                  Favourites </a></li>
-              <li><a href="#" title=""
-                  class="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600">
-                  Delivery Addresses </a></li>
-              <li><a href="#" title=""
-                  class="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600">
-                  Billing Data </a></li>
+                  My Account 
+                </a>
+                @endrole
+
+                </li>
             </ul>
             <div class="p-2 text-sm font-medium text-gray-900 dark:text-white">
               <form action="{{ Route('logout') }}" method="POST">

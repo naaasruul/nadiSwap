@@ -14,8 +14,7 @@ class TransactionController extends Controller
     public function index()
     {
         //
-        Order::where('payment_status', 'paid')->get();
-        $orders = Order::where('payment_status', 'paid')->get();
+        $orders = Order::all();
 
         return view('admin.transactions', compact('orders'));
     }

@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
+use App\Models\Product;
+use App\Models\Review;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
@@ -14,8 +17,52 @@ class AdminController extends Controller
     public function index()
     {
         //
+        $users = User::all();
+        $orders = Order::all();
+        $products = Product::all();
+        $reviews = Review::all();
 
-        return view('admin.dashboard');
+        $sellers = User::role('seller')->get(); // Fetch all sellers
+        $buyers = User::role('buyer')->get(); // Fetch all buyers
+        $admins = User::role('admin')->get(); // Fetch all admins
+
+        $buyersCount = $buyers->count();
+        $sellersCount = $sellers->count();
+
+        // Group transactions by day and count them
+        $transactions = Order::selectRaw('DATE(created_at) as date, COUNT(*) as count')
+            ->groupBy('date')
+            ->orderBy('date', 'ASC')
+            ->get();
+
+        // Prepare data for the chart
+        $transactionDates = $transactions->pluck('date')->map(function ($date) {
+            return \Carbon\Carbon::parse($date)->format('d F'); // Format date as '01 February'
+        });
+        $transactionCounts = $transactions->pluck('count');
+
+        // Calculate order statuses
+        $pendingOrders = Order::where('payment_status', 'pending')->count();
+        $paidOrders = Order::where('payment_status', 'paid')->count();
+        $cancelledOrders = Order::where('payment_status', 'cancelled')->count();
+
+
+        return view('admin.dashboard',compact(
+            'users',
+            'orders',
+            'products',
+            'reviews',
+            'sellers',
+            'buyers',
+            'admins',
+            'buyersCount',
+            'sellersCount',
+            'transactionDates',
+            'transactionCounts',
+            'pendingOrders',
+            'paidOrders',
+            'cancelledOrders'
+        ));
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Review;
 use Illuminate\Http\Request;
 
 class RatingController extends Controller
@@ -13,7 +14,9 @@ class RatingController extends Controller
     public function index()
     {
         //
-        return view('admin.ratings');
+         // Retrieve reviews for products that belong to the seller
+         $reviews = Review::all();
+        return view('admin.ratings',compact('reviews'));
     }
 
     /**
