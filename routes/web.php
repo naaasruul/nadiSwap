@@ -24,6 +24,7 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\UserCategoryPreference;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Schema;
 
 Route::get('/', function () {
