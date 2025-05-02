@@ -19,7 +19,7 @@
 
         <x-section>
             <!-- Stats Cards -->
-            <div class="grid grid-cols-2 gap-6 border-b border-t border-gray-200 py-4 dark:border-gray-700 md:py-8">
+            <div class="grid grid-cols-2 gap-6 border-b border-gray-200 py-4 dark:border-gray-700 md:py-8">
                 <x-order-card icon="fa-regular fa-chart-bar" title="Orders made" :count="$ordersCount" />
                 <x-order-card icon="fa-regular fa-star" title="Reviews added" :count="$reviewsCount" />
             </div>
@@ -213,8 +213,8 @@
                 <p class="text-gray-500 dark:text-gray-400">No orders found.</p>
                 @else
                 @foreach ($latestOrders as $order)
-                <x-order-list :orderId="$order->id" :date="$order->created_at->format('d.m.Y')" :price="$order->total"
-                    :status="$order->status" :actions="[
+                <x-order-list :orderId="$order->id" :date="$order->created_at->format('d.m.Y')" :price="$order->total" :payment_method="$order->payment_method" :delivery_address="$order->delivery_address" :status="$order->status" :productName="$order->product_name" :productImage="$order->product_image" :quantity="$order->quantity"
+                    :delivery_status="$order->delivery_status" :payment_status="$order->payment_status" :actions="[
                          ['url' => '#', 'label' => 'Order again', 'icon' => '<svg class=\'me-1.5 h-4 w-4 text-gray-400 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white\' aria-hidden=\'true\' xmlns=\'http://www.w3.org/2000/svg\' width=\'24\' height=\'24\' fill=\'none\' viewBox=\'0 0 24 24\'><path stroke=\'currentColor\' stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'2\' d=\'M17.651 7.65a7.131 7.131 0 0 0-12.68 3.15M18.001 4v4h-4m-7.652 8.35a7.13 7.13 0 0 0 12.68-3.15M6 20v-4h4\'></path></svg>'],
                          ['url' => '#', 'label' => 'Order details', 'icon' => '<svg class=\'me-1.5 h-4 w-4 text-gray-400 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white\' aria-hidden=\'true\' xmlns=\'http://www.w3.org/2000/svg\' width=\'24\' height=\'24\' fill=\'none\' viewBox=\'0 0 24 24\'><path stroke=\'currentColor\' stroke-width=\'2\' d=\'M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z\'></path><path stroke=\'currentColor\' stroke-width=\'2\' d=\'M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z\'></path></svg>'],
                          ['url' => '#', 'label' => 'Cancel order', 'icon' => '<svg class=\'me-1.5 h-4 w-4\' aria-hidden=\'true\' xmlns=\'http://www.w3.org/2000/svg\' width=\'24\' height=\'24\' fill=\'none\' viewBox=\'0 0 24 24\'><path stroke=\'currentColor\' stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'2\' d=\'M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z\'></path></svg>', 'class' => 'text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white']
