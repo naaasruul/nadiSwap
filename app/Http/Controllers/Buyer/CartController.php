@@ -68,40 +68,79 @@ class CartController extends Controller
     public function checkout(Request $request)
     {
         $cart = Session::get('cart', []);
-        Log::debug('Checkout initiated. Cart:', $cart); // <-- debugging log
+        Log::debug('Checkout initiated. Cart:', $cart);
 
         if (empty($cart)) {
             Log::debug('Cart is empty during checkout.');
             return redirect()->back()->with('error', 'Your cart is empty!');
         }
 
+        // Update cart quantities from JSON input (hidden inputs)
+        if ($request->has('cart')) {
+            $updated = $request->input('cart');
+            foreach ($updated as $id => $data) {
+                if (isset($cart[$id])) {
+                    $cart[$id]['quantity'] = (int)$data['quantity'];
+                }
+            }
+            Session::put('cart', $cart);
+            Log::debug('Updated cart with new quantities:', $cart);
+        }
+
+        // Retrieve shipping selections: shipping[product_id] => shipping option id
+        $shippingSelected = $request->input('shipping', []);
+
         // Group items by seller
         $groupedItems = [];
         foreach ($cart as $id => $item) {
             $product = Product::findOrFail($id);
-            $groupedItems[$product->seller_id][] = $item;
+            $groupedItems[$product->seller_id][$id] = $item;
         }
-        Log::debug('Grouped cart items by seller:', $groupedItems); // <-- debugging log
+        Log::debug('Grouped cart items by seller:', $groupedItems);
 
-        // Create orders for each seller
+        // Create orders for each seller using recalculated totals including shipping fees.
         foreach ($groupedItems as $sellerId => $items) {
-            $total = array_sum(array_map(fn($item) => $item['price'] * $item['quantity'], $items));
+            $productSubtotal = 0;
+            $shippingTotal = 0;
+            // Loop each item by reference to attach shipping_id
+            foreach ($items as $id => &$item) {
+                $productSubtotal += $item['price'] * $item['quantity'];
+                if (isset($shippingSelected[$id])) {
+                    $item['shipping_id'] = $shippingSelected[$id];
+                    $shippingOption = Shipping::find($shippingSelected[$id]);
+                    if ($shippingOption) {
+                        $shippingTotal += $shippingOption->shipping_fee * $item['quantity'];
+                    }
+                } else {
+                    $item['shipping_id'] = null;
+                }
+            }
+            unset($item); // Break reference
+
+            $grandTotal = $productSubtotal + $shippingTotal;
+
+            $orderItems = [
+                'delivery_address_id' => $request->input('delivery_address'),
+                'cart_items' => $items,
+                'shipping_total' => $shippingTotal,
+            ];
+
             Order::create([
                 'buyer_id' => Auth::id(),
                 'seller_id' => $sellerId,
-                'items' => $items,
-                'total' => $total,
-                'payment_method' => 'qr',
-                // 'status' => 'Pending',
+                'items' => $orderItems,
+                'total' => $grandTotal,
+                'payment_method' => $request->input('payment_method', 'qr'),
+                'status' => 'Pending',
             ]);
-            Log::debug("Order created for seller_id: {$sellerId} with total: {$total}", $items);
+            Log::debug("Order created for seller_id: {$sellerId} with grand total: {$grandTotal}", $items);
         }
 
         // Clear the cart
         Session::forget('cart');
         Log::debug('Cart cleared after checkout.');
 
-        return redirect()->back()->with('success', 'Order placed successfully!');
+        return redirect()->route('buyer.dashboard')->with('success', 'Order placed successfully!');
     }
 
     public function remove($id)
