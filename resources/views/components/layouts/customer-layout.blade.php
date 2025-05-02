@@ -129,7 +129,7 @@
                 @hasrole('buyer')
                 <a href="{{ Route('my-account') }}" title=""
                   class="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600">
-                  My Account 
+                  My Account & Orders
                 </a>
                 @endrole
                 @hasrole('seller')
