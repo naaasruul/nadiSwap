@@ -1,6 +1,11 @@
 <x-layouts.customer-layout>
   <!-- Section Title -->
   <section class="bg-gray-50 py-8 antialiased dark:bg-gray-900 md:py-12 mx-auto max-w-screen-xl px-4 2xl:px-0">
+  @if (session('success'))
+    <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400">
+        {{ session('success') }}
+    </div>
+  @endif
     <!-- Heading & Filters -->
       <div class="mb-4 items-end justify-between space-y-4 sm:flex sm:space-y-0 md:mb-8">
         <div class="flex-1">
