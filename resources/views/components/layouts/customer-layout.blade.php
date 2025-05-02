@@ -39,35 +39,29 @@
             <li>
               <div class="relative">
                 <!-- Updated dropdown button using provided styling -->
-                <button id="category-dropdown-header" data-dropdown-toggle="productsDropdown" type="button" class="cursor-pointer text-white focus:ring-0 focus:outline-none focus:ring-none font-medium rounded-lg text-sm px-2 py-2.5 text-center inline-flex items-center dark:focus:bg-gray-600">
+                <button id="category-dropdown-header" data-dropdown-toggle="productsDropdown" type="button" class="cursor-pointer text-white focus:ring-0 focus:outline-none font-medium rounded-lg text-sm px-2 py-2.5 inline-flex items-center dark:focus:bg-gray-600">
                   Product
                   <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
                   </svg>
                 </button>
-                <!-- Updated dropdown container using provided styling -->
+                <!-- Updated dropdown container with small paginator -->
                 <div id="productsDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700">
-                  <ul id="productsList" class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="productsDropdownButton">
-                    @foreach($categories->take(10) as $category)
-                    <li>
-                      <a href="{{ route('buyer.dashboard', ['category' => $category->id]) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600">
-                        {{ $category->name }}
-                      </a>
-                    </li>
-                    @endforeach
+                  <ul id="productsList" class="py-2 text-sm text-gray-700 dark:text-gray-200">
+                    {{-- Categories will be loaded via JavaScript --}}
                   </ul>
                   @if($categories->count() > 10)
-                  <div class="py-2 px-4">
-                    <button id="loadMoreProducts" class="block w-full text-center text-sm text-blue-600 hover:underline">
-                      Load 10 more
-                    </button>
+                  <div class="py-2 px-4 flex justify-between items-center">
+                    <button id="prevProducts" class="cursor-pointer px-3 py-2 text-xs font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Prev</button>
+                    <span id="prodPageIndicator" class="text-sm text-gray-700 dark:text-gray-200"></span>
+                    <button id="nextProducts" class="cursor-pointer px-3 py-2 text-xs font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Next</button>
                   </div>
                   @endif
                 </div>
               </div>
             </li>
             <li>
-              <a href="{{ Route('buyer.dashboard') }}" title=""
+              <a href="{{ Route('contact.index') }}" title=""
                 class="flex text-sm font-medium px-2 py-2.5 text-gray-900 hover:text-primary-700 dark:text-white dark:hover:text-primary-500">
                 Contact
               </a>
@@ -281,64 +275,44 @@
 
   {{ $slot }}
   <script>
-    $document.ready(function() {
-      // Enhanced category dropdown with animation
-      const categoryButton = $('#category-dropdown-header-button');
-        const categoryDropdown = $('#category-dropdown-header');
-        
-        categoryButton.on('click', function(e) {
-            e.preventDefault();
-            categoryDropdown.slideToggle(200);
-        });
+    $(document).ready(function(){
+      // Highlight current category in the dropdown
+      const currentCategory = new URLSearchParams(window.location.search).get('category');
+      if (currentCategory) {
+        $('#category-dropdown-header a[href*="category=' + currentCategory + '"]').addClass('bg-gray-100 text-primary-700 dark:bg-gray-700 dark:text-white');
+      }
 
-        $(document).on('click', function(e) {
-          setTimeout(function() {
-              if (
-                  !categoryButton.is(e.target) &&
-                  categoryButton.has(e.target).length === 0 &&
-                  !categoryDropdown.is(e.target) &&
-                  categoryDropdown.has(e.target).length === 0
-              ) {
-                  categoryDropdown.slideUp(200);
-              }
-          }, 0);
-      });
-
-        // Automatically close dropdown when a link is clicked
-        categoryDropdown.find('a').on('click', function() {
-            categoryDropdown.slideUp(200);
+      // Paginator for product categories dropdown using jQuery
+      var categories = @json($categories);
+      var perPage = 10;
+      var currentPage = 1;
+      var totalPages = Math.ceil(categories.length / perPage);
+      function renderCategoriesPage(page) {
+        var start = (page - 1) * perPage;
+        var end = start + perPage;
+        var pagedCategories = categories.slice(start, end);
+        var productsList = $('#productsList');
+        productsList.empty();
+        $.each(pagedCategories, function(index, category) {
+          productsList.append("<li><a href='{{ route('buyer.dashboard') }}?category=" + category.id + "' class='block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600'>" + category.name + "</a></li>");
         });
-
-        // Mobile filter drawer with smooth animation
-        const filterButton = $('#mobile-filter-button');
-        const filterDrawer = $('#mobile-filter-drawer');
-        const closeFilterButton = $('#close-filter-drawer');
-        
-        filterButton.on('click', function() {
-            filterDrawer.fadeIn(300);
-            filterDrawer.find('div:last-child').animate({right: '0'}, 300);
-        });
-        
-        const closeDrawer = function() {
-            filterDrawer.find('div:last-child').animate({right: '-100%'}, 300, function() {
-                filterDrawer.fadeOut(200);
-            });
-        };
-        
-        closeFilterButton.on('click', closeDrawer);
-        
-        filterDrawer.on('click', function(e) {
-            if ($(e.target).is(filterDrawer)) {
-                closeDrawer();
-            }
-        });
-
-        // Highlight current category in the dropdown
-        const currentCategory = new URLSearchParams(window.location.search).get('category');
-        if (currentCategory) {
-            $(`#category-dropdown-header a[href*="category=${currentCategory}"]`).addClass('bg-gray-100 text-primary-700 dark:bg-gray-700 dark:text-white');
+        $('#prodPageIndicator').text(page + " / " + totalPages);
+        $('#prevProducts').prop("disabled", page === 1);
+        $('#nextProducts').prop("disabled", page === totalPages);
+      }
+      $('#prevProducts').on('click', function(){
+        if(currentPage > 1) {
+          currentPage--;
+          renderCategoriesPage(currentPage);
         }
-        
+      });
+      $('#nextProducts').on('click', function(){
+        if(currentPage < totalPages) {
+          currentPage++;
+          renderCategoriesPage(currentPage);
+        }
+      });
+      renderCategoriesPage(currentPage);
     });
   </script>
 </body>
