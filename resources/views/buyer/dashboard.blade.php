@@ -1,4 +1,5 @@
 <x-layouts.customer-layout>
+  
   <!-- Section Title -->
   <section class="bg-gray-50 py-8 antialiased dark:bg-gray-900 md:py-12 mx-auto max-w-screen-xl px-4 2xl:px-0">
   @if (session('success'))
@@ -42,22 +43,17 @@
           <!-- Page Title with dynamic content based on what we're showing -->
           <h2 class="mt-3 text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
             @if($isSearchResults)
-            Search Results for "{{ $searchTerm }}"
+                Search Results for "{{ $searchTerm }}"
             @elseif(request('category'))
-            @php
-            $categoryName = "Products";
-            foreach($trendingCategories as $cat) {
-            if($cat['id'] == request('category')) {
-            $categoryName = $cat['name'];
-            break;
-            }
-            }
-            @endphp
-            {{ $categoryName }}
+                @php
+                    $category = \App\Models\Category::find(request('category'));
+                    $categoryName = $category ? $category->name : "Products";
+                @endphp
+                {{ $categoryName }}
             @elseif(isset($recommendedCategoryName) && $recommendedCategoryName)
-            Recommended For You
+                Recommended For You
             @else
-            All Products
+                All Products
             @endif
           </h2>
 
@@ -88,7 +84,7 @@
             </form>
 
             <!-- Category Filter Dropdown -->
-            <div class="relative z-[5]">
+            {{-- <div class="relative z-[5]">
               <!-- Changed from z-10 to z-[5] -->
               <button id="category-dropdown-button"
                 class="inline-flex items-center rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700">
@@ -136,7 +132,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> --}}
           </div>
 
           {{-- broken af --}}
