@@ -656,4 +656,13 @@ class BuyerController extends Controller
 
         return redirect()->back()->with('success', 'Profile updated successfully.');
     }
+
+    public function showInvoice(\App\Models\Order $order)
+    {
+        // Ensure the order belongs to the authenticated buyer
+        if (auth()->id() !== $order->buyer_id) {
+            abort(403, 'Unauthorized access to invoice.');
+        }
+        return view('invoice', compact('order'));
+    }
 }
