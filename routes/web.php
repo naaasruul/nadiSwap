@@ -9,6 +9,7 @@ use App\Http\Controllers\BuyerController;
 use App\Http\Controllers\Seller\ProductController;
 use App\Http\Controllers\Buyer\CartController;
 use App\Http\Controllers\Buyer\ReviewController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DeliveryAddressController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Seller\CategoryController;
@@ -41,6 +42,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/profile', Profile::class)->name('settings.profile');
     Route::get('settings/password', Password::class)->name('settings.password');
     Route::get('settings/appearance', Appearance::class)->name('settings.appearance');
+
+    Route::get('/contact', [ContactController::class, 'show'])->name('contact.index');
+    Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
 });
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
