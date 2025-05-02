@@ -4,11 +4,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welcome</title>
+  <title>NadiSwap</title>
   @include('partials.head')
 </head>
 
 <body class="bg-gray-50 dark:bg-gray-900 antialiased">
+  @php
+      use App\Models\Category;
+      $categories = Category::all();
+  @endphp
   <nav class="bg-pink dark:bg-gray-800 antialiased">
     <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0 py-4">
       <div class="flex items-center justify-between">
@@ -22,8 +26,50 @@
           <ul class="hidden lg:flex items-center justify-start gap-6 md:gap-8 py-3 sm:justify-center">
             <li>
               <a href="{{ Route('buyer.dashboard') }}" title=""
-                class="flex text-sm font-medium text-gray-900 hover:text-primary-700 dark:text-white dark:hover:text-primary-500">
+                class="flex text-sm font-medium px-2 py-2.5 text-gray-900 hover:text-primary-700 dark:text-white dark:hover:text-primary-500">
                 Home
+              </a>
+            </li>
+            <li>
+              <a href="{{ Route('buyer.dashboard') }}" title=""
+                class="flex text-sm font-medium px-2 py-2.5 text-gray-900 hover:text-primary-700 dark:text-white dark:hover:text-primary-500">
+                Shop
+              </a>
+            </li>
+            <li>
+              <div class="relative">
+                <!-- Updated dropdown button using provided styling -->
+                <button id="category-dropdown-header" data-dropdown-toggle="productsDropdown" type="button" class="cursor-pointer text-white focus:ring-0 focus:outline-none focus:ring-none font-medium rounded-lg text-sm px-2 py-2.5 text-center inline-flex items-center dark:focus:bg-gray-600">
+                  Product
+                  <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                  </svg>
+                </button>
+                <!-- Updated dropdown container using provided styling -->
+                <div id="productsDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700">
+                  <ul id="productsList" class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="productsDropdownButton">
+                    @foreach($categories->take(10) as $category)
+                    <li>
+                      <a href="{{ route('buyer.dashboard', ['category' => $category->id]) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600">
+                        {{ $category->name }}
+                      </a>
+                    </li>
+                    @endforeach
+                  </ul>
+                  @if($categories->count() > 10)
+                  <div class="py-2 px-4">
+                    <button id="loadMoreProducts" class="block w-full text-center text-sm text-blue-600 hover:underline">
+                      Load 10 more
+                    </button>
+                  </div>
+                  @endif
+                </div>
+              </div>
+            </li>
+            <li>
+              <a href="{{ Route('buyer.dashboard') }}" title=""
+                class="flex text-sm font-medium px-2 py-2.5 text-gray-900 hover:text-primary-700 dark:text-white dark:hover:text-primary-500">
+                Contact
               </a>
             </li>
           </ul>
@@ -234,6 +280,67 @@
   </div> --}}
 
   {{ $slot }}
+  <script>
+    $document.ready(function() {
+      // Enhanced category dropdown with animation
+      const categoryButton = $('#category-dropdown-header-button');
+        const categoryDropdown = $('#category-dropdown-header');
+        
+        categoryButton.on('click', function(e) {
+            e.preventDefault();
+            categoryDropdown.slideToggle(200);
+        });
+
+        $(document).on('click', function(e) {
+          setTimeout(function() {
+              if (
+                  !categoryButton.is(e.target) &&
+                  categoryButton.has(e.target).length === 0 &&
+                  !categoryDropdown.is(e.target) &&
+                  categoryDropdown.has(e.target).length === 0
+              ) {
+                  categoryDropdown.slideUp(200);
+              }
+          }, 0);
+      });
+
+        // Automatically close dropdown when a link is clicked
+        categoryDropdown.find('a').on('click', function() {
+            categoryDropdown.slideUp(200);
+        });
+
+        // Mobile filter drawer with smooth animation
+        const filterButton = $('#mobile-filter-button');
+        const filterDrawer = $('#mobile-filter-drawer');
+        const closeFilterButton = $('#close-filter-drawer');
+        
+        filterButton.on('click', function() {
+            filterDrawer.fadeIn(300);
+            filterDrawer.find('div:last-child').animate({right: '0'}, 300);
+        });
+        
+        const closeDrawer = function() {
+            filterDrawer.find('div:last-child').animate({right: '-100%'}, 300, function() {
+                filterDrawer.fadeOut(200);
+            });
+        };
+        
+        closeFilterButton.on('click', closeDrawer);
+        
+        filterDrawer.on('click', function(e) {
+            if ($(e.target).is(filterDrawer)) {
+                closeDrawer();
+            }
+        });
+
+        // Highlight current category in the dropdown
+        const currentCategory = new URLSearchParams(window.location.search).get('category');
+        if (currentCategory) {
+            $(`#category-dropdown-header a[href*="category=${currentCategory}"]`).addClass('bg-gray-100 text-primary-700 dark:bg-gray-700 dark:text-white');
+        }
+        
+    });
+  </script>
 </body>
 
 
