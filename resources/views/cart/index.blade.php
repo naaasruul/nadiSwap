@@ -3,31 +3,17 @@
     <section class="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
         <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
             <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Shopping Cart</h2>
-            <!-- Delivery Address Section Outside of Order Summary Box -->
-            <div class="mx-auto max-w-screen-xl 2xl:px-0 mt-6">
-                @if($addresses->isEmpty())
-                <div class="mb-4 p-4 bg-yellow-100 text-yellow-800 rounded">
-                    Warning: You have no delivery addresses. Please add one.
-                </div>
-                @endif
-                <div>
-                    <label for="delivery_address" class="block text-base font-medium text-gray-900 dark:text-white">
-                        Delivery Address
-                    </label>
-                    <select id="delivery_address" name="delivery_address"
-                        class="hover:cursor-pointer mt-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        @if($addresses->isEmpty())
-                            <option value="">No addresses available</option>
-                        @else
-                            @foreach($addresses as $address)
-                            <option value="{{ $address->id }}">
-                                {{ $address->address_line_1 }}@if($address->address_line_2), {{ $address->address_line_2 }}@endif, {{ $address->city }}, {{ $address->state }}, {{ $address->postal_code }}, {{ $address->country }}
-                            </option>
-                            @endforeach
-                        @endif
-                    </select>
-                </div>
-            </div>
+
+            @php
+                // Determine if any cart item has no shipping options
+                $disableCheckout = false;
+                foreach($cartItems as $item) {
+                    if($item['shippings']->isEmpty()){
+                        $disableCheckout = true;
+                        break;
+                    }
+                }
+            @endphp
 
             <div class="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8">
                 <div class="mx-auto w-full flex-none lg:max-w-2xl xl:max-w-4xl">
@@ -89,8 +75,12 @@
                                         </button>
                                     </div>
                                     <div class="text-end md:order-4 md:w-32">
-                                        <p class="text-base font-bold text-gray-900 dark:text-white">RM{{ $item['price']
-                                            * $item['quantity'] }}</p>
+                                        <!-- New price (including shipping) -->
+                                        <p id="price-change-{{ $id }}" class="text-base font-bold text-gray-900 dark:text-white"></p>
+                                        <!-- Original price (without shipping) -->
+                                        <p id="price-display-{{ $id }}" class="price-change text-sm text-gray-500">
+                                            RM{{ number_format($item['price'] * $item['quantity'], 2) }}
+                                        </p>
                                     </div>
                                 </div>
 
@@ -112,10 +102,15 @@
                                             @foreach ($item['shippings'] as $shipping)
                                             <option value="{{ $shipping->id }}"
                                                 data-fee="{{ $shipping->shipping_fee }}">
-                                                {{ $shipping->place }} - RM{{ number_format($shipping->shipping_fee, 2) }}
+                                                {{ $shipping->place }} - RM{{ number_format($shipping->shipping_fee, 2)
+                                                }}
                                             </option>
                                             @endforeach
                                         </select>
+                                    </div>
+                                    @else
+                                    <div class="mt-2 text-red-600 text-sm">
+                                        This item is not available for the time being
                                     </div>
                                     @endif
                                 </div>
@@ -136,21 +131,18 @@
                 <!-- Hidden element to pass product total to JS -->
                 <span id="productTotal" data-total="{{ $productsTotal }}" class="hidden"></span>
 
-                <!-- Order Summary -->
+                <!-- Order Summary Section -->
                 <div class="mx-auto mt-6 max-w-4xl flex-1 space-y-6 lg:mt-0 lg:w-full">
                     <div
                         class="space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6">
                         <p class="text-xl font-semibold text-gray-900 dark:text-white">Order summary</p>
-
                         <div class="space-y-4">
                             <div class="space-y-2">
                                 <dl class="flex items-center justify-between gap-4">
                                     <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Total Items</dt>
                                     <dd class="text-base font-medium text-gray-900 dark:text-white">{{ count($cartItems)
-                                        }}
-                                    </dd>
+                                        }}</dd>
                                 </dl>
-
                                 <dl
                                     class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
                                     <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Products Total
@@ -160,7 +152,6 @@
                                         RM{{ number_format($productsTotal, 2) }}
                                     </dd>
                                 </dl>
-
                                 <dl
                                     class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
                                     <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Shipping Total
@@ -169,7 +160,6 @@
                                         RM{{ number_format($shippingTotal, 2) }}
                                     </dd>
                                 </dl>
-
                                 <dl
                                     class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
                                     <dt class="text-base font-bold text-gray-900 dark:text-white">Grand Total</dt>
@@ -180,12 +170,60 @@
                             </div>
                         </div>
 
-                        <!-- Delivery address selection moved outside -->
+                        <!-- Checkout Form including hidden quantity inputs and Payment Method Dropdown -->
                         <form action="{{ route('cart.checkout') }}" method="POST" class="mt-6">
                             @csrf
+                            <!-- Delivery Address Section Outside of Order Summary Box -->
+                            <div class="mx-auto max-w-screen-xl 2xl:px-0 mt-6">
+                                @if($addresses->isEmpty())
+                                <div class="mb-4 p-4 bg-yellow-100 text-yellow-800 rounded">
+                                    Warning: You have no delivery addresses. Please add one.
+                                </div>
+                                @endif
+                                <div>
+                                    <label for="delivery_address"
+                                        class="block text-base font-medium text-gray-900 dark:text-white">
+                                        Delivery Address
+                                    </label>
+                                    <select id="delivery_address" name="delivery_address"
+                                        class="hover:cursor-pointer mt-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                        @if($addresses->isEmpty())
+                                        <option value="">No addresses available</option>
+                                        @else
+                                        @foreach($addresses as $address)
+                                        <option value="{{ $address->id }}">
+                                            {{ $address->address_line_1 }}@if($address->address_line_2), {{
+                                            $address->address_line_2 }}@endif, {{ $address->city }}, {{ $address->state
+                                            }}, {{ $address->postal_code }}, {{ $address->country }}
+                                        </option>
+                                        @endforeach
+                                        @endif
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Hidden inputs for updated cart quantities -->
+                            @foreach($cartItems as $id => $item)
+                            <input type="hidden" class="hidden-cart-quantity" id="hidden-cart-quantity-{{ $id }}"
+                                name="cart[{{ $id }}][quantity]" value="{{ $item['quantity'] }}">
+                            <!-- New hidden input for shipping selection -->
+                            <input type="hidden" class="hidden-shipping" id="hidden-shipping-{{ $id }}"
+                                name="shipping[{{ $id }}]" value="">
+                            @endforeach
+                            <div class="mt-4">
+                                <label for="payment_method"
+                                    class="block text-base font-medium text-gray-900 dark:text-white">
+                                    Payment Method
+                                </label>
+                                <select id="payment_method" name="payment_method"
+                                    class="mb-6 hover:cursor-pointer mt-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    <option value="qr">QR Payment</option>
+                                    <option value="online_banking">Online Banking</option>
+                                </select>
+                            </div>
                             <button type="submit"
-                                class="{{ $addresses->isEmpty() ? 'hover:cursor-not-allowed text-white bg-pink-400 dark:bg-pink-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center' : 'hover:cursor-pointer text-white bg-pink-700 hover:bg-pink-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-pink-600 dark:hover:bg-pink-700 focus:outline-none dark:focus:ring-pink-800' }} w-full"
-                                @if($addresses->isEmpty()) disabled @endif>
+                                class="{{ ($addresses->isEmpty() || $disableCheckout) ? 'hover:cursor-not-allowed text-white bg-pink-400 dark:bg-pink-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center' : 'hover:cursor-pointer text-white bg-pink-700 hover:bg-pink-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-pink-600 dark:hover:bg-pink-700 focus:outline-none dark:focus:ring-pink-800' }} w-full"
+                                @if($addresses->isEmpty() || $disableCheckout) disabled @endif>
                                 Proceed to Checkout
                             </button>
                         </form>
@@ -195,32 +233,42 @@
         </div>
     </section>
 
-
-
     <!-- Updated JavaScript to make quantity buttons functional -->
     <script>
         document.addEventListener('DOMContentLoaded', function(){
         function recalcTotals() {
-            let productTotal = 0;
+            let productSubtotal = 0;
             let shippingTotal = 0;
-            // Recalculate product total from each quantity input
-            document.querySelectorAll('.quantity-input').forEach(function(input){
+            // Update each item's total including shipping fee
+            document.querySelectorAll('.quantity-input').forEach(function(input) {
                 const price = parseFloat(input.dataset.price) || 0;
                 const qty = parseInt(input.value) || 0;
-                productTotal += price * qty;
-            });
-            // Update hidden and displayed product total
-            document.getElementById('productTotal').dataset.total = productTotal;
-            document.getElementById('productTotalDisplay').innerText = '$' + productTotal.toFixed(2);
-            
-            // Recalculate shipping total from each shipping select (using updated quantity)
-            document.querySelectorAll('.shipping-select').forEach(function(select){
-                const fee = parseFloat(select.options[select.selectedIndex].getAttribute('data-fee')) || 0;
-                const qty = parseInt(select.getAttribute('data-quantity')) || 1;
+                const id = input.id.split('-')[1];
+                let fee = 0;
+                let shippingSelect = document.querySelector(`select[name="shipping[${id}]"]`);
+                if (shippingSelect) {
+                    fee = parseFloat(shippingSelect.options[shippingSelect.selectedIndex].getAttribute('data-fee')) || 0;
+                    // Update the item total display = (price + fee)*qty
+                    const priceDisplay = input.closest('.flex.items-center').parentElement.querySelector('.text-end .text-base.font-bold');
+                    const priceChangeDisplay = document.getElementById(`price-change-${id}`);
+                    if (priceDisplay) {
+                        priceDisplay.innerText = 'RM' + (price * qty).toFixed(2);
+                    }
+                    if (priceChangeDisplay) {
+                        priceChangeDisplay.innerText = 'RM' + ((price + fee) * qty).toFixed(2);
+                    }
+                    // Update hidden shipping input with selected shipping id
+                    const hiddenShipping = document.getElementById(`hidden-shipping-${id}`);
+                    if(hiddenShipping) {
+                        hiddenShipping.value = shippingSelect.value;
+                    }
+                }
+                productSubtotal += price * qty;
                 shippingTotal += fee * qty;
             });
-            document.getElementById('shippingTotal').innerText = '$' + shippingTotal.toFixed(2);
-            document.getElementById('grandTotal').innerText = '$' + (productTotal + shippingTotal).toFixed(2);
+            document.getElementById('productTotalDisplay').innerText = 'RM' + productSubtotal.toFixed(2);
+            document.getElementById('shippingTotal').innerText = 'RM' + shippingTotal.toFixed(2);
+            document.getElementById('grandTotal').innerText = 'RM' + (productSubtotal + shippingTotal).toFixed(2);
         }
 
         function updateQuantity(button, increment) {
@@ -232,16 +280,31 @@
             let quantity = parseInt(quantityInput.value);
             quantity = Math.max(1, quantity + increment);
             quantityInput.value = quantity;
-            // Update the data-quantity attribute on the respective shipping select
+            
+            // Update the data-quantity attribute on the shipping select if exists
             const shippingSelect = document.querySelector(`select[name="shipping[${id}]"]`);
             if(shippingSelect) {
                 shippingSelect.setAttribute('data-quantity', quantity);
             }
+            
             // Update the product total display for this item
             const priceDisplay = button.closest('.flex.items-center').parentElement.querySelector('.text-end .text-base.font-bold');
+            const priceChangeDisplay = document.getElementById(`price-change-${id}`);
             if(priceDisplay) {
-                priceDisplay.innerText = '$' + (price * quantity).toFixed(2);
+                priceDisplay.innerText = 'RM' + (price * quantity).toFixed(2);
             }
+            if(priceChangeDisplay) {
+                const fee = parseFloat(shippingSelect.options[shippingSelect.selectedIndex].getAttribute('data-fee')) || 0;
+                priceChangeDisplay.innerText = 'RM' + ((price + fee) * quantity).toFixed(2);
+            }
+            
+            // Update the hidden input for this cart item so that updated quantity is sent with checkout
+            const hiddenInput = document.getElementById(`hidden-cart-quantity-${id}`);
+            if(hiddenInput) {
+                hiddenInput.value = quantity;
+                console.log("Hidden input for product", id, "updated to", quantity);
+            }
+            
             recalcTotals();
         }
 
