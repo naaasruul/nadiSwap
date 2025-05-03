@@ -91,7 +91,6 @@
 
         </div>
 
-        `
     </div>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.46.0/dist/apexcharts.min.js"></script>
     <script>
