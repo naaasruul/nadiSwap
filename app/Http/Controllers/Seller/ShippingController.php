@@ -30,12 +30,21 @@ class ShippingController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validate = $request->validate([
             'place' => 'required|string|max:255',
             'shipping_fee' => 'required|numeric|min:0',
         ]);
 
-        Shipping::create($request->all());
+        
+        if($validate){
+            Shipping::create(
+                [
+                    'place' => $request->place,
+                    'shipping_fee' => $request->shipping_fee,
+                    'seller_id' => Auth()->user()->id,
+                ]
+            );
+        }
 
         return redirect()->route('seller.shippings.index')->with('success', 'Shipping created successfully.');
     }
