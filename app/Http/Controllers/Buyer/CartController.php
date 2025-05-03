@@ -125,10 +125,13 @@ class CartController extends Controller
                 'shipping_total' => $shippingTotal,
             ];
 
+            // Encode $orderItems as JSON
+            $orderItemsJson = json_encode($orderItems);
+
             Order::create([
                 'buyer_id' => Auth::id(),
                 'seller_id' => $sellerId,
-                'items' => $orderItems,
+                'items' => $orderItemsJson,
                 'total' => $grandTotal,
                 'payment_method' => $request->input('payment_method', 'qr'),
                 'status' => 'Pending',
