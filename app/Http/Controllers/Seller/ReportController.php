@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Seller;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use Illuminate\Container\Attributes\Log;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log as FacadesLog;
 
 class ReportController extends Controller
 {
@@ -31,20 +33,34 @@ class ReportController extends Controller
             $salesData[] = $order->total;
 
             // Decode the JSON data in the 'items' column
-            $items = $order->items;
+            $items = json_decode($order->items, true); // Ensure items is decoded as an array
 
-            foreach ($items as $item) {
-                $category = $item['category'] ?? 'Unknown';
-                $quantity = $item['quantity'] ?? 0;
-                if($order->payment_status == 'paid') {
-                    $totalProductsSold += $quantity;
-                } 
+            // $items = $order->items; // Ensure items is decoded as an array
 
-                // Accumulate the total purchases for each category
-                if (!isset($categories[$category])) {
-                    $categories[$category] = 0;
+
+            if (is_array($items) && isset($items['cart_items'])) { // Check if $items is an array and contains 'cart_items'
+                foreach ($items['cart_items'] as $item) { // Iterate over 'cart_items'
+                    FacadesLog::warning('Item:', ['data' => $item]); // Debugging log for individual item
+                    
+                    $category = $item['category']['name'] ?? 'Unknown'; // Access category name
+                    $quantity = $item['quantity'] ?? 0;
+            
+                    if ($order->payment_status == 'paid') {
+                        $totalProductsSold += $quantity;
+                    }
+            
+                    // Accumulate the total purchases for each category
+                    if (!isset($categories[$category])) {
+                        $categories[$category] = 0;
+                    }
+                    $categories[$category] += $quantity;
+            
+                    // Debugging log for categories
+                    FacadesLog::warning('Category:', ['data' => $categories]);
                 }
-                $categories[$category] += $quantity;
+            } else {
+                // Handle the case where items is not an array or does not contain 'cart_items'
+                \Log::warning('Items is not an array or does not contain cart_items for order ID: ' . $order->id);
             }
         }
 
