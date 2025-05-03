@@ -22,9 +22,16 @@
                             <td class="px-6 py-4">{{ $order->seller->name ?? 'N/A' }}</td>
                             <td class="px-6 py-4">
                                 <ul>
-                                    @foreach ($order->items as $item)
-                                        <li>{{ $item['name'] }} (x{{ $item['quantity'] }})</li>
-                                    @endforeach
+                                    @php
+                                        $items = json_decode($order->items, true); // Decode the items JSON
+                                    @endphp
+                                    @if (is_array($items) && isset($items['cart_items']))
+                                        @foreach ($items['cart_items'] as $item)
+                                            <li>{{ $item['name'] }} (x{{ $item['quantity'] }})</li>
+                                        @endforeach
+                                    @else
+                                        <li>No items available</li>
+                                    @endif
                                 </ul>
                             </td>
                             <td class="px-6 py-4">RM{{ number_format($order->total, 2) }}</td>
