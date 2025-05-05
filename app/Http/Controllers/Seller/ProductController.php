@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class ProductController extends Controller
 {
@@ -33,34 +35,47 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'price' => 'required|numeric|min:0',
-            'stock' => 'required|integer|min:0',
-            'category_id' => 'required|exists:categories,id',
-            'images.*' => 'nullable|image|max:2048',
-        ]);
-
-        $imagePaths = [];
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $imagePaths[] = $image->store('products', 'public');
+        try{
+            $validated = $request->validate([
+                'name' => 'required|string|max:255',
+                'description' => 'required|string',
+                'price' => 'required|numeric|min:0',
+                'stock' => 'required|integer|min:0',
+                'category_id' => 'required|exists:categories,id',
+                'images.*' => 'nullable|image|max:10240',
+            ]);
+    
+            $imagePaths = [];
+    
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $image) {
+                    // Log image details
+                    Log::info('Image Details:', [
+                        'original_name' => $image->getClientOriginalName(),
+                        'size' => $image->getSize(), // File size in bytes
+                        'mime_type' => $image->getMimeType(),
+                        'extension' => $image->getClientOriginalExtension(),
+                    ]);
+                    $imagePaths[] = $image->store('products', 'public');
+                }
             }
+            // Automatically assign the authenticated seller's ID
+            $validated['seller_id'] = auth()->id();
+            
+            Product::create([
+            'name' => $validated['name'],
+            'description' => $validated['description'],
+            'price' => $validated['price'],
+            'stock' => $validated['stock'],
+            'category_id' => $validated['category_id'],
+            'seller_id' => $validated['seller_id'],
+            'images' => json_encode($imagePaths), // Save images as JSON
+        ]);
+    
+            return redirect()->back()->with('success', 'Product created successfully.');
+        }catch(Throwable $e){
+            return redirect()->back()->with('error', 'Product cannot be upload because: '.$e);
         }
-        // Automatically assign the authenticated seller's ID
-        $validated['seller_id'] = auth()->id();
-        Product::create([
-        'name' => $validated['name'],
-        'description' => $validated['description'],
-        'price' => $validated['price'],
-        'stock' => $validated['stock'],
-        'category_id' => $validated['category_id'],
-        'seller_id' => $validated['seller_id'],
-        'images' => json_encode($imagePaths), // Save images as JSON
-    ]);
-
-        return redirect()->back()->with('success', 'Product created successfully.');
     }
 
     /**
