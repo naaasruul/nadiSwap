@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\NewPassword;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Livewire\Auth\ConfirmPassword;
 use App\Livewire\Auth\ForgotPassword;
@@ -14,6 +15,7 @@ Route::middleware('guest')->group(function () {
     Route::get('register', Register::class)->name('register');
     Route::get('forgot-password', ForgotPassword::class)->name('password.request');
     Route::get('reset-password/{token}', ResetPassword::class)->name('password.reset');
+    Route::post('new-password/', [NewPassword::class,'resetPassword'])->name('new-password.reset');
 });
 
 Route::middleware('auth')->group(function () {
