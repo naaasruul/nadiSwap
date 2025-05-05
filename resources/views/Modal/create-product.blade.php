@@ -35,6 +35,7 @@ class="hidden fixed top-0 left-0 right-0 z-50 flex items-center justify-center w
                     <label for="price"
                         class="block text-sm font-medium text-gray-900 dark:text-white">Price</label>
                     <input type="number" id="price" name="price"
+                    step="any"
                         class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-pink-500 focus:border-pink-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                         placeholder="Product Price" required>
                 </div>
@@ -43,7 +44,7 @@ class="hidden fixed top-0 left-0 right-0 z-50 flex items-center justify-center w
                         class="block text-sm font-medium text-gray-900 dark:text-white">Stock</label>
                     <input type="number" id="stock" name="stock"
                         class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-pink-500 focus:border-pink-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                        placeholder="Product Price" required>
+                        placeholder="Product Stock" required>
                 </div>
 
                 <div class="mb-4">
