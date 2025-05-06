@@ -69,6 +69,11 @@
                         <i class="fa-solid fa-sort ms-3"></i>
                     </span>
                 </th>
+                <th>
+                    <span class="flex items-center">
+                        Receipt
+                    </span>
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -81,11 +86,13 @@
                     @push('modal')
                     <div id="tooltip-{{ $order->id }}" role="tooltip"
                         class="absolute invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+
                         @php
                             $items = is_string($order->items) ? json_decode($order->items, true) : $order->items;
                         @endphp
-                        @if (is_array($items))
-                            @foreach ($items as $item)
+                        {{ Log::debug($items); }}
+                        @if (is_array($items['cart_items']))
+                            @foreach ($items['cart_items'] as $item)
                                 @if (is_array($item))
                                     - {{ $item['name'] ?? 'Unknown Product' }} <br>
                                 @elseif (is_object($item))
@@ -95,7 +102,7 @@
                                 @endif
                             @endforeach
                         @else
-                            <span>No items available</span>
+                            <span> No items available </span>
                         @endif
                         <div class="tooltip-arrow" data-popper-arrow></div>
                     </div>
@@ -104,7 +111,7 @@
                 <td>{{ $order->buyer->id }}</td>
                 <td>{{ $order->created_at->format('Y-m-d') }}</td>
                 <td>RM{{ number_format($order->total, 2) }}</td>
-                <td>{{ $order->payment_method }}</td>
+                <td>{{ $order->payment_method === 'cod' ? 'Cash On Delivery' : 'Online Banking' }}</td>
                 <td>
                     <select  data-id="{{ $order->id }}" class="payment-status-dropdown bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-pink-500 focus:border-pink-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-pink-500 dark:focus:border-pink-500">
                         <option value="pending" {{ $order->payment_status == 'pending' ? 'selected' : '' }}>Pending</option>
@@ -119,6 +126,16 @@
                         <option value="delivered" {{ $order->delivery_status == 'delivered' ? 'selected' : '' }}>Delivered</option>
                         <option value="cancelled" {{ $order->delivery_status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
                       </select>
+                </td>
+                <td>
+                    @if ($order->file_receipt)
+                        <a href="{{ asset('storage/' . $order->file_receipt) }}" class="text-blue-500 hover:underline" target="_blank" download>
+                            <i class="fa-solid fa-xl text-accent fa-file-arrow-down"></i>
+                        </a>
+                    @else
+                        <span class="text-gray-500">No Receipt</span>
+                    @endif
+                </td>
             </tr>
             @endforeach
         </tbody>
