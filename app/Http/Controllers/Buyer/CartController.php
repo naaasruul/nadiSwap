@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Log; // <-- added for debugging
+use Throwable;
 
 class CartController extends Controller
 {
@@ -67,12 +68,25 @@ class CartController extends Controller
 
     public function checkout(Request $request)
     {
-        $cart = Session::get('cart', []);
+        try{
+            $cart = Session::get('cart', []);
         Log::debug('Checkout initiated. Cart:', $cart);
 
         if (empty($cart)) {
             Log::debug('Cart is empty during checkout.');
             return redirect()->back()->with('error', 'Your cart is empty!');
+        }
+        // Validate the file receipt if payment method is not COD
+        $validatedData = $request->validate([
+            'file_receipt' => $request->input('payment_method') !== 'cod' ? 'required|mimes:jpg,jpeg,png,pdf|max:10240' : 'nullable',
+        ]);
+
+        $fileReceiptPath = null;
+
+        // Handle file upload
+        if ($request->hasFile('file_receipt')) {
+            $fileReceiptPath = $request->file('file_receipt')->store('receipts', 'public');
+            Log::debug('File receipt uploaded:', ['path' => $fileReceiptPath]);
         }
 
         // Update cart quantities from JSON input (hidden inputs)
@@ -134,8 +148,10 @@ class CartController extends Controller
                 'items' => $orderItemsJson,
                 'total' => $grandTotal,
                 'payment_method' => $request->input('payment_method', 'qr'),
-                'status' => 'Pending',
+                'payment_status' => $request->input('payment_method') === 'cod' ? 'pending' : 'paid', // Dynamically set status
+                'file_receipt' => $fileReceiptPath, // Save the file receipt path
             ]);
+            Log::debug("file send: {$sellerId} : {$fileReceiptPath}");
             Log::debug("Order created for seller_id: {$sellerId} with grand total: {$grandTotal}", $items);
         }
 
@@ -144,6 +160,11 @@ class CartController extends Controller
         Log::debug('Cart cleared after checkout.');
 
         return redirect()->route('buyer.dashboard')->with('success', 'Order placed successfully!');
+        }catch(Throwable $e){
+            Log::debug('Somehing went wrong:: '.$e);
+            return redirect()->back()->with('error', 'Error occured: '.$e);
+        }
+        
     }
 
     public function remove($id)
