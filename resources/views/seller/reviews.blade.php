@@ -18,7 +18,7 @@
     @endif
     <div class="container mx-auto p-5">
         <h2 class="text-2xl font-bold mb-4">Customer Reviews</h2>
-        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 border border-gray-200">
+        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400  border-gray-200">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     <th scope="col" class="px-6 py-3">Product</th>
