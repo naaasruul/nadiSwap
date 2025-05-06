@@ -48,9 +48,9 @@ class Register extends Component
                 'gender' => ['required', 'in:male,female,other'], // Validate gender
                 'name' => ['nullable', 'string', 'max:255'],
                 'email' => ['nullable', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-                'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
+                'password' => ['required', 'string', 'min:8','max:15','confirmed', Rules\Password::defaults()],
                 'role' => ['required', 'in:buyer,seller'],
-                'phone_number' => ['required', 'string', 'max:15'],
+                'phone_number' => ['required', 'string', 'max:15','unique:'.User::class],
                 'matrix_number' => ['nullable', 'string', 'max:255', 'required_if:role,seller'],
             ]);
 
