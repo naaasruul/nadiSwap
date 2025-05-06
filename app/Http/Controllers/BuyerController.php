@@ -663,6 +663,14 @@ class BuyerController extends Controller
         if (auth()->id() !== $order->buyer_id) {
             abort(403, 'Unauthorized access to invoice.');
         }
-        return view('invoice', compact('order'));
+
+        // Decode the JSON-encoded items
+        $decodedItems = json_decode($order->items, true); // Decode as an associative array
+
+        // Access the 'cart_items' key
+        $decodedOrder = $decodedItems['cart_items'] ?? [];
+        $shipping_total = $decodedItems['shipping_total'];
+
+        return view('invoice', compact('decodedOrder','order','shipping_total'));
     }
 }
