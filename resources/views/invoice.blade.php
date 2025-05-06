@@ -46,7 +46,7 @@
 							<li><span class="font-semibold">Buyer:</span> {{ $order->buyer->name ?? 'Guest' }}</li>
 							<li><span class="font-semibold">Seller:</span> {{ $order->seller->name ?? 'Seller' }}</li>
 							<li><span class="font-semibold">Payment:</span> {{ ($order->payment_method ==
-								'online_banking' ? 'Online Banking' : 'QR Payment') }}</li>
+								'online_banking' ? 'Online Banking' : 'Cash On Delivery') }}</li>
 							<li><span class="font-semibold">Shipping Fee:</span> RM{{ number_format($shipping_total, 2) }}</li>
 							<li><span class="font-semibold">Total:</span> RM{{ number_format($order->total, 2) }}</li>
 						</ul>
