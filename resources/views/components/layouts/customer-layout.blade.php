@@ -24,6 +24,7 @@
             </a>
           </div>
           <ul class="hidden lg:flex items-center justify-start gap-6 md:gap-8 py-3 sm:justify-center">
+            @hasrole('buyer')
             <li>
               <a href="{{ Route('buyer.dashboard') }}" title=""
                 class="flex text-sm font-medium px-2 py-2.5 text-gray-900 hover:text-primary-700 dark:text-white dark:hover:text-primary-500">
@@ -66,9 +67,9 @@
                 Contact
               </a>
             </li>
+            @endrole
           </ul>
         </div>
-
         <div class="flex items-center lg:space-x-2">
           @if(!Auth::check())
 
@@ -80,6 +81,7 @@
 
 
           @else
+          @hasrole('buyer')
           <button id="myCartDropdownButton1" data-dropdown-toggle="myCartDropdown1" type="button"
             class="hover:cursor-pointer inline-flex items-center rounded-lg justify-center p-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-sm font-medium leading-none text-gray-900 dark:text-white">
             <span class="sr-only">Cart</span>
@@ -95,11 +97,12 @@
                 d="m19 9-7 7-7-7" />
             </svg>
           </button>
+
           <div id="myCartDropdown1"
-            class="hidden z-10 absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg p-4 dark:bg-gray-800">
-            @include('partials.cart-items')
-            
-          </div>
+          class="hidden z-10 absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg p-4 dark:bg-gray-800">
+          @include('partials.cart-items')
+        </div>
+          @endrole()
 
           <button id="userDropdownButton1" data-dropdown-toggle="userDropdown1" type="button"
             class="hover:cursor-pointer inline-flex items-center rounded-lg justify-center p-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-sm font-medium leading-none text-gray-900 dark:text-white">
