@@ -47,6 +47,7 @@
 							<li><span class="font-semibold">Seller:</span> {{ $order->seller->name ?? 'Seller' }}</li>
 							<li><span class="font-semibold">Payment:</span> {{ ($order->payment_method ==
 								'online_banking' ? 'Online Banking' : 'QR Payment') }}</li>
+							<li><span class="font-semibold">Shipping Fee:</span> RM{{ number_format($shipping_total, 2) }}</li>
 							<li><span class="font-semibold">Total:</span> RM{{ number_format($order->total, 2) }}</li>
 						</ul>
 					</div>
@@ -64,7 +65,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							@foreach($order->items['cart_items'] as $item)
+							@foreach($decodedOrder as $item)
 							<tr class="border-b border-gray-200 dark:border-gray-700">
 								<td class="py-3 px-4">{{ $item['name'] ?? 'Item' }}</td>
 								<td class="py-3 px-4">{{ $item['quantity'] }}</td>
