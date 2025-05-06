@@ -171,7 +171,7 @@
                         </div>
 
                         <!-- Checkout Form including hidden quantity inputs and Payment Method Dropdown -->
-                        <form action="{{ route('cart.checkout') }}" method="POST" class="mt-6">
+                        <form action="{{ route('cart.checkout') }}" enctype="multipart/form-data" method="POST" class="mt-6">
                             @csrf
                             <!-- Delivery Address Section Outside of Order Summary Box -->
                             <div class="mx-auto max-w-screen-xl 2xl:px-0 mt-6">
@@ -217,9 +217,18 @@
                                 </label>
                                 <select id="payment_method" name="payment_method"
                                     class="mb-6 hover:cursor-pointer mt-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                    <option value="qr">QR Payment</option>
+                                    {{-- <option value="qr">QR Payment</option> --}}
+                                    <option value="cod">Cash On Delivery</option>
                                     <option value="online_banking">Online Banking</option>
                                 </select>
+                            </div>
+
+                            <div id='send_receipt' class="mt-4 mb-4 hidden">
+                                <label for="payment_method"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    Send Receipt
+                                </label>
+                                <input id='file_receipt' name='file_receipt' class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" type="file">
                             </div>
                             <button type="submit"
                                 class="{{ ($addresses->isEmpty() || $disableCheckout) ? 'hover:cursor-not-allowed text-white bg-pink-400 dark:bg-pink-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center' : 'hover:cursor-pointer text-white bg-pink-700 hover:bg-pink-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-pink-600 dark:hover:bg-pink-700 focus:outline-none dark:focus:ring-pink-800' }} w-full"
@@ -326,5 +335,23 @@
 
         recalcTotals();
     });
+    </script>
+
+    <script>
+        $(function(){
+            $("#payment_method").change(function (e) { 
+                e.preventDefault();
+                var selectedVal = $(this).val();
+                var send_receipt_status = false;
+                if(selectedVal !== 'cod'){
+                    $('#send_receipt').removeClass('hidden');
+                    $('#file_receipt').prop('required',true);
+                    
+                }else{
+                    $('#send_receipt').addClass('hidden');
+                    $('#file_receipt').prop('required',false);
+                }
+            });
+        })
     </script>
 </x-layouts.customer-layout>
