@@ -1,8 +1,18 @@
 <div class="flex flex-col gap-6">
     <x-auth-header :title="__('Create an account')" :description="__('Enter your details below to create your account')" />
 
-    <!-- Session Status -->
-    <x-auth-session-status class="text-center" :status="session('status')" />
+   <!-- Session Status -->
+@if (session('status'))
+<div class="font-medium text-sm text-green-600">
+    {{ session('status') }}
+</div>
+@endif
+
+@if (session('error'))
+<div class="font-medium text-sm text-red-600">
+    {{ session('error') }}
+</div>
+@endif
 
     <form wire:submit.prevent="register" class="flex flex-col gap-6">
         <!-- First Name -->
