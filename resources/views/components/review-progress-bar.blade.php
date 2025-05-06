@@ -7,7 +7,7 @@
             {{ $averageRating }} out of 5
         </p>
         <button type="button" data-modal-target="review-modal" data-modal-toggle="review-modal"
-            class="mb-2 me-2 rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-accent-content dark:text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+            class="mb-2 me-2 rounded-lg bg-accent px-5 py-2.5 text-sm font-medium text-white dark:text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
             Write a review
         </button>
     </div>
