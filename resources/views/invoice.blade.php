@@ -26,8 +26,8 @@
 							<li><span class="font-semibold">Payment Status:</span>
 								<span
 									class="px-2.5 py-0.5 text-xs font-medium mx-1 mt-1.5 inline-flex shrink-0 items-center rounded capitalize 
-					{{ $order->payment_status == 'completed' ? 'bg-green-100 text-green-800' : ($order->payment_status == 'pending' ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800') }}">
-									{{ $order->delivery_status }}
+					{{ $order->payment_status == 'paid' ? 'bg-green-100 text-green-800' : ($order->payment_status == 'pending' ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800') }}">
+									{{ $order->payment_status }}
 								</span>
 							</li>
 							<li><span class="font-semibold">Delivery Status:</span>
