@@ -127,7 +127,7 @@
 
                 @php
                 $productsTotal = array_sum(array_map(fn($item) => $item['price'] * $item['quantity'], $cartItems));
-                $shippingTotal = array_sum(array_map(fn($item) => $item['selected_shipping_fee'] * $item['quantity'],
+                $shippingTotal = array_sum(array_map(fn($item) => $item['selected_shipping_fee'],
                 $cartItems));
                 $grandTotal = $productsTotal + $shippingTotal;
                 @endphp
@@ -252,12 +252,15 @@
         function recalcTotals() {
             let productSubtotal = 0;
             let shippingTotal = 0;
+            const sellerShippingFees = {}; // Track shipping fees per seller
+
             // Update each item's total including shipping fee
             document.querySelectorAll('.quantity-input').forEach(function(input) {
                 const price = parseFloat(input.dataset.price) || 0;
                 const qty = parseInt(input.value) || 0;
                 const id = input.id.split('-')[1];
                 let fee = 0;
+                const sellerId = input.dataset.seller; // Add a data attribute for seller ID
                 let shippingSelect = document.querySelector(`select[name="shipping[${id}]"]`);
                 if (shippingSelect) {
                     fee = parseFloat(shippingSelect.options[shippingSelect.selectedIndex].getAttribute('data-fee')) || 0;
@@ -277,7 +280,7 @@
                     }
                 }
                 productSubtotal += price * qty;
-                shippingTotal += fee * qty;
+                shippingTotal += fee;
             });
             document.getElementById('productTotalDisplay').innerText = 'RM' + productSubtotal.toFixed(2);
             document.getElementById('shippingTotal').innerText = 'RM' + shippingTotal.toFixed(2);
