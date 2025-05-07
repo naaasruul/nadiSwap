@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Buyer;
 
 use App\Http\Controllers\Controller;
+use App\Models\BankAccount;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Shipping; // <-- added for shipping lookup
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -27,6 +29,8 @@ class CartController extends Controller
             $item['shippings'] = $shippings;
             $item['selected_shipping_fee'] = $shippings->isNotEmpty() ? $shippings->first()->shipping_fee : 0;
             $cartItems[$id] = $item;
+
+            $seller = BankAccount::where('seller_id',$item['seller_id'])->first();
         }
 
         // Retrieve the authenticated user's delivery addresses (fixing empty result)
@@ -35,7 +39,7 @@ class CartController extends Controller
         Log::debug('Cart items:', ['data' => $cartItems]); // <-- debugging log
         Log::debug('User addresses:', ['data' => $addresses->toArray()]); // <-- debugging log
 
-        return view('cart.index', compact('cartItems', 'addresses', 'productStock'));
+        return view('cart.index', compact('cartItems', 'addresses', 'productStock','seller'));
     }
 
     public function add(Request $request)
