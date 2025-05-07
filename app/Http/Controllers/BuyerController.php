@@ -58,6 +58,7 @@ class BuyerController extends Controller
         elseif ($categoryFilter) {
             $products = Product::with('category')
                 ->where('category_id', $categoryFilter)
+                ->where('stock', '>', 0) // Only show products with stock >0
                 ->latest()
                 ->paginate(12);
         }
@@ -65,6 +66,7 @@ class BuyerController extends Controller
         else {
             if ($user) {
                 $products = Product::with('category')
+                    ->where('stock', '>', 0) // Only show products with stock >0
                     ->leftJoin('user_category_preferences', function ($join) use ($user) {
                         $join->on('products.category_id', '=', 'user_category_preferences.category_id')
                              ->where('user_category_preferences.user_id', $user->id);
@@ -75,6 +77,7 @@ class BuyerController extends Controller
                     ->paginate(12);
             } else {
                 $products = Product::with('category')
+                    ->where('stock', '>', 0) // Only show products with stock >0
                     ->latest()
                     ->paginate(12);
             }
@@ -192,6 +195,7 @@ class BuyerController extends Controller
         // Get products from top categories
         $products = Product::with('category')
             ->whereIn('category_id', $categoryIds)
+            ->where('stock', '>', 0) // Only show products with stock >0
             ->latest()
             ->take(50)  // Get a good sample to work with
             ->get();
@@ -249,6 +253,7 @@ class BuyerController extends Controller
 
         // Get products from these categories
         $products = Product::whereIn('category_id', array_keys($recommendedCategories))
+            ->where('stock', '>', 0) // Only show products with stock >0
             ->latest()
             ->take(20)
             ->get();
@@ -384,6 +389,7 @@ class BuyerController extends Controller
         // Get direct matches first - only search by name
         $directMatches = Product::with('category')
             ->where('name', 'like', '%' . $search . '%')
+            ->where('stock', '>', 0) // Only show products with stock >0
             ->latest()
             ->get();
 
@@ -544,6 +550,7 @@ class BuyerController extends Controller
         // 2. If user logged in, consider their preferences too
         $query = Product::where('id', '!=', $product->id)
             ->where('category_id', $product->category_id)
+            ->where('stock', '>', 0) // Only show products with stock >0
             ->latest();
 
         // If user is logged in and has preferences, boost products from their other preferred categories
@@ -558,6 +565,7 @@ class BuyerController extends Controller
                 // Use union to combine with products from preferred categories
                 $preferredQuery = Product::where('id', '!=', $product->id)
                     ->whereIn('category_id', $preferredCategories)
+                    ->where('stock', '>', 0) // Only show products with stock >0
                     ->latest()
                     ->take(3);
 
