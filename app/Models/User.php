@@ -85,4 +85,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(UserCategoryPreference::class);
     }
+
+    public function bankAccount()
+    {
+        return $this->hasOne(BankAccount::class);
+    }
 }
