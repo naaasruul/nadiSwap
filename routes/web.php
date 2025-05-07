@@ -12,6 +12,7 @@ use App\Http\Controllers\Buyer\ReviewController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DeliveryAddressController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Seller\BankAccountController;
 use App\Http\Controllers\Seller\CategoryController;
 use App\Http\Controllers\Seller\OrderController;
 use App\Http\Controllers\Seller\ReportController;
@@ -69,6 +70,8 @@ Route::middleware(['auth', 'role:seller'])->prefix('seller')->name('seller.')->g
     Route::resource('orders', OrderController::class)->except(['show']);
     Route::resource('reviews', ReviewController::class)->except(['show']);
     Route::resource('reports', ReportController::class)->except(['show']);
+    Route::resource('bank-account', BankAccountController::class)->except(['show']);
+    
     Route::post('reviews/{review}', [ReviewController::class, 'respond'])->name('reviews.respond');
     Route::post('orders/{order}/update-payment-status', [OrderController::class, 'updatePaymentStatus']);
     Route::post('orders/{order}/update-delivery-status', [OrderController::class, 'updateDeliveryStatus']);
