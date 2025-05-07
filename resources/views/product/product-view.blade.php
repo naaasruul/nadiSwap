@@ -70,11 +70,12 @@
                             @csrf
                             @role('buyer')
                             <input type="hidden" name="product_id" value="{{ $product->id }}">
-                            <input type="number" name="quantity" value="1" min="1"
+                            <!-- Added max attribute to restrict quantity -->
+                            <input type="number" name="quantity" value="1" min="1" max="{{ $product->stock }}"
                                 class="bg-gray-50 border border-pink-500 text-gray-900 text-sm rounded-lg focus:ring-pink-600 focus:border-pink-600 block w-15 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-pink-500 dark:focus:border-pink-500">
 
                             <button type="submit" 
-                                class="ml-4  text-accent-content dark:text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 flex items-center justify-center">
+                                class="ml-4 text-accent-content dark:text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 flex items-center justify-center">
                                 <svg class="w-5 h-5 -ms-2 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                     fill="none" viewBox="0 0 24 24">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -84,11 +85,12 @@
                             </button>
                             @elserole('seller')
                             <input type="hidden" name="product_id" value="{{ $product->id }} " disabled>
-                            <input type="number" name="quantity" value="1" min="1" disabled
+                            <!-- Optionally, you can add max attribute even for disabled input -->
+                            <input type="number" name="quantity" value="1" min="1" max="{{ $product->stock }}" disabled
                                 class="bg-gray-50 border cursor-not-allowed border-pink-500 text-gray-900 text-sm rounded-lg focus:ring-pink-600 focus:border-pink-600 block w-15 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-pink-500 dark:focus:border-pink-500">
 
                             <button type="button" disabled
-                                class="ml-4  text-accent-content cursor-not-allowed dark:text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 flex items-center justify-center">
+                                class="ml-4 text-accent-content cursor-not-allowed dark:text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 flex items-center justify-center">
                                 <svg class="w-5 h-5 -ms-2 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                     fill="none" viewBox="0 0 24 24">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -198,7 +200,7 @@
             var max = parseInt($(this).attr('max'));
             var val = parseInt($(this).val());
             if(val >= max){
-                $('#quantityMessage').removeClass('hidden').text("You have reached the maximum available stock (" + max + ").");
+                $('#quantityMessage').removeClass('hidden').text("You have reached the maximum available stock.");
             } else {
                 $('#quantityMessage').addClass('hidden').text("");
             }
