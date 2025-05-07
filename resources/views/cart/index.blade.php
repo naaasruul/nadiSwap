@@ -49,30 +49,32 @@
 
                                 <!-- Quantity Controls -->
                                 <div class="flex items-center justify-between md:order-3 md:justify-end">
-                                    <div class="flex items-center">
-                                        <!-- Minus Button -->
-                                        <button type="button"
-                                            class="btn-minus hover:cursor-pointer inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700">
-                                            <svg class="h-2.5 w-2.5 text-gray-900 dark:text-white" aria-hidden="true"
-                                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
-                                                <path stroke="currentColor" stroke-linecap="round"
-                                                    stroke-linejoin="round" stroke-width="2" d="M1 1h16" />
-                                            </svg>
-                                        </button>
-                                        <!-- Quantity Input with data-price and unique id -->
-                                        <input id="quantity-{{ $id }}" data-price="{{ $item['price'] }}" type="text"
-                                            value="{{ $item['quantity'] }}"
-                                            class="quantity-input w-10 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0 dark:text-white"
-                                            readonly />
-                                        <!-- Plus Button -->
-                                        <button type="button"
-                                            class="btn-plus hover:cursor-pointer inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700">
-                                            <svg class="h-2.5 w-2.5 text-gray-900 dark:text-white" aria-hidden="true"
-                                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                                                <path stroke="currentColor" stroke-linecap="round"
-                                                    stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
-                                            </svg>
-                                        </button>
+                                    <div class="flex flex-col items-center">
+                                        <div class="flex items-center">
+                                            <!-- Minus Button -->
+                                            <button type="button"
+                                                class="btn-minus hover:cursor-pointer inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700">
+                                                <svg class="h-2.5 w-2.5 text-gray-900 dark:text-white" aria-hidden="true"
+                                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
+                                                    <path stroke="currentColor" stroke-linecap="round"
+                                                        stroke-linejoin="round" stroke-width="2" d="M1 1h16" />
+                                                </svg>
+                                            </button>
+                                            <!-- Quantity Input: added data-stock -->
+                                            <input id="quantity-{{ $id }}" data-price="{{ $item['price'] }}" data-stock="{{ $productStock }}" type="text"
+                                                value="{{ $item['quantity'] }}"
+                                                class="quantity-input w-10 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0 dark:text-white"
+                                                readonly />
+                                            <!-- Plus Button -->
+                                            <button type="button"
+                                                class="btn-plus hover:cursor-pointer inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700">
+                                                <svg class="h-2.5 w-2.5 text-gray-900 dark:text-white" aria-hidden="true"
+                                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                                                    <path stroke="currentColor" stroke-linecap="round"
+                                                        stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
+                                                </svg>
+                                            </button>
+                                        </div>
                                     </div>
                                     <div class="text-end md:order-4 md:w-32">
                                         <!-- New price (including shipping) -->
@@ -89,6 +91,8 @@
                                     <a href="#"
                                         class="text-base font-medium text-gray-900 hover:underline dark:text-white">{{
                                         $item['name'] }}</a>
+                                        <!-- New message element -->
+                                    <p id="limit-msg-{{ $id }}" class="text-red-600 text-xs mt-1 hidden">Maximum available stock reached.</p>
 
                                     {{-- Shipping dropdown updated with data attributes --}}
                                     @if($item['shippings']->isNotEmpty())
@@ -281,39 +285,59 @@
         }
 
         function updateQuantity(button, increment) {
-            // Locate the quantity input within the same control container
             const container = button.closest('.flex.items-center');
             const quantityInput = container.querySelector('.quantity-input');
             const id = quantityInput.id.split('-')[1];
+            const stock = parseInt(quantityInput.getAttribute('data-stock')) || Infinity;
             const price = parseFloat(quantityInput.dataset.price);
             let quantity = parseInt(quantityInput.value);
-            quantity = Math.max(1, quantity + increment);
+            const messageElem = document.getElementById(`limit-msg-${id}`);
+
+            if (increment > 0) {
+                if (quantity < stock) {
+                    quantity = quantity + 1;
+                }
+                // Ensure we do not exceed stock
+                if (quantity >= stock) {
+                    quantity = stock;
+                    messageElem.classList.remove('hidden');
+                    messageElem.innerText = "Maximum available stock reached.";
+                } else {
+                    messageElem.classList.add('hidden');
+                    messageElem.innerText = "";
+                }
+            } else if (increment < 0) {
+                quantity = Math.max(1, quantity + increment);
+                // Hide limit message if quantity falls below stock
+                if (quantity < stock) {
+                    messageElem.classList.add('hidden');
+                    messageElem.innerText = "";
+                }
+            }
             quantityInput.value = quantity;
             
-            // Update the data-quantity attribute on the shipping select if exists
+            // Update shipping select if exists
             const shippingSelect = document.querySelector(`select[name="shipping[${id}]"]`);
             if(shippingSelect) {
                 shippingSelect.setAttribute('data-quantity', quantity);
             }
             
-            // Update the product total display for this item
+            // Update price displays
             const priceDisplay = button.closest('.flex.items-center').parentElement.querySelector('.text-end .text-base.font-bold');
             const priceChangeDisplay = document.getElementById(`price-change-${id}`);
             if(priceDisplay) {
                 priceDisplay.innerText = 'RM' + (price * quantity).toFixed(2);
             }
-            if(priceChangeDisplay) {
+            if(priceChangeDisplay && shippingSelect) {
                 const fee = parseFloat(shippingSelect.options[shippingSelect.selectedIndex].getAttribute('data-fee')) || 0;
                 priceChangeDisplay.innerText = 'RM' + ((price + fee) * quantity).toFixed(2);
             }
             
-            // Update the hidden input for this cart item so that updated quantity is sent with checkout
+            // Update hidden input for checkout
             const hiddenInput = document.getElementById(`hidden-cart-quantity-${id}`);
             if(hiddenInput) {
                 hiddenInput.value = quantity;
-                console.log("Hidden input for product", id, "updated to", quantity);
             }
-            
             recalcTotals();
         }
 
