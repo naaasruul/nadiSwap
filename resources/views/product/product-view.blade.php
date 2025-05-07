@@ -11,8 +11,16 @@
                 <div class="shrink-0 max-w-md lg:max-w-lg mx-auto">
                     <div class="relative aspect-square">
                         <!-- Left and Right Arrow Buttons -->
-                        <button id="prevBtn" class="absolute top-1/2 left-2 transform -translate-y-1/2 z-10 bg-black/50 text-white p-2 rounded-full">&lt;</button>
-                        <button id="nextBtn" class="absolute top-1/2 right-2 transform -translate-y-1/2 z-10 bg-black/50 text-white p-2 rounded-full">&gt;</button>
+                        <button id="prevBtn" class="cursor-pointer absolute top-1/2 left-2 transform -translate-y-1/2 z-10 bg-white/30 backdrop-blur-md text-white p-3 rounded-full shadow-md hover:bg-white/40 focus:outline-none">
+                          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                          </svg>
+                        </button>
+                        <button id="nextBtn" class="cursor-pointer absolute top-1/2 right-2 transform -translate-y-1/2 z-10 bg-white/30 backdrop-blur-md text-white p-3 rounded-full shadow-md hover:bg-white/40 focus:outline-none">
+                          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                          </svg>
+                        </button>
 
                         <!-- Focused Main Image (for light and dark modes) -->
                         <img id="mainImage" class="absolute inset-0 w-full h-full object-contain object-center dark:hidden" src="{{ asset(json_decode($product->images)[0]) }}" alt="{{ $product->name }}">
