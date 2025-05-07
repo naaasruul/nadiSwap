@@ -31,26 +31,34 @@ class CartController extends Controller
 
         // Retrieve the authenticated user's delivery addresses (fixing empty result)
         $addresses = Auth::user()->deliveryAddresses ?? collect([]);
+        $productStock = Product::find($id)->stock; 
         Log::debug('Cart items:', ['data' => $cartItems]); // <-- debugging log
         Log::debug('User addresses:', ['data' => $addresses->toArray()]); // <-- debugging log
 
-        return view('cart.index', compact('cartItems', 'addresses'));
+        return view('cart.index', compact('cartItems', 'addresses', 'productStock'));
     }
 
     public function add(Request $request)
     {
         $product = Product::findOrFail($request->product_id);
-        $productThumbnail = json_decode($product->images)[0];
+        // Check if requested quantity exceeds available stock
+        $requestedQty = $request->quantity;
         $cart = Session::get('cart', []);
+        $currentQty = isset($cart[$product->id]) ? $cart[$product->id]['quantity'] : 0;
+        if (($currentQty + $requestedQty) > $product->stock) {
+            return redirect()->back()->with('error', "Cannot add more than available stock ({$product->stock}).");
+        }
+
+        $productThumbnail = json_decode($product->images)[0];
 
         if (isset($cart[$product->id])) {
-            $cart[$product->id]['quantity'] += $request->quantity;
+            $cart[$product->id]['quantity'] += $requestedQty;
         } else {
             $cart[$product->id] = [
                 'name' => $product->name,
                 'price' => $product->price,
                 'category' => $product->category,
-                'quantity' => $request->quantity,
+                'quantity' => $requestedQty,
                 'image'    => $productThumbnail,
                 'seller_id' => $product->seller_id, // <-- added seller_id
             ];
