@@ -99,6 +99,8 @@
                             @endrole
                         </form>
                     </div>
+                    <!-- Quantity Limit Warning -->
+                    <p id="quantityMessage" class="text-red-500 text-sm mt-2 hidden"></p>
 
                     <hr class="my-6 md:my-8 border-gray-200 dark:border-gray-800" />
 
@@ -190,6 +192,16 @@
             $('#thumbnailGrid img.thumb').removeClass('active');
             $('#thumbnailGrid img.thumb').eq(currentIndex).addClass('active');
             scrollThumbnailIntoView(currentIndex);
+        });
+        
+        $('input[name="quantity"]').on('input', function(){
+            var max = parseInt($(this).attr('max'));
+            var val = parseInt($(this).val());
+            if(val >= max){
+                $('#quantityMessage').removeClass('hidden').text("You have reached the maximum available stock (" + max + ").");
+            } else {
+                $('#quantityMessage').addClass('hidden').text("");
+            }
         });
     });
     </script>
