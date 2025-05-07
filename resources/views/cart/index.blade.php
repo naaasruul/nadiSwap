@@ -43,7 +43,7 @@
                             <div class="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
                                 <!-- Product Image -->
                                 <a href="#" class="shrink-0 md:order-1">
-                                    <img class="h-32 w-32 object-cover rounded-lg" src="{{ asset($item['image']) }}"
+                                    <img class="h-32 w-32 object-cover rounded-lg" src="{{ asset('storage/'.$item['image']) }}"
                                         alt="{{ $item['name'] }}" />
                                 </a>
 
@@ -227,12 +227,19 @@
                                 </select>
                             </div>
 
+                            {{-- display acc number seller --}}
+                            <div id='bank_acc_details' class="mt-4 mb-2 hidden">
+                                <p class='text-xl font-extrabold uppercase'>{{ $seller->bank_acc_name }}</p>
+                                <p class='text-lg font-bold uppercase'>{{ $seller->bank_acc_number }}</p>
+                                <p class='text-lg font-bold uppercase'>{{ $seller->bank_type }}</p>
+                            </div>
+
                             <div id='send_receipt' class="mt-4 mb-4 hidden">
                                 <label for="payment_method"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     Send Receipt
                                 </label>
-                                <input id='file_receipt' name='file_receipt' class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" type="file">
+                                <input id='file_receipt' name='file_receipt' class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-pink-50 dark:text-gray-400 focus:outline-none dark:bg-pink-700 dark:border-gray-600 dark:placeholder-pink-400" type="file">
                             </div>
                             <button type="submit"
                                 class="{{ ($addresses->isEmpty() || $disableCheckout) ? 'hover:cursor-not-allowed text-white bg-pink-400 dark:bg-pink-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center' : 'hover:cursor-pointer text-white bg-pink-700 hover:bg-pink-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-pink-600 dark:hover:bg-pink-700 focus:outline-none dark:focus:ring-pink-800' }} w-full"
@@ -372,10 +379,12 @@
                 var send_receipt_status = false;
                 if(selectedVal !== 'cod'){
                     $('#send_receipt').removeClass('hidden');
+                    $('#bank_acc_details').removeClass('hidden');
                     $('#file_receipt').prop('required',true);
                     
                 }else{
                     $('#send_receipt').addClass('hidden');
+                    $('#bank_acc_details').addClass('hidden');
                     $('#file_receipt').prop('required',false);
                 }
             });
