@@ -23,13 +23,13 @@
                         </button>
 
                         <!-- Focused Main Image (for light and dark modes) -->
-                        <img id="mainImage" class="w-full h-full object-contain object-center dark:hidden" src="{{ asset(json_decode($product->images)[0]) }}" alt="{{ $product->name }}">
-                        <img id="mainImageDark" class="w-full h-full object-contain object-center hidden dark:block" src="{{ asset(json_decode($product->images)[0]) }}" alt="{{ $product->name }}">
+                        <img id="mainImage" class="w-full h-full object-contain object-center dark:hidden" src="{{ asset('storage/'.json_decode($product->images)[0]) }}" alt="{{ $product->name }}">
+                        <img id="mainImageDark" class="w-full h-full object-contain object-center hidden dark:block" src="{{ asset('storage/'.json_decode($product->images)[0]) }}" alt="{{ $product->name }}">
                     </div>
                     <!-- Thumbnail Grid -->
                     <div id="thumbnailGrid" class="mt-4 flex space-x-2 overflow-x-auto whitespace-nowrap">
                         @foreach(json_decode($product->images) as $img)
-                            <img class="thumb inline-block cursor-pointer w-20 h-20 object-contain border border-transparent hover:border-pink-500" src="{{ asset($img) }}" alt="Thumbnail">
+                            <img class="thumb inline-block cursor-pointer w-20 h-20 object-contain border border-transparent hover:border-pink-500" src="{{ asset('storage/'.$img) }}" alt="Thumbnail">
                         @endforeach
                     </div>
                 </div>
