@@ -23,8 +23,8 @@
                         </button>
 
                         <!-- Focused Main Image (for light and dark modes) -->
-                        <img id="mainImage" class="absolute inset-0 w-full h-full object-contain object-center dark:hidden" src="{{ asset(json_decode($product->images)[0]) }}" alt="{{ $product->name }}">
-                        <img id="mainImageDark" class="absolute inset-0 w-full h-full object-contain object-center hidden dark:block" src="{{ asset(json_decode($product->images)[0]) }}" alt="{{ $product->name }}">
+                        <img id="mainImage" class="w-full h-full object-contain object-center dark:hidden" src="{{ asset(json_decode($product->images)[0]) }}" alt="{{ $product->name }}">
+                        <img id="mainImageDark" class="w-full h-full object-contain object-center hidden dark:block" src="{{ asset(json_decode($product->images)[0]) }}" alt="{{ $product->name }}">
                     </div>
                     <!-- Thumbnail Grid -->
                     <div id="thumbnailGrid" class="mt-4 flex space-x-2 overflow-x-auto whitespace-nowrap">
