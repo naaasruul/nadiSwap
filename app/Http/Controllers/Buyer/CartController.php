@@ -132,7 +132,7 @@ class CartController extends Controller
                         $item['shipping_id'] = $shippingSelected[$id];
                         $shippingOption = Shipping::find($shippingSelected[$id]);
                         if ($shippingOption) {
-                            $shippingTotal += $shippingOption->shipping_fee * $item['quantity'];
+                            $shippingTotal += $shippingOption->shipping_fee;
                         }
                     } else {
                         $item['shipping_id'] = null;
