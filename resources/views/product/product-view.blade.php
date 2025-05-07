@@ -73,7 +73,7 @@
                             <input type="number" name="quantity" value="1" min="1"
                                 class="bg-gray-50 border border-pink-500 text-gray-900 text-sm rounded-lg focus:ring-pink-600 focus:border-pink-600 block w-15 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-pink-500 dark:focus:border-pink-500">
 
-                            <button type="button" 
+                            <button type="submit" 
                                 class="ml-4  text-accent-content dark:text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 flex items-center justify-center">
                                 <svg class="w-5 h-5 -ms-2 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                     fill="none" viewBox="0 0 24 24">
