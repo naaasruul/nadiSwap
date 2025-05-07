@@ -140,7 +140,7 @@
             </form>
 
             <!-- Delivery Addresses -->
-            <div class="mt-8">
+            <div class="mt-8" id="delivery-addresses">
                 <h3 class="text-lg font-semibold mb-4">Delivery Addresses</h3>
                 <div class="flex space-x-2">
                     <button type="button" id="dropdownHelperRadioButton" data-dropdown-toggle="dropdownHelperRadio"
