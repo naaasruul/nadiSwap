@@ -197,6 +197,6 @@ class CartController extends Controller
             Session::put('cart', $cart);
             Log::debug("Item {$id} removed from cart.", $cart); // <-- debugging log
         }
-        return redirect()->back()->with('success', 'Item removed from cart.');
+        return redirect()->route('buyer.dashboard')->with('success', 'Item removed from cart.');
     }
 }
