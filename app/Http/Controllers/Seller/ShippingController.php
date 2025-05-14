@@ -13,7 +13,8 @@ class ShippingController extends Controller
      */
     public function index()
     {
-        $shippings = Shipping::all();
+        $shippings = Shipping::where('seller_id', auth()->user()->id)->get();
+        
         return view('seller.shipping', compact('shippings'));
     }
 
