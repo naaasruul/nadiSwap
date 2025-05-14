@@ -50,7 +50,7 @@ class Login extends Component
         if ($user->hasRole('admin')) {
             $this->redirectIntended(default: route('admin.dashboard'), navigate: true);
         } elseif ($user->hasRole('seller')) {
-            $this->redirectIntended(default: route('seller.dashboard'), navigate: true);
+            $this->redirectIntended(default: route('seller.bank-account.index'), navigate: true);
         } elseif ($user->hasRole('buyer')) {
             $this->redirectIntended(default: route('buyer.dashboard'), navigate: true);
         } else {

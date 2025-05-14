@@ -16,7 +16,7 @@ class ProfileController extends Controller
             'username' => 'required|string|max:255|unique:users,username,' . Auth::id(),
             'email' => 'required|email|max:255|unique:users,email,' . Auth::id(),
             'phone_number' => 'nullable|string|max:15',
-            'password' => 'nullable|string|min:8|confirmed',
+            // 'password' => 'nullable|string|min:8|confirmed',
             'avatar' => 'nullable|image|max:5120', // 5MB max
         ]);
 

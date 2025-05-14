@@ -20,7 +20,7 @@
 
     <dl class="w-1/2 sm:w-1/5 md:flex-1 lg:w-auto">
         <dt class="text-base font-medium text-gray-500 dark:text-gray-400">Payment Method:</dt>
-        <dd class="mt-1.5 text-base font-semibold text-gray-900 dark:text-white">{{ ($payment_method == 'online_banking' ? 'Online Banking' : 'QR Payment') }}</dd>
+        <dd class="mt-1.5 text-base font-semibold text-gray-900 dark:text-white">{{ ($payment_method == 'online_banking' ? 'Online Banking' : 'Cash On Delivery') }}</dd>
     </dl>
 
     <dl class="w-1/2 sm:w-1/4 sm:flex-1 lg:w-auto">
