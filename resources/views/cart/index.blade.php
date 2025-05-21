@@ -229,23 +229,29 @@
 
                             {{-- display acc number seller --}}
                             <div id='bank_acc_details' class="mt-4 mb-2 hidden">
-                                <p class='text-xl font-extrabold uppercase'>{{ $seller->bank_acc_name }}</p>
-                                <p class='text-lg font-bold uppercase'>{{ $seller->bank_acc_number }}</p>
-                                <p class='text-lg font-bold uppercase'>{{ $seller->bank_type }}</p>
+                              @if($seller && $seller->bank_acc_name != null)
+                            <p class='text-xl font-extrabold uppercase'>{{ $seller->bank_acc_name ?? 'Unknown' }}</p>
+                            <p class='text-lg font-bold uppercase'>{{ $seller->bank_acc_number ?? 'Unknown' }}</p>
+                            <p class='text-lg font-bold uppercase'>{{ $seller->bank_type ?? 'Unknown' }}</p>
+                           <div id='send_receipt' class="mt-4 mb-4 hidden">
+                                    <label for="payment_method" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                        Send Receipt
+                                    </label>
+                                    <input id='file_receipt' name='file_receipt'
+                                        class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-pink-50 dark:text-gray-400 focus:outline-none dark:bg-pink-700 dark:border-gray-600 dark:placeholder-pink-400"
+                                        type="file">
                             </div>
-
-                            <div id='send_receipt' class="mt-4 mb-4 hidden">
-                                <label for="payment_method"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                    Send Receipt
-                                </label>
-                                <input id='file_receipt' name='file_receipt' class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-pink-50 dark:text-gray-400 focus:outline-none dark:bg-pink-700 dark:border-gray-600 dark:placeholder-pink-400" type="file">
+                         
+                            @else
+                            <p class='text-xl font-extrabold uppercase text-red-600'>Online Banking Is Not Avalaible</p>
+                            @endif
                             </div>
-                            <button type="submit"
+                               <button type="submit"
                                 class="{{ ($addresses->isEmpty() || $disableCheckout) ? 'hover:cursor-not-allowed text-white bg-pink-400 dark:bg-pink-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center' : 'hover:cursor-pointer text-white bg-pink-700 hover:bg-pink-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-pink-600 dark:hover:bg-pink-700 focus:outline-none dark:focus:ring-pink-800' }} w-full"
                                 @if($addresses->isEmpty() || $disableCheckout) disabled @endif>
                                 Proceed to Checkout
                             </button>
+                      
                         </form>
                     </div>
                 </div>

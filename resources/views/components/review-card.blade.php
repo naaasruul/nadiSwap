@@ -1,4 +1,6 @@
-@props(['rating', 'username', 'createdAt', 'content','title'])
+@props(['rating', 'username', 'createdAt', 'content','title','userId','reviewId'])
+
+{{-- Review Card Component --}}
 
 <div class="gap-3 pb-6 sm:flex sm:items-start my-6">
     <div class="shrink-0 space-y-2 sm:w-48 md:w-72">
@@ -13,11 +15,18 @@
         <div class="space-y-0.5">
             <p class="text-base font-semibold text-gray-900 dark:text-white">{{ $username }}</p>
             <p class="text-sm font-normal text-gray-500 dark:text-gray-400">{{ $createdAt }}</p>
+            @if (auth()->check() && auth()->id() === $userId)
+                <form action="{{ route('reviews.destroy', $reviewId) }}" method="POST" class="inline">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="text-red-500 hover:underline text-sm">Remove</button>
+                </form>
+                @endif
         </div>
     </div>
 
     <div class="mt-4 min-w-0 flex-1 space-y-4 sm:mt-0">
-        <p class="text-base font-normal text-gray-900 dark:text-white dark:text-gray-400">{{ $title }}</p>
+        <p class="text-base font-normal text-gray-900 dark:text-gray-400">{{ $title }}</p>
         <p class="text-base font-normal text-gray-500 dark:text-gray-400">{{ $content }}</p>
     </div>
 </div>

@@ -93,7 +93,7 @@
                                 class="ml-4 text-accent-content cursor-not-allowed dark:text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 flex items-center justify-center">
                                 <svg class="w-5 h-5 -ms-2 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                     fill="none" viewBox="0 0 24 24">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6" />
                                 </svg>
                                 Add to cart
@@ -105,8 +105,15 @@
                     <p id="quantityMessage" class="text-red-500 text-sm mt-2 hidden"></p>
 
                     <hr class="my-6 md:my-8 border-gray-200 dark:border-gray-800" />
-
-                    <p class="mb-6 text-gray-500 dark:text-gray-400">
+                    <p class='text-gray-500 dark:text-gray-400 italic whitespace-nowrap flex'>
+                        <svg class="w-6 h-6 text-gray-500 dark:text-gray-400 italic " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
+                            height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-width="2"
+                                d="M7 17v1a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1a3 3 0 0 0-3-3h-4a3 3 0 0 0-3 3Zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                        </svg>
+                        {{ $product->seller->name }}
+                    </p>
+                    <p class="my-6 text-gray-500 dark:text-gray-400">
                         {{ $product->description }}
                     </p>
                 </div>
@@ -118,7 +125,7 @@
     <x-section  class="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
         <div id='review-section' class="mx-auto max-w-screen-xl px-4 2xl:px-0">
             <h2 class="text-2xl font-semibold text-gray-900 dark:text-white">Reviews</h2>
-            <x-review-progress-bar :product-id="$product->id" />
+            <x-review-progress-bar :product-id="$product->id" :canReview="$canReview"/>
 
 
             <div class="mt-6 divide-y divide-gray-200 dark:divide-gray-700">
@@ -132,6 +139,8 @@
                             :createdAt="$review->created_at->format('F j, Y \a\t H:i')" 
                             :content="$review->content" 
                             :title="$review->title" 
+                            :userId="$review->user_id"
+                            :reviewId="$review->id"
                             />
                     @endforeach
                 @endif

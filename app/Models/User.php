@@ -88,6 +88,6 @@ class User extends Authenticatable
 
     public function bankAccount()
     {
-        return $this->hasOne(BankAccount::class);
+        return $this->hasOne(BankAccount::class ,'seller_id', 'id');
     }
 }

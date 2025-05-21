@@ -275,7 +275,7 @@
       </span>
     </button>
   </div> --}}
-
+  @stack('modal')
   {{ $slot }}
   <script>
     $(document).ready(function(){

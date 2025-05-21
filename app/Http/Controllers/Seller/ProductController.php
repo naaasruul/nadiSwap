@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Seller;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Throwable;
 
@@ -129,10 +131,29 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
+        $user = Auth::user();
+        $canReview = false;
+
+        if ($user && $user->hasRole('buyer')) {
+            // Get all orders for this user
+            $orders = \App\Models\Order::where('buyer_id', $user->id)->get();
+
+            foreach ($orders as $order) {
+                $items = json_decode($order->items, true);
+                if (isset($items['cart_items']) && is_array($items['cart_items'])) {
+                    // The keys of cart_items are the product IDs
+                    if (array_key_exists($product->id, $items['cart_items'])) {
+                        $canReview = true;
+                        break;
+                    }
+                }
+            }
+        }
+
         // Calculate the average rating for the product
         $averageRating = $product->reviews()->avg('rating') ?? 0;
 
-        return view('product.product-view', compact('product','averageRating'));
+        return view('product.product-view', compact('product', 'averageRating', 'canReview'));
     }
 
     public function deleteMultiple(Request $request)

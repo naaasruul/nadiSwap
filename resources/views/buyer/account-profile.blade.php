@@ -180,24 +180,41 @@
                         </li>
                         @else
                         @foreach ($deliveryAddresses as $address)
-                        <li>
-                            <div class="flex p-2 rounded-sm hover:bg-gray-100 dark:hover:bg-gray-600">
-                                <div class="flex items-center h-5">
-                                    <input id="address-{{ $address->id }}" name="delivery_address" type="radio"
-                                        value="{{ $address->id }}"
-                                        class="w-4 h-4 text-pink-600 bg-gray-100 border-gray-300 focus:ring-pink-500 dark:focus:ring-pink-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                </div>
+                            @include('buyer._edit-address-modal', ['address' => $address])
+                        <li class="flex items-center justify-between p-2 rounded-sm hover:bg-gray-100 dark:hover:bg-gray-600">
+                            <div class="flex items-center">
+                                <input id="address-{{ $address->id }}" name="delivery_address" type="radio" value="{{ $address->id }}"
+                                    class="w-4 h-4 text-pink-600 bg-gray-100 border-gray-300 focus:ring-pink-500 dark:focus:ring-pink-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
                                 <div class="ms-2 text-sm">
-                                    <label for="helper-radio-4" class="font-medium text-gray-900 dark:text-gray-300">
+                                    <label for="address-{{ $address->id }}" class="font-medium text-gray-900 dark:text-gray-300">
                                         <div>{{ $address->address_line_1 }}</div>
-                                        <p id="helper-radio-text-4"
-                                            class="text-xs font-normal text-gray-500 dark:text-gray-300">
+                                        <p class="text-xs font-normal text-gray-500 dark:text-gray-300">
                                             {{ $address->city }}, {{ $address->state }} {{ $address->postal_code }}
                                         </p>
                                     </label>
                                 </div>
                             </div>
+                            <div class="flex gap-2">
+                                <!-- Edit Button -->
+                                <button type="button" class="text-blue-600 hover:underline text-xs"
+                                    data-modal-target="editAddressModal-{{ $address->id }}"
+                                    data-modal-toggle="editAddressModal-{{ $address->id }}">
+                                    Edit
+                                </button>
+                                @push('modal')
+                                    @include('buyer._edit-address-modal', ['address' => $address])
+                                @endpush
+                                <!-- Delete Button -->
+                                <form action="{{ route('buyer.address.destroy', $address->id) }}" method="POST"
+                                    onsubmit="return confirm('Are you sure you want to delete this address?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-600 hover:underline text-xs">Delete</button>
+                                </form>
+                            </div>
                         </li>
+                        
+                        <!-- Edit Address Modal (You need to create this partial or inline modal for each address) -->
                         @endforeach
                         @endif
 
@@ -267,7 +284,7 @@
                     </div>
                 </div>
             </div>
-            @include('buyer.edit-address-modal')
+            @include('buyer.add-address-modal')
         </x-section>
     </div>
 </x-layouts.customer-layout>

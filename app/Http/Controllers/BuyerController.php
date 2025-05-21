@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\UserCategoryPreference;
 use App\Models\Category;
+use App\Models\DeliveryAddress;
 use App\Models\SearchHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -681,4 +682,24 @@ class BuyerController extends Controller
 
         return view('invoice', compact('decodedOrder','order','shipping_total'));
     }
+
+    public function destroyAddress(DeliveryAddress $address)
+{
+    // $this->authorize('delete', $address); // Optional: add policy
+    $address->delete();
+    return back()->with('success', 'Address deleted.');
+}
+
+public function updateAddress(Request $request, DeliveryAddress $address)
+{
+    // $this->authorize('update', $address); // Optional: add policy
+    $validated = $request->validate([
+        'address_line_1' => 'required|string|max:255',
+        'city' => 'required|string|max:255',
+        'state' => 'required|string|max:255',
+        'postal_code' => 'required|string|max:20',
+    ]);
+    $address->update($validated);
+    return back()->with('success', 'Address updated.');
+}
 }

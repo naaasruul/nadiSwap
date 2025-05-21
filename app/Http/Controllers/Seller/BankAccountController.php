@@ -14,7 +14,11 @@ class BankAccountController extends Controller
     public function index()
     {
         //
-        return view('seller.bank-account');
+        $seller = auth()->user(); // Assuming the seller is authenticated
+        $bankAccount = BankAccount::where('seller_id', $seller->id)->first();
+       
+        // Log::debug('Bank account:', ['data' => $bankAccount]); // <-- debugging log
+        return view('seller.bank-account', compact('bankAccount', 'seller'));
     }
 
     /**

@@ -84,6 +84,14 @@ Route::middleware(['auth'])->prefix('profile')->name('profile.')->group(function
 });
 
 Route::middleware(['auth', 'role:buyer'])->group(function () {
+    Route::delete('/buyer/address/{address}', [BuyerController::class, 'destroyAddress'])->name('buyer.address.destroy');
+    Route::put('/buyer/address/{address}', [BuyerController::class, 'updateAddress'])->name('buyer.address.update');
+
+    Route::delete('/buyer/address/{address}', [BuyerController::class, 'destroyAddress'])->name('buyer.address.destroy');
+    Route::put('/buyer/address/{address}', [BuyerController::class, 'updateAddress'])->name('buyer.address.update');
+
+    Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
+
     Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 

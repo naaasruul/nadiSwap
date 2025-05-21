@@ -1,4 +1,4 @@
-@props(['ratings', 'averageRating'])
+@props(['ratings', 'averageRating', 'canReview' => false])
 
 <div class="my-6 gap-8 sm:flex sm:items-start md:my-8">
     <!-- Overall Rating and Write a Review Button -->
@@ -7,10 +7,13 @@
             {{ $averageRating }} out of 5
         </p>
         @hasrole('buyer')
-        <button type="button" data-modal-target="review-modal" data-modal-toggle="review-modal"
-        class="mb-2 me-2 rounded-lg bg-accent px-5 py-2.5 text-sm font-medium text-white dark:text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-        Write a review
-    </button>
+         @if($canReview)
+            <button type="button" data-modal-target="review-modal" data-modal-toggle="review-modal"
+                class="mb-2 me-2 rounded-lg bg-accent px-5 py-2.5 text-sm font-medium text-white dark:text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                Write a review
+            </button>
+        @endif
+       
     @endrole
     </div>
 
