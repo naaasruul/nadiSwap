@@ -16,6 +16,21 @@
         </ul>
     </div>
     @endif
+
+    {{-- Bank Account Card --}}
+    <div class="max-w-md mb-6">
+        <div class="rounded-lg shadow bg-white dark:bg-gray-800 p-6">
+            <h3 class="text-lg font-semibold mb-2 text-gray-900 dark:text-white">Current Bank Account</h3>
+            @if($seller->bankAccount)
+                <p class="text-base text-gray-700 dark:text-gray-200"><span class="font-bold">Account Name:</span> {{ $seller->bankAccount->bank_acc_name ?? 'Unknown' }}</p>
+                <p class="text-base text-gray-700 dark:text-gray-200"><span class="font-bold">Account Number:</span> {{ $seller->bankAccount->bank_acc_number ?? 'Unknown' }}</p>
+                <p class="text-base text-gray-700 dark:text-gray-200"><span class="font-bold">Bank Type:</span> {{ $seller->bankAccount->bank_type ?? 'Unknown' }}</p>
+            @else
+                <p class="text-base text-red-600">No bank account setup yet.</p>
+            @endif
+        </div>
+    </div>
+    
     <div class="container mx-auto p-5">
         <form action="{{ route('seller.bank-account.store') }}" method="POST">
             @csrf
