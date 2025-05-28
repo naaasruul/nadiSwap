@@ -11,7 +11,7 @@
                         <th scope="col" class="px-6 py-3">Seller</th>
                         <th scope="col" class="px-6 py-3">Items</th>
                         <th scope="col" class="px-6 py-3">Total</th>
-                        <th scope="col" class="px-6 py-3"></th>
+                        <th scope="col" class="px-6 py-3">Date</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -38,6 +38,7 @@
                             {{-- <td class="px-6 py-4">
                                 <a href="{{ route('admin.transactions.index', $order->id) }}" class="text-pink-600 hover:underline">View</a>
                             </td> --}}
+                            <td class="px-6 py-4">{{ $order->created_at->format('l, F j, Y - g:i A')  ?? 'N/A' }}</td>
                         </tr>
                     @endforeach
                 </tbody>
