@@ -3,9 +3,10 @@
 
     <div class="container mx-auto p-5">
         <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
-            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400" id="search-table">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
+                        <th scope="col" class="px-6 py-3">No.</th>
                         <th scope="col" class="px-6 py-3">Order ID</th>
                         <th scope="col" class="px-6 py-3">Buyer</th>
                         <th scope="col" class="px-6 py-3">Seller</th>
@@ -17,6 +18,7 @@
                 <tbody>
                     @foreach ($orders as $order)
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                            <td class="px-6 py-4">{{ $loop->iteration }}</td>
                             <td class="px-6 py-4">{{ $order->id }}</td>
                             <td class="px-6 py-4">{{ $order->buyer->name ?? 'N/A' }}</td>
                             <td class="px-6 py-4">{{ $order->seller->name ?? 'N/A' }}</td>
@@ -38,7 +40,7 @@
                             {{-- <td class="px-6 py-4">
                                 <a href="{{ route('admin.transactions.index', $order->id) }}" class="text-pink-600 hover:underline">View</a>
                             </td> --}}
-                            <td class="px-6 py-4">{{ $order->created_at->format('l, F j, Y - g:i A')  ?? 'N/A' }}</td>
+                            <td class="px-6 py-4">{{ $order->created_at->format('l, F j, Y, g:i A')  ?? 'N/A' }}</td>
                         </tr>
                     @endforeach
                 </tbody>

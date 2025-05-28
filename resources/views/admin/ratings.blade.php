@@ -19,9 +19,10 @@
     @endif
     <div class="container mx-auto p-5">
         <h2 class="text-2xl font-bold mb-4">Customer Reviews</h2>
-        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 border border-gray-200">
+        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 border border-gray-200" id="search-table">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
+                    <th scope="col" class="px-6 py-3">No.</th>
                     <th scope="col" class="px-6 py-3">Product</th>
                     <th scope="col" class="px-6 py-3">Customer</th>
                     <th scope="col" class="px-6 py-3">Review</th>
@@ -34,17 +35,17 @@
             <tbody>
                 @foreach ($reviews as $review)
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    <td class="px-6 py-4">{{ $loop->iteration }}</td>
                     <td class="px-6 py-4">{{ $review->product->name }}</td>
                     <td class="px-6 py-4 flex items-center gap-3">
-                        <img class="w-5 h-5 rounded-full" src="{{ $review->user->avatar ? asset('storage/'.$review->user->avatar) : '' }}" alt="Customer Avatar">
+                        <img class="w-5 h-5 rounded-full" src="{{ $review->user->avatar ? asset('storage/'.$review->user->avatar) : 'https://placehold.co/200x200/orange/white?text=' . $review->user->username }}" alt="{{ $review->user->avatar ? "Customer Avatar" : 'Placeholder Avatar' }}">
                         <span>{{ $review->user->name }}</span>
                     </td>
                     <td class="px-6 py-4">{{ $review->title }}</td>
                     <td class="px-6 py-4">{{ $review->content }}</td>
                     <td class="px-6 py-4">{{ $review->rating }} / 5</td>
                     <td class="px-6 py-4">{{ $review->response ?? 'No Response' }}</td>
-                    <td class="px-6 py-4">{{ $review->created_at->format('Y-m-d') }}</td>
-               
+                    <td class="px-6 py-4">{{ $review->created_at->format('l, F j, Y, g:i A') }}</td>
                 </tr>
                 @endforeach
             </tbody>
