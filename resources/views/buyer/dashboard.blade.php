@@ -339,26 +339,67 @@
             loadingText.html('<svg class="animate-spin -ml-1 mr-2 h-5 w-5 inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 1 0 8-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>Adding...');
             
             $.ajax({
-                url: form.attr('action'),
-                method: form.attr('method'),
-                data: form.serialize(),
-                success: function(response) {
-                    showToast(`${productName} added to cart!`, 'success');
-                    // Update only the cart items content
-                    $("#myCartDropdown1 #cart-items").html(response);
-                },
-                error: function() {
-                    showToast('Could not add to cart. Please try again.', 'error');
-                },
-                complete: function() {
-                    btn.prop('disabled', false).removeClass('opacity-75 cursor-not-allowed');
-                    loadingText.html('Add to Cart');
-                    btn.addClass('bg-green-500 text-white').delay(500).queue(function(next) {
-                        $(this).removeClass('bg-green-500 text-white');
-                        next();
-                    });
-                }
-            });
+              url: form.attr('action'),
+              method: form.attr('method'),
+              data: form.serialize(),
+              success: function(response) {
+                  // Check if response indicates user needs to login
+                  if (response.redirect && response.redirect === 'login') {
+                      showToast('Please login to add items to cart', 'warning');
+                      // Redirect to login page after short delay
+                      setTimeout(function() {
+                          window.location.href = response.login_url || '/login';
+                      }, 1500);
+                      return;
+                  }
+                  
+                  // Check if response contains authentication error
+                  if (response.error && response.error === 'unauthenticated') {
+                      showToast('Please login to add items to cart', 'warning');
+                      // Redirect to login page
+                      setTimeout(function() {
+                          window.location.href = '/login';
+                      }, 100);
+                      return;
+                  }
+                  
+                  // Success - update cart
+                  showToast(`${productName} added to cart!`, 'success');
+                  // Update only the cart items content
+                  $("#myCartDropdown1 #cart-items").html(response);
+              },
+              error: function(xhr, status, error) {
+                  // Check for authentication errors (401 Unauthorized)
+                  if (xhr.status === 401) {
+                      showToast('Please login to add items to cart', 'warning');
+                      // Redirect to login page
+                      setTimeout(function() {
+                          window.location.href = '/login';
+                      }, 100);
+                      return;
+                  }
+                  
+                  // Check for other authentication responses
+                  if (xhr.responseJSON && xhr.responseJSON.redirect === 'login') {
+                      showToast('Please login to add items to cart', 'warning');
+                      setTimeout(function() {
+                          window.location.href = xhr.responseJSON.login_url || '/login';
+                      }, 100);
+                      return;
+                  }
+                  
+                  // Generic error
+                  showToast('Could not add to cart. Please try again.', 'error');
+              },
+              complete: function() {
+                  btn.prop('disabled', false).removeClass('opacity-75 cursor-not-allowed');
+                  loadingText.html('Add to Cart');
+                  btn.addClass('bg-green-500 text-white').delay(500).queue(function(next) {
+                      $(this).removeClass('bg-green-500 text-white');
+                      next();
+                  });
+              }
+          });
         });
 
         // Function to show toast notifications
