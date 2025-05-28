@@ -3,7 +3,7 @@
 
     <div class="container mx-auto p-5">
         <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
-            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400" id="search-table">
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400" id="admin-order-table">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th scope="col" class="px-6 py-3">No.</th>
@@ -14,6 +14,7 @@
                         <th scope="col" class="px-6 py-3">Total</th>
                         <th scope="col" class="px-6 py-3">Payment Status</th>
                         <th scope="col" class="px-6 py-3">Delivery Status</th>
+                        <th scope="col" class="px-6 py-3">Order Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -45,13 +46,26 @@
                                     {{ ucfirst($order->payment_status) }}
                                 </span>
                             </td>
+                            @php
+                                $statusClasses = match ($order->delivery_status) {
+                                    'shipped' => 'bg-yellow-100 text-yellow-800',
+                                    'ofd' => 'bg-blue-100 text-blue-800',
+                                    'delivered' => 'bg-green-100 text-green-800',
+                                    'cancelled' => 'bg-red-100 text-red-800',
+                                    default => 'bg-gray-100 text-gray-800',
+                                };
+                            @endphp
                             <td class="px-6 py-4">
-                                <span class="px-2 py-1 text-xs font-medium rounded 
-                                    {{ $order->delivery_status == 'delivered' ? 'bg-blue-100 text-blue-800' : 'bg-yellow-100 text-yellow-800' }}">
-                                    {{ ucfirst($order->delivery_status) }}
+                                <span class="px-2 py-1 text-sm font-medium rounded {{ $statusClasses }}">
+                                    {{ $order ? $order->delivery_status == 'ofd' ? 'Out for Delivery' : ucfirst($order->delivery_status) : 'N/A' }}
                                 </span>
                             </td>
-                                
+                            <td class="px-6 py-4">
+                                <span class="px-2 py-1 text-xs font-medium rounded 
+                                    {{ $order->order_status == 'completed' ? 'bg-blue-100 text-blue-800' : 'bg-yellow-100 text-yellow-800' }}">
+                                    {{ ucfirst($order->order_status) }}
+                                </span>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -59,6 +73,7 @@
         </div>
     </div>
 
-
-
+    @push('js')
+        <script src="{{ asset('js/admin-order-table.js') }}"></script>
+    @endpush
 </x-layouts.app>
