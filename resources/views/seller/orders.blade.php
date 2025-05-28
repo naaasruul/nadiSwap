@@ -74,6 +74,11 @@
                         Receipt
                     </span>
                 </th>
+                <th>
+                    <span class="flex items-center">
+                        Order Status
+                    </span>
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -114,18 +119,19 @@
                 <td>{{ $order->payment_method === 'cod' ? 'Cash On Delivery' : 'Online Banking' }}</td>
                 <td>
                     <select  data-id="{{ $order->id }}" class="payment-status-dropdown bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-pink-500 focus:border-pink-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-pink-500 dark:focus:border-pink-500">
-                        <option value="pending" {{ $order->payment_status == 'pending' ? 'selected' : '' }}>Pending</option>
+                        <option value="pending" {{ $order->payment_status == 'pending' ? 'selected' : '' }} disabled>Pending</option>
                         <option value="paid" {{ $order->payment_status == 'paid' ? 'selected' : '' }}>Paid</option>
                         <option value="failed" {{ $order->payment_status == 'failed' ? 'selected' : '' }}>Failed</option>
-                      </select>
+                    </select>
                 </td>
                 <td>
                     <select  data-id="{{ $order->id }}" class="delivery-status-dropdown bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-pink-500 focus:border-pink-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-pink-500 dark:focus:border-pink-500">
+                        <option value="pending" {{ $order->delivery_status == 'pending' ? 'selected' : '' }} disabled>Pending</option>
                         <option value="shipped" {{ $order->delivery_status == 'shipped' ? 'selected' : '' }}>Shipped</option>
-                        <option value="ood" {{ $order->delivery_status == 'ood' ? 'selected' : '' }}>Out Of Delivery</option>
+                        <option value="ood" {{ $order->delivery_status == 'ofd' ? 'selected' : '' }}>Out For Delivery</option>
                         <option value="delivered" {{ $order->delivery_status == 'delivered' ? 'selected' : '' }}>Delivered</option>
                         <option value="cancelled" {{ $order->delivery_status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
-                      </select>
+                    </select>
                 </td>
                 <td>
                     @if ($order->file_receipt)
@@ -135,6 +141,13 @@
                     @else
                         <span class="text-gray-500">No Receipt</span>
                     @endif
+                </td>
+                <td>
+                    <select  data-id="{{ $order->id }}" class="order-status-dropdown bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-pink-500 focus:border-pink-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-pink-500 dark:focus:border-pink-500">
+                        <option value="pending" {{ $order->order_status == 'pending' ? 'selected' : '' }} disabled>Pending</option>
+                        <option value="completed" {{ $order->order_status == 'completed' ? 'selected' : '' }}>Completed</option>
+                        <option value="cancelled" {{ $order->order_status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
+                    </select>
                 </td>
             </tr>
             @endforeach
