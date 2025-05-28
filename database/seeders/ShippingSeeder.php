@@ -11,7 +11,7 @@ use Faker\Factory as Faker;
 class ShippingSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+ * Run the database seeds.
      *
      * @return void
      */
@@ -21,7 +21,11 @@ class ShippingSeeder extends Seeder
         $faker = Faker::create();
 
         foreach ($user as $seller) {
-            Shipping::insert([
+
+            $shippingCount = $faker->numberBetween(1, 3);
+
+            for ($i = 0; $i < $shippingCount; $i++) {
+                Shipping::insert([
                 [
                     'seller_id' => $seller->id,
                     'place' => $faker->city(),
@@ -30,6 +34,7 @@ class ShippingSeeder extends Seeder
                     'updated_at' => now(),
                 ],
             ]);
+            }
         }
     }
 }
