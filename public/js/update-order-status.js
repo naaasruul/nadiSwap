@@ -70,4 +70,25 @@ $(()=>{
             }
         });
     });
+
+    // Handle Order Status Change
+    $('.order-status-dropdown').on('change', function () {
+        const orderId = $(this).data('id');
+        const newStatus = $(this).val();
+
+        $.ajax({
+            url: `/seller/orders/${orderId}/update-order-status`,
+            method: 'POST',
+            data: {
+                order_status: newStatus
+            },
+            success: function (response) {
+                showAlert('success', 'Order status updated successfully!');
+            },
+            error: function (xhr) {
+                showAlert('red', 'Failed to order delivery status.');
+                console.error(xhr.responseText);
+            }
+        });
+    });
 })
