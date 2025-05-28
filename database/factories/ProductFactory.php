@@ -17,7 +17,7 @@ class ProductFactory extends Factory
             throw new \Exception('No categories found. Please run CategorySeeder before seeding products.');
         }
 
-        $userId = User::inRandomOrder()->value('id') ?? \App\Models\User::factory()->create()->id;
+        $userId = User::role('seller')->inRandomOrder()->value('id') ?? \App\Models\User::factory()->create()->id;
 
         return [
             'name' => $this->faker->unique()->words(rand(1, 3), true),
