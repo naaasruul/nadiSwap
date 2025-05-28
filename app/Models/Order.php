@@ -18,6 +18,7 @@ class Order extends Model
         'payment_status',
         'payment_method',
         'file_receipt', // Add this line
+        'order_status', // Add this line
     ];
 
     protected $casts = [
