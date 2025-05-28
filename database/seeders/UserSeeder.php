@@ -30,31 +30,65 @@ class UserSeeder extends Seeder
         $admin->assignRole('admin');
 
         // Create a seller user
-        $seller = User::create([
-            'name' => 'Seller User',
-            'first_name' => 'Seller',
-            'last_name' => 'User',
-            'username' => 'selleruser',
-            'gender'=>'male',
-            'email' => 'seller@demo.oo',
-            'password' => bcrypt('password'), // Use a secure password
-            'phone_number' => '1234567890',
-            'matrix_number' => 'M123',
-        ]);
-        $seller->assignRole('seller');
+        $sellers = [
+            [
+                'name' => 'Seller User',
+                'first_name' => 'Seller',
+                'last_name' => 'User',
+                'username' => 'selleruser',
+                'gender'=>'male',
+                'email' => 'seller@demo.oo',
+                'password' => bcrypt('password'), // Use a secure password
+                'phone_number' => '1234567890',
+                'matrix_number' => 'M123',
+            ],
+            [
+                'name' => 'Seller User 2',
+                'first_name' => 'Seller',
+                'last_name' => 'User 2',
+                'username' => 'selleruser2',
+                'gender'=>'female',
+                'email' => 'seller2@demo.oo',
+                'password' => bcrypt('password'), // Use a secure password
+                'phone_number' => '1234567890',
+                'matrix_number' => 'M122',
+            ],
+        ];
+        foreach ($sellers as $data) {
+            $seller = User::create($data);
+            $seller->assignRole('seller');
+        }
 
         // Create a buyer user
-        $seller = User::create([
-            'name' => 'Buyer User',
-            'first_name' => 'Buyer',
-            'last_name' => 'User',
-            'username' => 'buyeruser',
-            'gender'=>'male',
-            'email' => 'buyer@demo.oo',
-            'password' => bcrypt('password'), // Use a secure password
-            'phone_number' => '1234567890',
-            'matrix_number' => 'B123',
-        ]);
-        $seller->assignRole('buyer');
+        $buyers = 
+        [
+            [
+                'name' => 'Buyer User',
+                'first_name' => 'Buyer',
+                'last_name' => 'User',
+                'username' => 'buyeruser',
+                'gender'=>'male',
+                'email' => 'buyer@demo.oo',
+                'password' => bcrypt('password'), // Use a secure password
+                'phone_number' => '1234567890',
+                'matrix_number' => 'B123',
+            ],
+            [
+                'name' => 'Buyer User 2',
+                'first_name' => 'Buyer',
+                'last_name' => 'User 2',
+                'username' => 'buyeruser2',
+                'gender'=>'female',
+                'email' => 'buyer2@demo.oo',
+                'password' => bcrypt('password'), // Use a secure password
+                'phone_number' => '1234567890',
+                'matrix_number' => 'B122',
+            ],
+        ];
+
+        foreach ($buyers as $data) {
+            $buyer = User::create($data);
+            $buyer->assignRole('buyer');
+        }
     }
 }
