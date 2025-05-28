@@ -75,6 +75,7 @@ Route::middleware(['auth', 'role:seller'])->prefix('seller')->name('seller.')->g
     Route::post('reviews/{review}', [ReviewController::class, 'respond'])->name('reviews.respond');
     Route::post('orders/{order}/update-payment-status', [OrderController::class, 'updatePaymentStatus']);
     Route::post('orders/{order}/update-delivery-status', [OrderController::class, 'updateDeliveryStatus']);
+    Route::post('orders/{order}/update-order-status', [OrderController::class, 'updateOrderStatus']);
     
     Route::post('/products/delete-multiple', [ProductController::class, 'deleteMultiple'])->name('seller.products.delete-multiple');
 });
