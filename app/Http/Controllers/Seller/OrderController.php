@@ -120,4 +120,29 @@ class OrderController extends Controller
             ], 500);
         }
     }
+
+    public function updateOrderStatus(Request $request, Order $order)
+    {
+        try {
+            // Validate the request
+            $request->validate([
+                'order_status' => 'required|string|in:cancelled,completed',
+            ]);
+
+            // Update the delivery status
+            $order->update(['order_status' => $request->order_status]);
+
+            // Return success response
+            return response()->json([
+                'message' => 'Order status updated successfully.',
+                'order_status' => $order->order_status,
+            ], 200);
+        } catch (\Exception $e) {
+            // Handle any unexpected errors
+            return response()->json([
+                'message' => 'Failed to update order status.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
 }
