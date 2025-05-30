@@ -29,8 +29,8 @@
                 ],
             };
         @endphp
-        <div class="{{ $statusConfig['headerGradient'] }} text-white">
-            <div class="container mx-auto px-4 py-8">
+        <div class="{{ $statusConfig['headerGradient'] }} text-white rounded-lg">
+            <div class="container mx-auto p-6">
                 <div class="flex items-center justify-between">
                     <div>
                         <h1 class="text-2xl font-bold mb-2">Order #{{ $order->id }}</h1>
