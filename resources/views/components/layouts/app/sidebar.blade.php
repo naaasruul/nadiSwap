@@ -35,6 +35,12 @@
                 ]" />
                 <x-sidebar-item route="admin.transactions.index" icon="fa-solid fa-money-bill-transfer" label="Transactions List" />
                 <x-sidebar-item route="admin.orders.index" icon="fa-solid fa-cube" label="List Orders" />
+                <x-dropdown-item label="Orders" icon="fa-solid fa-cube" :items="[
+                    ['label' => 'All Orders', 'route' => route('admin.orders.index')],
+                    ['label' => 'Payment Status', 'route' => route('admin.payment-status')],
+                    ['label' => 'Delivery Status', 'route' => route('admin.delivery-status')],
+                    ['label' => 'Order Status', 'route' => route('admin.order-status')],
+                ]" />
                 <x-sidebar-item route="admin.ratings.index" icon="fa-solid fa-star" label="Rating & Review" />
                 @endhasrole
                 {{-- SELLER NAVIGATIONS --}}
