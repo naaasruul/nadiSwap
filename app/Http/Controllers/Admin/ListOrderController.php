@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ListOrderController extends Controller
 {
@@ -16,6 +17,45 @@ class ListOrderController extends Controller
         //
         $orders = Order::all();
         return view('admin.orders',compact('orders'));    
+    }
+
+    public function paymentStatusIndex()
+    {
+        //
+        $orders = Order::all();
+        return view('admin.payment-orders',compact('orders'));    
+    }
+
+    public function deliveryStatusIndex()
+    {
+        //
+        $orders = Order::all();
+        return view('admin.delivery-orders',compact('orders'));    
+    }
+
+    public function orderStatusIndex()
+    {
+        //
+        $orders = Order::all();
+        return view('admin.status-orders',compact('orders'));    
+    }
+
+    public function showDelivery(Order $order)
+    {
+        Log::info('Showing delivery for order: ' . $order->id);
+        return view('admin.delivery-order-info',compact('order'));    
+    }
+
+    public function showPayment(Order $order)
+    {
+        Log::info('Showing delivery for order: ' . $order->id);
+        return view('admin.payment-order-info',compact('order'));    
+    }
+
+    public function showOrderStatus(Order $order)
+    {
+        Log::info('Showing delivery for order: ' . $order->id);
+        return view('admin.status-order-info',compact('order'));    
     }
 
     /**

@@ -57,6 +57,16 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::resource('transactions', TransactionController::class)->except(['show']);
     Route::resource('ratings', RatingController::class)->except(['show']);
     Route::resource('orders', ListOrderController::class)->except(['show']);
+
+    Route::get('/orders/payment-status', [ListOrderController::class, 'paymentStatusIndex'])->name('payment-status');
+    Route::get('/orders/payment-status/{order}', [ListOrderController::class, 'showPayment'])->name('orders.show-payment');
+
+    Route::get('/orders/delivery-status', [ListOrderController::class, 'deliveryStatusIndex'])->name('delivery-status');
+    Route::get('/orders/delivery-status/{order}', [ListOrderController::class, 'showDelivery'])->name('orders.show-delivery');
+
+    Route::get('/orders/status', [ListOrderController::class, 'orderStatusIndex'])->name('order-status');
+    Route::get('/orders/status/{order}', [ListOrderController::class, 'showOrderStatus'])->name('orders.show-status');
+
 });
 
 
