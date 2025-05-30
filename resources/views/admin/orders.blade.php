@@ -41,22 +41,29 @@
                             </td>
                             <td class="px-6 py-4">RM{{ number_format($order->total, 2) }}</td>
                             <td class="px-6 py-4">
-                                <span class="px-2 py-1 text-xs font-medium rounded 
-                                    {{ $order->payment_status == 'paid' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                @php
+                                $paymentsClasses = match ($order->payment_status) {
+                                        'pending' => 'bg-yellow-100 text-yellow-800',
+                                        'paid' => 'bg-green-100 text-green-800',
+                                        'failed' => 'bg-red-100 text-red-800',
+                                        default => 'bg-gray-100 text-gray-800',
+                                    };
+                                @endphp
+                                <span class="px-2 py-1 text-xs font-medium rounded {{ $paymentsClasses }}">
                                     {{ ucfirst($order->payment_status) }}
                                 </span>
                             </td>
                             @php
                                 $statusClasses = match ($order->delivery_status) {
-                                    'shipped' => 'bg-yellow-100 text-yellow-800',
-                                    'ofd' => 'bg-blue-100 text-blue-800',
+                                    'shipped' => 'bg-blue-100 text-blue-800',
+                                    'ofd' => 'bg-purple-100 text-purple-800',
                                     'delivered' => 'bg-green-100 text-green-800',
                                     'cancelled' => 'bg-red-100 text-red-800',
-                                    default => 'bg-gray-100 text-gray-800',
+                                    default => 'bg-yellow-100 text-yellow-800',
                                 };
                             @endphp
                             <td class="px-6 py-4">
-                                <span class="px-2 py-1 text-sm font-medium rounded {{ $statusClasses }}">
+                                <span class="px-2 py-1 text-xs font-medium rounded {{ $statusClasses }}">
                                     {{ $order ? $order->delivery_status == 'ofd' ? 'Out for Delivery' : ucfirst($order->delivery_status) : 'N/A' }}
                                 </span>
                             </td>
