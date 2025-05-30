@@ -48,14 +48,14 @@ class Login extends Component
         $user = Auth::user();
 
         if ($user->hasRole('admin')) {
-            $this->redirectIntended(default: route('admin.dashboard'), navigate: true);
+            $this->redirectIntended(default: route('admin.dashboard'), navigate: false);
         } elseif ($user->hasRole('seller')) {
-            $this->redirectIntended(default: route('seller.bank-account.index'), navigate: true);
+            $this->redirectIntended(default: route('seller.bank-account.index'), navigate: false);
         } elseif ($user->hasRole('buyer')) {
             $this->redirectIntended(default: route('buyer.dashboard'), navigate: false);
         } else {
             // Default fallback (optional)
-            $this->redirectIntended(default: route('dashboard'), navigate: true);
+            $this->redirectIntended(default: route('dashboard'), navigate: false);
         }
     }
 
