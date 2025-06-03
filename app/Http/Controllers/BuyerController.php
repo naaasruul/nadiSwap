@@ -6,11 +6,13 @@ use App\Models\Product;
 use App\Models\UserCategoryPreference;
 use App\Models\Category;
 use App\Models\DeliveryAddress;
+use App\Models\Order;
 use App\Models\SearchHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class BuyerController extends Controller
 {
@@ -607,11 +609,11 @@ class BuyerController extends Controller
         $user = auth()->user();
         $ordersCount = $user->orders()->count() ?? 0;
         $reviewsCount = $user->reviews()->count() ?? 0;
-        $latestOrders = $user->orders()->latest()->take(5)->get();
+        $latestOrders = $user->orders()->get();
         $deliveryAddresses = $user->deliveryAddresses; // Fetch all delivery addresses for the user
 
         // Logic to show the buyer's account details
-        return view('buyer.account-profile', compact('user', 'ordersCount', 'reviewsCount', 'latestOrders','deliveryAddresses')); // Return the view for the buyer's account
+        return view('buyer.account-profile', compact('user', 'ordersCount', 'reviewsCount', 'latestOrders', 'deliveryAddresses')); // Return the view for the buyer's account
     }
 
     public function updateProfile(Request $request)
@@ -643,7 +645,6 @@ class BuyerController extends Controller
                     'public'
                 );
                 $user->avatar = $avatarPath;
-
             } catch (\Exception $e) {
                 return redirect()->back()->with('error', 'Failed to upload avatar: ' . $e->getMessage());
             }
@@ -680,26 +681,42 @@ class BuyerController extends Controller
         $decodedOrder = $decodedItems['cart_items'] ?? [];
         $shipping_total = $decodedItems['shipping_total'];
 
-        return view('invoice', compact('decodedOrder','order','shipping_total'));
+        return view('invoice', compact('decodedOrder', 'order', 'shipping_total'));
     }
 
     public function destroyAddress(DeliveryAddress $address)
-{
-    // $this->authorize('delete', $address); // Optional: add policy
-    $address->delete();
-    return back()->with('success', 'Address deleted.');
-}
+    {
+        // $this->authorize('delete', $address); // Optional: add policy
+        $address->delete();
+        return back()->with('success', 'Address deleted.');
+    }
 
-public function updateAddress(Request $request, DeliveryAddress $address)
-{
-    // $this->authorize('update', $address); // Optional: add policy
-    $validated = $request->validate([
-        'address_line_1' => 'required|string|max:255',
-        'city' => 'required|string|max:255',
-        'state' => 'required|string|max:255',
-        'postal_code' => 'required|string|max:20',
-    ]);
-    $address->update($validated);
-    return back()->with('success', 'Address updated.');
-}
+    public function updateAddress(Request $request, DeliveryAddress $address)
+    {
+        // $this->authorize('update', $address); // Optional: add policy
+        $validated = $request->validate([
+            'address_line_1' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
+            'state' => 'required|string|max:255',
+            'postal_code' => 'required|string|max:20',
+        ]);
+        $address->update($validated);
+        return back()->with('success', 'Address updated.');
+    }
+
+    public function showOrderStatus(Order $order)
+    {
+        if (auth()->id() !== $order->buyer_id) {
+            abort(403, 'Unauthorized access to order status.');
+        }
+        return view('buyer.status-order-info',compact('order'));    
+    }
+
+    public function requestOrderCancel(Order $order)
+    {
+        if (auth()->id() !== $order->buyer_id) {
+            abort(403, 'Unauthorized access to order status.');
+        }
+        return view('buyer.request-order-cancel',compact('order'));    
+    }
 }
