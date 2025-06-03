@@ -125,7 +125,7 @@
             <ul class="p-2 text-start text-sm font-medium text-gray-900 dark:text-white">
               <li>
                 <p title=""
-                  class="inline-flex w-full text-gray-500 dark:text-gray-400 items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600">
+                  class="inline-flex w-full text-gray-500 dark:text-gray-400 items-center gap-2 rounded-md px-3 py-2 text-sm">
                   Hi, {{ Auth::user()->name }}! </p>
               </li>
               <li>
