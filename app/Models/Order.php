@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Order extends Model
 {
@@ -33,5 +34,29 @@ class Order extends Model
     public function seller()
     {
         return $this->belongsTo(User::class, 'seller_id');
+    }
+
+    /**
+     * Get the order cancellation details.
+     */
+    public function cancellation(): HasOne
+    {
+        return $this->hasOne(OrderCancellation::class);
+    }
+
+    /**
+     * Check if the order is cancelled.
+     */
+    public function isCancelled(): bool
+    {
+        return $this->order_status === 'cancelled';
+    }
+
+    /**
+     * Get cancellation reason if order is cancelled.
+     */
+    public function getCancellationReasonAttribute(): ?string
+    {
+        return $this->cancellation?->final_reason;
     }
 }
