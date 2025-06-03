@@ -11,6 +11,7 @@ use App\Http\Controllers\Buyer\CartController;
 use App\Http\Controllers\Buyer\ReviewController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DeliveryAddressController;
+use App\Http\Controllers\OrderCancellationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Seller\BankAccountController;
 use App\Http\Controllers\Seller\CategoryController;
@@ -120,7 +121,12 @@ Route::middleware(['auth', 'role:buyer'])->group(function () {
     Route::get('/categories', [BuyerController::class, 'allCategories'])->name('buyer.all_categories');
 
     Route::get('/invoice/{order}', [BuyerController::class, 'showInvoice'])->name('invoice.show');
-});
+
+    Route::get('/orders/status/{order}', [BuyerController::class, 'showOrderStatus'])->name('buyer.orders.show-status');
+
+    Route::patch('/orders/{order}/cancel', [OrderCancellationController::class, 'cancel'])->name('buyer.orders.cancel');
+    Route::get('/orders/{order}/cancellation', [OrderCancellationController::class, 'show'])->name('buyer.orders.request-cancel');
+});     
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
