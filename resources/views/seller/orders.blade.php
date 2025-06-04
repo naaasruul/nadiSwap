@@ -87,7 +87,10 @@
                 <td>{{ $loop->iteration }}</td>
                 <td data-tooltip-target="tooltip-{{ $order->id }}"
                     class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ $order->id }}
+                    <a href="{{ route('seller.orders.show-status', $order->id) }}"
+                        class="hover:underline focus:ring-0 focus:outline-none inline-flex items-center bg-primary-700 text-blue-500 hover:bg-primary-800 font-medium rounded-lg text-sm py-2 dark:bg-primary-600 dark:hover:bg-primary-700">
+                            {{ $order->id }}
+                        </a>
                     @push('modal')
                     <div id="tooltip-{{ $order->id }}" role="tooltip"
                         class="absolute invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
@@ -143,10 +146,10 @@
                     @endif
                 </td>
                 <td>
-                    <select  data-id="{{ $order->id }}" class="order-status-dropdown bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-pink-500 focus:border-pink-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-pink-500 dark:focus:border-pink-500">
+                    <select data-id="{{ $order->id }}" class="{{ $order->order_status == 'cancelled' ? 'cursor-not-allowed' : '' }} order-status-dropdown bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-pink-500 focus:border-pink-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-pink-500 dark:focus:border-pink-500" {{ $order->order_status == 'cancelled' ? 'disabled' : '' }}>
                         <option value="pending" {{ $order->order_status == 'pending' ? 'selected' : '' }} disabled>Pending</option>
                         <option value="completed" {{ $order->order_status == 'completed' ? 'selected' : '' }}>Completed</option>
-                        <option value="cancelled" {{ $order->order_status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
+                        <option value="request-cancel" {{ $order->order_status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
                     </select>
                 </td>
             </tr>

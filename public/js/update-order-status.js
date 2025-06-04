@@ -76,6 +76,12 @@ $(()=>{
         const orderId = $(this).data('id');
         const newStatus = $(this).val();
 
+        if (newStatus === 'request-cancel') {
+            // Redirect to cancellation form
+            window.location.href = `/seller/orders/${orderId}/cancellation`;
+            return;
+        }
+
         $.ajax({
             url: `/seller/orders/${orderId}/update-order-status`,
             method: 'POST',
