@@ -1,5 +1,5 @@
 <x-layouts.app :title="__('Payment Status')">
-    <div class="min-h-screen bg-gray-50">
+    <div class="bg-gray-50 py-8 antialiased dark:bg-gray-900 md:py-12 mx-auto max-w-screen-xl px-4 2xl:px-0">
         <!-- Header -->
         @php
             $statusConfig = match ($order->order_status) {
