@@ -89,6 +89,10 @@ Route::middleware(['auth', 'role:seller'])->prefix('seller')->name('seller.')->g
     Route::post('orders/{order}/update-order-status', [OrderController::class, 'updateOrderStatus']);
     
     Route::post('/products/delete-multiple', [ProductController::class, 'deleteMultiple'])->name('seller.products.delete-multiple');
+
+    Route::get('/orders/{order}/cancellation', [OrderCancellationController::class, 'sellerShow'])->name('orders.request-cancel');
+    Route::patch('/orders/{order}/cancel', [OrderCancellationController::class, 'sellerCancel'])->name('orders.cancel');
+    Route::get('/orders/status/{order}', [SellerController::class, 'showOrderStatus'])->name('orders.show-status');
 });
 
 Route::middleware(['auth'])->prefix('profile')->name('profile.')->group(function () {
@@ -124,8 +128,8 @@ Route::middleware(['auth', 'role:buyer'])->group(function () {
 
     Route::get('/orders/status/{order}', [BuyerController::class, 'showOrderStatus'])->name('buyer.orders.show-status');
 
-    Route::patch('/orders/{order}/cancel', [OrderCancellationController::class, 'cancel'])->name('buyer.orders.cancel');
-    Route::get('/orders/{order}/cancellation', [OrderCancellationController::class, 'show'])->name('buyer.orders.request-cancel');
+    Route::patch('/buyer/orders/{order}/cancel', [OrderCancellationController::class, 'cancel'])->name('buyer.orders.cancel');
+    Route::get('/buyer/orders/{order}/cancellation', [OrderCancellationController::class, 'show'])->name('buyer.orders.request-cancel');
 });     
 
 Route::middleware(['auth'])->group(function () {

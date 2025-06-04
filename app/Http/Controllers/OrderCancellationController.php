@@ -109,6 +109,99 @@ class OrderCancellationController extends Controller
         return view('buyer.request-order-cancel', compact('order'));
     }
 
+    public function sellerCancel(Request $request, Order $order): RedirectResponse
+    {
+        // Check if user is authorized to cancel this order
+        if ($order->seller_id !== Auth::id()) {
+            abort(403, 'Unauthorized to cancel this order.');
+        }
+
+        // Custom validation with better handling
+        $validator = Validator::make($request->all(), [
+            'cancellation_reason' => 'required|string|max:255',
+            'custom_cancellation_reason' => 'nullable|string|max:500',
+            'additional_comments' => 'nullable|string|max:1000',
+        ]);
+
+        // Add conditional validation for custom reason
+        $validator->sometimes('custom_cancellation_reason', 'required', function ($input) {
+            return $input->cancellation_reason === 'other';
+        });
+
+        if ($validator->fails()) {
+            // Redirect to cancellation form instead of back()
+            return redirect()->route('buyer.order-cancel', $order->id)
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $validated = $validator->validated();
+
+        // Check if order can be cancelled
+        if (!$this->canCancelOrder($order)) {
+            // Redirect to my account page with error
+            return redirect()->route('seller.orders.index')
+                ->with('error', 'This order cannot be cancelled at this time.');
+        }
+
+        try {
+            // Update order status using model
+            $order->update([
+                'order_status' => 'cancelled'
+            ]);
+
+            // Create cancellation record using model
+            $order->cancellation()->create([
+                'cancelled_by_user_id' => Auth::id(),
+                'cancellation_reason' => $validated['cancellation_reason'],
+                'custom_cancellation_reason' => $validated['custom_cancellation_reason'] ?? null,
+                'additional_comments' => $validated['additional_comments'] ?? null,
+                'cancelled_by_role' => $this->getUserRole($order),
+                'cancelled_at' => now(),
+            ]);
+
+            // Handle refund logic if needed
+            $this->processRefundIfNeeded($order);
+
+            // Send notifications
+            $this->sendCancellationNotifications($order);
+
+            // Redirect to my account page with success message
+            return redirect()->route('seller.orders.index')
+                ->with('success', 'Order #' . $order->id . ' has been cancelled successfully.');
+
+        } catch (\Exception $e) {
+            Log::error('Order cancellation failed: ' . $e->getMessage(), [
+                'order_id' => $order->id,
+                'user_id' => Auth::id(),
+                'error' => $e->getMessage()
+            ]);
+
+            // Redirect to cancellation form with error
+            return redirect()->route('orders.request-cancel', $order->id)
+                ->with('error', 'Failed to cancel order. Please try again.')
+                ->withInput();
+        }
+    }
+
+    /**
+     * Show cancellation form
+     */
+    public function sellerShow(Order $order)
+    {
+        // Check if user is authorized to view this order
+        if ($order->seller_id !== Auth::id()) {
+            abort(403, 'Unauthorized to view this order.');
+        }
+
+        // Check if order can be cancelled
+        if (!$this->canCancelOrder($order)) {
+            return redirect()->back()->with('error', 'This order cannot be cancelled at this time.');
+        }
+
+        return view('seller.order-cancel', compact('order'));
+    }
+
     /**
      * Check if an order can be cancelled
      */
