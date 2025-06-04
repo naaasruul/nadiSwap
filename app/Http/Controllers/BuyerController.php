@@ -609,11 +609,12 @@ class BuyerController extends Controller
         $user = auth()->user();
         $ordersCount = $user->orders()->count() ?? 0;
         $reviewsCount = $user->reviews()->count() ?? 0;
-        $latestOrders = $user->orders()->get();
+        $latestOrders = $user->orders()->latest()->paginate(5);
+        $latestCancelledOrders = OrderCancellation::where('cancelled_by_user_id', $user->id)->latest()->paginate(5);
         $deliveryAddresses = $user->deliveryAddresses; // Fetch all delivery addresses for the user
 
         // Logic to show the buyer's account details
-        return view('buyer.account-profile', compact('user', 'ordersCount', 'reviewsCount', 'latestOrders', 'deliveryAddresses')); // Return the view for the buyer's account
+        return view('buyer.account-profile', compact('user', 'ordersCount', 'reviewsCount', 'latestOrders', 'deliveryAddresses', 'latestCancelledOrders')); // Return the view for the buyer's account
     }
 
     public function updateProfile(Request $request)
