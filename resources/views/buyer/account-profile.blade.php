@@ -24,10 +24,9 @@
                 <x-order-card icon="fa-regular fa-star" title="Reviews added" :count="$reviewsCount" />
             </div>
 
-            <form action="{{ route('buyer.profile.update') }}" method="POST" enctype="multipart/form-data"
+            <form action="{{ route('buyer.profile.update') }}" method="POST" enctype="multipart/form-data" 
                 class="space-y-6">
                 @csrf
-
                 <!-- Profile Header -->
                 <div class="flex items-center gap-4 mb-6 mt-6">
                     <div class="flex-shrink-0">
@@ -62,11 +61,26 @@
                         <h3 class="text-lg font-semibold">Basic Information</h3>
 
                         <div class="space-y-4">
-                            {{-- NAME FIELD --}}
-                            <div class="space-y-2">
-                                <label for="name" class="block text-sm font-medium">Full Name</label>
-                                <input type="text" name="name" id="name" value="{{ $user->name }}" required
-                                    class="block w-full rounded-lg border border-gray-300 bg-white p-2.5 text-sm text-gray-900 hover:bg-gray-50 focus:border-primary-500 focus:ring-4 focus:ring-primary-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-400 dark:hover:bg-gray-700 dark:focus:border-primary-500">
+                            {{-- NAME FIELDS --}}
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="space-y-2">
+                                    <label for="first_name" class="block text-sm font-medium">First Name</label>
+                                    <input type="text" name="first_name" id="first_name" 
+                                        value="{{ $user->first_name ?? '' }}" required
+                                        class="block w-full rounded-lg border border-gray-300 bg-white p-2.5 text-sm text-gray-900 hover:bg-gray-50 focus:border-primary-500 focus:ring-4 focus:ring-primary-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-400 dark:hover:bg-gray-700 dark:focus:border-primary-500">
+                                    @error('first_name')
+                                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                                <div class="space-y-2">
+                                    <label for="last_name" class="block text-sm font-medium">Last Name</label>
+                                    <input type="text" name="last_name" id="last_name" 
+                                        value="{{ $user->last_name ?? '' }}" required
+                                        class="block w-full rounded-lg border border-gray-300 bg-white p-2.5 text-sm text-gray-900 hover:bg-gray-50 focus:border-primary-500 focus:ring-4 focus:ring-primary-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-400 dark:hover:bg-gray-700 dark:focus:border-primary-500">
+                                    @error('last_name')
+                                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                    @enderror
+                                </div>
                             </div>
 
                             {{-- USERNAME FIELD --}}

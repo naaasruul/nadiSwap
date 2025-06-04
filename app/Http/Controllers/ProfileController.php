@@ -12,7 +12,9 @@ class ProfileController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'string|max:255',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users,username,' . Auth::id(),
             'email' => 'required|email|max:255|unique:users,email,' . Auth::id(),
             'phone_number' => 'nullable|string|max:15',
@@ -37,7 +39,9 @@ class ProfileController extends Controller
             $user->avatar = $avatarPath;
         }
 
-        $user->name = $request->name;
+        $user->name = $request->first_name . ' ' . $request->last_name;
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
         $user->username = $request->username;
         $user->email = $request->email;
         $user->phone_number = $request->phone_number;

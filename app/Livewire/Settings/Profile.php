@@ -7,20 +7,31 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
+use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Storage;
 
 class Profile extends Component
 {
+    use WithFileUploads;
+
     public string $name = '';
 
     public string $email = '';
+
+    public $first_name;
+
+    public $last_name;
+
+    public $avatar;
 
     /**
      * Mount the component.
      */
     public function mount(): void
     {
-        $this->name = Auth::user()->name;
-        $this->email = Auth::user()->email;
+        $this->first_name = auth()->user()->first_name;
+        $this->last_name = auth()->user()->last_name;
+        $this->email = auth()->user()->email;
     }
 
     /**
@@ -28,30 +39,51 @@ class Profile extends Component
      */
     public function updateProfileInformation(): void
     {
-        $user = Auth::user();
+        try {
+            $validated = $this->validate([
+                'first_name' => ['required', 'string', 'max:255'],
+                'last_name' => ['required', 'string', 'max:255'],
+                'email' => [
+                    'required',
+                    'string',
+                    'lowercase',
+                    'email',
+                    'max:255',
+                    Rule::unique(User::class)->ignore(auth()->id()),
+                ],
+                'avatar' => ['nullable', 'image', 'max:5120'],
+            ]);
 
-        $validated = $this->validate([
-            'name' => ['required', 'string', 'max:255'],
+            $user = auth()->user();
 
-            'email' => [
-                'required',
-                'string',
-                'lowercase',
-                'email',
-                'max:255',
-                Rule::unique(User::class)->ignore($user->id),
-            ],
-        ]);
+            // Handle avatar upload
+            if ($this->avatar) {
+                // Delete old avatar if exists
+                if ($user->avatar && Storage::disk('public')->exists($user->avatar)) {
+                    Storage::disk('public')->delete($user->avatar);
+                }
 
-        $user->fill($validated);
+                $validated['avatar'] = $this->avatar->store('avatars', 'public');
+            }
 
-        if ($user->isDirty('email')) {
-            $user->email_verified_at = null;
+            // Update user with validated data
+            $user->fill([
+                'first_name' => $validated['first_name'],
+                'last_name' => $validated['last_name'],
+                'name' => $validated['first_name'] . ' ' . $validated['last_name'],
+                'email' => $validated['email'],
+            ]);
+
+            if (isset($validated['avatar'])) {
+                $user->avatar = $validated['avatar'];
+            }
+
+            $user->save();
+
+            $this->dispatch('profile-updated', name: $user->name);
+        } catch (\Exception $e) {
+            $this->addError('save', 'Failed to update profile: ' . $e->getMessage());
         }
-
-        $user->save();
-
-        $this->dispatch('profile-updated', name: $user->name);
     }
 
     /**
@@ -70,5 +102,10 @@ class Profile extends Component
         $user->sendEmailVerificationNotification();
 
         Session::flash('status', 'verification-link-sent');
+    }
+
+    public function render()
+    {
+        return view('livewire.settings.profile');
     }
 }

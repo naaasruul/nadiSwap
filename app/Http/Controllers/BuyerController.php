@@ -8,10 +8,13 @@ use App\Models\Category;
 use App\Models\DeliveryAddress;
 use App\Models\Order;
 use App\Models\SearchHistory;
+use App\Models\OrderCancellation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
 class BuyerController extends Controller
@@ -620,7 +623,9 @@ class BuyerController extends Controller
     public function updateProfile(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'string|max:255',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users,username,' . auth()->id(),
             'email' => 'required|email|max:255|unique:users,email,' . auth()->id(),
             'phone_number' => 'required|string|max:15',
@@ -651,9 +656,12 @@ class BuyerController extends Controller
             }
         }
 
+        $fullname = $request->first_name . ' ' . $request->last_name;
 
         $user->fill([
-            'name' => $request->name,
+            'name' => $fullname,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
             'username' => $request->username,
             'email' => $request->email,
             'phone_number' => $request->phone_number,
