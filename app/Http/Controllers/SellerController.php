@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use Illuminate\Http\Request;
 
 class SellerController extends Controller
@@ -13,6 +14,14 @@ class SellerController extends Controller
     {
         //
         return view('seller.dashboard');
+    }
+
+    public function showOrderStatus(Order $order)
+    {
+        if (auth()->id() !== $order->seller_id) {
+            abort(403, 'Unauthorized access to order status.');
+            }
+        return view('seller.order-details',compact('order'));    
     }
 
     /**
