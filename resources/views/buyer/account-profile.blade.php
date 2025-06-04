@@ -241,17 +241,42 @@
                 <h3 class="mb-4 text-lg font-semibold">Latest Orders</h3>
                 {{-- Loop Order here --}}
                 @if ($latestOrders->isEmpty())
-                <p class="text-gray-500 dark:text-gray-400">No orders found.</p>
+                    <p class="text-gray-500 dark:text-gray-400">No orders found.</p>
                 @else
-                @foreach ($latestOrders as $order)
-                <x-order-list :orderId="$order->id" :date="$order->created_at->format('d.m.Y')" :price="$order->total" :payment_method="$order->payment_method" :delivery_address="$order->delivery_address" :status="$order->status" :productName="$order->product_name" :productImage="$order->product_image" :quantity="$order->quantity"
-                    :delivery_status="$order->delivery_status" :payment_status="$order->payment_status" :actions="[
-                         ['url' => '#', 'label' => 'Order again', 'icon' => '<svg class=\'me-1.5 h-4 w-4 text-gray-400 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white\' aria-hidden=\'true\' xmlns=\'http://www.w3.org/2000/svg\' width=\'24\' height=\'24\' fill=\'none\' viewBox=\'0 0 24 24\'><path stroke=\'currentColor\' stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'2\' d=\'M17.651 7.65a7.131 7.131 0 0 0-12.68 3.15M18.001 4v4h-4m-7.652 8.35a7.13 7.13 0 0 0 12.68-3.15M6 20v-4h4\'></path></svg>'],
-                         ['url' => '#', 'label' => 'Order details', 'icon' => '<svg class=\'me-1.5 h-4 w-4 text-gray-400 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white\' aria-hidden=\'true\' xmlns=\'http://www.w3.org/2000/svg\' width=\'24\' height=\'24\' fill=\'none\' viewBox=\'0 0 24 24\'><path stroke=\'currentColor\' stroke-width=\'2\' d=\'M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z\'></path><path stroke=\'currentColor\' stroke-width=\'2\' d=\'M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z\'></path></svg>'],
-                         ['url' => '#', 'label' => 'Cancel order', 'icon' => '<svg class=\'me-1.5 h-4 w-4\' aria-hidden=\'true\' xmlns=\'http://www.w3.org/2000/svg\' width=\'24\' height=\'24\' fill=\'none\' viewBox=\'0 0 24 24\'><path stroke=\'currentColor\' stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'2\' d=\'M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z\'></path></svg>', 'class' => 'text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white']
-                            ]" />
-                @endforeach
+                    @foreach ($latestOrders as $order)
+                    <x-order-list :orderId="$order->id" :date="$order->created_at->format('d/m/Y')" :price="$order->total" :payment_method="$order->payment_method" :delivery_address="$order->delivery_address" :status="$order->status" :productName="$order->product_name" :productImage="$order->product_image" :quantity="$order->quantity"
+                        :delivery_status="$order->delivery_status" :payment_status="$order->payment_status" :order_status="$order->order_status" :actions="[
+                            ['url' => route('buyer.orders.show-status', $order->id), 'label' => 'Order details', 'icon' => '<svg class=\'me-1.5 h-4 w-4 text-gray-400 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white\' aria-hidden=\'true\' xmlns=\'http://www.w3.org/2000/svg\' width=\'24\' height=\'24\' fill=\'none\' viewBox=\'0 0 24 24\'><path stroke=\'currentColor\' stroke-width=\'2\' d=\'M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z\'></path><path stroke=\'currentColor\' stroke-width=\'2\' d=\'M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z\'></path></svg>'],
+                            ...$order->order_status === 'pending' ? [
+                                ['url' => route('buyer.orders.request-cancel', $order->id), 'label' => 'Cancel order', 'icon' => '<svg class=\'me-1.5 h-4 w-4\' aria-hidden=\'true\' xmlns=\'http://www.w3.org/2000/svg\' width=\'24\' height=\'24\' fill=\'none\' viewBox=\'0 0 24 24\'><path stroke=\'currentColor\' stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'2\' d=\'M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z\'></path></svg>', 'class' => 'text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white']
+                            ] : []
+                        ]" />
+                    @endforeach
+                    @if($latestOrders->hasPages())
+                        <div class="mt-8" id="pagination-section">
+                            {{ $latestOrders->fragment('pagination-section')->links() }}
+                        </div>
+                    @endif
+                @endif
+            </div>
 
+            <!-- Cancelled Orders -->
+            <div class="mt-8 rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800">
+                <h3 class="mb-4 text-lg font-semibold">Cancelled Orders</h3>
+                {{-- Loop Order here --}}
+                @if ($latestCancelledOrders->isEmpty())
+                    <p class="text-gray-500 dark:text-gray-400">No orders found.</p>
+                @else
+                    @foreach ($latestCancelledOrders as $cancelledOrder)
+                    <x-cancelled-order-list :orderId="$cancelledOrder->order_id" :date="$cancelledOrder->created_at->format('d/m/Y')" :cancelledByRole="$cancelledOrder->cancelled_by_role" :cancellationReason="$cancelledOrder->cancellation_reason" :customCancellationReason="$cancelledOrder->custom_cancellation_reason" :additionalComments="$cancelledOrder->additional_comments" :actions="[
+                            ['url' => route('buyer.orders.show-status', $cancelledOrder->order_id), 'label' => 'Order details', 'icon' => '<svg class=\'me-1.5 h-4 w-4 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white\' aria-hidden=\'true\' xmlns=\'http://www.w3.org/2000/svg\' width=\'24\' height=\'24\' fill=\'none\' viewBox=\'0 0 24 24\'><path stroke=\'currentColor\' stroke-width=\'2\' d=\'M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z\'></path><path stroke=\'currentColor\' stroke-width=\'2\' d=\'M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z\'></path></svg>']
+                        ]" />
+                    @endforeach
+                    @if($latestCancelledOrders->hasPages())
+                        <div class="mt-8" id="pagination-section">
+                            {{ $latestCancelledOrders->fragment('pagination-section')->links() }}
+                        </div>
+                    @endif
                 @endif
             </div>
 
