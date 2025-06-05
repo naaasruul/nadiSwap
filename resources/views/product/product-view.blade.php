@@ -12,14 +12,20 @@
                     <div class="relative aspect-square">
                         <!-- Left and Right Arrow Buttons -->
                         <button id="prevBtn" class="cursor-pointer absolute top-1/2 left-2 transform -translate-y-1/2 z-10 bg-white/30 backdrop-blur-md text-white p-3 rounded-full shadow-md hover:bg-white/40 focus:outline-none">
-                          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                          </svg>
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24">
+                            <!-- Black outline (thicker stroke behind) -->
+                            <path d="M15 19l-7-7 7-7" stroke="black" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                            <!-- White arrow on top -->
+                            <path d="M15 19l-7-7 7-7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
                         </button>
                         <button id="nextBtn" class="cursor-pointer absolute top-1/2 right-2 transform -translate-y-1/2 z-10 bg-white/30 backdrop-blur-md text-white p-3 rounded-full shadow-md hover:bg-white/40 focus:outline-none">
-                          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                          </svg>
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24">
+                            <!-- Black outline -->
+                            <path d="M9 5l7 7-7 7" stroke="black" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                            <!-- White arrow -->
+                            <path d="M9 5l7 7-7 7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
                         </button>
 
                         <!-- Focused Main Image (for light and dark modes) -->
