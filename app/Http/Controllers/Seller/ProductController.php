@@ -18,10 +18,25 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::where('seller_id', auth()->id())->get();
+        $allProducts = Product::where('seller_id', auth()->id())->get();
+        
+        $soldProducts = $allProducts->filter(function($product) {
+            return $product->hasSales();
+        });
+        
+        $unsoldProducts = $allProducts->filter(function($product) {
+            return !$product->hasSales();
+        });
+        
+        // Add total quantities to each sold product
+        $soldProducts = $soldProducts->map(function($product) {
+            $product->total_sold = $product->getTotalQuantitySold();
+            return $product;
+        });
+        
         $categories = Category::all();
-        // $avgRating = $product->reviews()->avg('rating') ?? 0 ;
-        return view('seller.products', compact('products','categories'));
+        
+        return view('seller.products', compact('soldProducts', 'unsoldProducts', 'categories'));
     }
 
     /**
@@ -114,19 +129,24 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        // Decode the JSON images field to get the list of image paths
+        if (!$product->canBeDeleted()) {
+            return redirect()
+                ->route('seller.products.index')
+                ->with('error', 'Cannot delete product with existing orders.');
+        }
+
+        // Proceed with deletion if no orders exist
         if ($product->images) {
             $images = json_decode($product->images, true);
             foreach ($images as $image) {
-                // Delete each image from storage
                 \Storage::disk('public')->delete($image);
             }
         }
 
-        // Delete the product from the database
         $product->delete();
-
-        return redirect()->route('seller.products.index')->with('success', 'Product deleted successfully.');
+        return redirect()
+            ->route('seller.products.index')
+            ->with('success', 'Product deleted successfully.');
     }
 
     public function show(Product $product)
@@ -162,28 +182,32 @@ class ProductController extends Controller
             'product_ids' => 'required|array',
             'product_ids.*' => 'exists:products,id',
         ]);
-    
-        $productIds = $request->product_ids;
-    
-        // Retrieve the products that belong to the authenticated seller
-        $products = Product::whereIn('id', $productIds)
+
+        $products = Product::whereIn('id', $request->product_ids)
             ->where('seller_id', auth()->id())
             ->get();
-    
+
+        $nonDeletable = $products->filter(function($product) {
+            return !$product->canBeDeleted();
+        })->pluck('name');
+
+        if ($nonDeletable->isNotEmpty()) {
+            return response()->json([
+                'error' => 'Some products cannot be deleted because they have orders: ' . 
+                          $nonDeletable->implode(', ')
+            ], 400);
+        }
+
         foreach ($products as $product) {
-            // Decode the JSON images field to get the list of image paths
             if ($product->images) {
                 $images = json_decode($product->images, true);
                 foreach ($images as $image) {
-                    // Delete each image from storage
                     \Storage::disk('public')->delete($image);
                 }
             }
-    
-            // Delete the product from the database
             $product->delete();
         }
-    
-        return response()->json(['message' => 'Selected products and their images deleted successfully.']);
+
+        return response()->json(['message' => 'Selected products deleted successfully.']);
     }
 }
