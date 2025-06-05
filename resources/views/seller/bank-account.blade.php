@@ -36,21 +36,37 @@
             @csrf
 
             <div class="mb-4">
-                <label for="bank_acc_name" class="block text-sm font-medium text-gray-700">Bank Account Name</label>
+                <label for="bank_acc_name" class="block text-sm font-medium text-gray-700">Bank Account Holder Name</label>
                 <input type="text" name="bank_acc_name" id="bank_acc_name" value="{{ old('bank_acc_name', $seller->bankAccount->bank_acc_name ?? '') }}"
-                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:text-sm">
+                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:text-sm" placeholder="John Doe">
             </div>
 
             <div class="mb-4">
                 <label for="bank_acc_number" class="block text-sm font-medium text-gray-700">Bank Account Number</label>
                 <input type="text" name="bank_acc_number" id="bank_acc_number" value="{{ old('bank_acc_number', $seller->bankAccount->bank_acc_number ?? '') }}"
-                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:text-sm">
+                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:text-sm" placeholder="xxxxxxxxxxx">
             </div>
 
             <div class="mb-4">
                 <label for="bank_type" class="block text-sm font-medium text-gray-700">Bank Type</label>
-                <input type="text" name="bank_type" id="bank_type" value="{{ old('bank_type', $seller->bankAccount->bank_type ?? '') }}"
-                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:text-sm">
+                {{-- <input type="text" name="bank_type" id="bank_type" value="{{ old('bank_type', $seller->bankAccount->bank_type ?? '') }}"
+                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:text-sm"> --}}
+
+                <select name="bank_type" id="bank_type" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:text-sm">
+                    <option value="" selected disabled>Select Bank</option>
+                    <option value="Maybank" {{ (old('bank_type', $seller->bankAccount->bank_type ?? '') == 'Maybank') ? 'selected' : '' }}>Maybank</option>
+                    <option value="CIMB Bank" {{ (old('bank_type', $seller->bankAccount->bank_type ?? '') == 'CIMB Bank') ? 'selected' : '' }}>CIMB Bank</option>
+                    <option value="Public Bank" {{ (old('bank_type', $seller->bankAccount->bank_type ?? '') == 'Public Bank') ? 'selected' : '' }}>Public Bank</option>
+                    <option value="RHB Bank" {{ (old('bank_type', $seller->bankAccount->bank_type ?? '') == 'RHB Bank') ? 'selected' : '' }}>RHB Bank</option>
+                    <option value="Ambank" {{ (old('bank_type', $seller->bankAccount->bank_type ?? '') == 'Ambank') ? 'selected' : '' }}>Ambank</option>
+                    <option value="Bank Simpanan Nasional" {{ (old('bank_type', $seller->bankAccount->bank_type ?? '') == 'Bank Simpanan Nasional') ? 'selected' : '' }}>Bank Simpanan Nasional</option>
+                    <option value="Bank Rakyat" {{ (old('bank_type', $seller->bankAccount->bank_type ?? '') == 'Bank Rakyat') ? 'selected' : '' }}>Bank Rakyat</option>
+                    <option value="UOB" {{ (old('bank_type', $seller->bankAccount->bank_type ?? '') == 'UOB') ? 'selected' : '' }}>UOB</option>
+                    <option value="Affin Bank" {{ (old('bank_type', $seller->bankAccount->bank_type ?? '') == 'Affin Bank') ? 'selected' : '' }}>Affin Bank</option>
+                    <option value="Bank Islam" {{ (old('bank_type', $seller->bankAccount->bank_type ?? '') == 'Bank Islam') ? 'selected' : '' }}>Bank Islam</option>
+                    <option value="HSBC Online" {{ (old('bank_type', $seller->bankAccount->bank_type ?? '') == 'HSBC Online') ? 'selected' : '' }}>HSBC Online</option>
+                    <option value="Standard Chartered Bank" {{ (old('bank_type', $seller->bankAccount->bank_type ?? '') == 'Standard Chartered Bank') ? 'selected' : '' }}>Standard Chartered Bank</option>
+                </select>
             </div>
 
             <button type="submit" class="px-4 py-2 bg-pink-600 text-white rounded-lg">Save</button>
