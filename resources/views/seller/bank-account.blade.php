@@ -26,7 +26,7 @@
                 <p class="text-base text-gray-700 dark:text-gray-200"><span class="font-bold">Account Number:</span> {{ $seller->bankAccount->bank_acc_number ?? 'Unknown' }}</p>
                 <p class="text-base text-gray-700 dark:text-gray-200"><span class="font-bold">Bank Type:</span> {{ $seller->bankAccount->bank_type ?? 'Unknown' }}</p>
             @else
-                <p class="text-base text-red-600">No bank account setup yet.</p>
+                <p class="text-base text-red-600 dark:text-red-400">No bank account setup yet.</p>
             @endif
         </div>
     </div>
@@ -36,23 +36,23 @@
             @csrf
 
             <div class="mb-4">
-                <label for="bank_acc_name" class="block text-sm font-medium text-gray-700">Bank Account Holder Name</label>
+                <label for="bank_acc_name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Bank Account Holder Name</label>
                 <input type="text" name="bank_acc_name" id="bank_acc_name" value="{{ old('bank_acc_name', $seller->bankAccount->bank_acc_name ?? '') }}"
-                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:text-sm" placeholder="John Doe">
+                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="John Doe">
             </div>
 
             <div class="mb-4">
-                <label for="bank_acc_number" class="block text-sm font-medium text-gray-700">Bank Account Number</label>
+                <label for="bank_acc_number" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Bank Account Number</label>
                 <input type="text" name="bank_acc_number" id="bank_acc_number" value="{{ old('bank_acc_number', $seller->bankAccount->bank_acc_number ?? '') }}"
-                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:text-sm" placeholder="xxxxxxxxxxx">
+                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="xxxxxxxxxxx">
             </div>
 
             <div class="mb-4">
-                <label for="bank_type" class="block text-sm font-medium text-gray-700">Bank Type</label>
+                <label for="bank_type" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Bank Type</label>
                 {{-- <input type="text" name="bank_type" id="bank_type" value="{{ old('bank_type', $seller->bankAccount->bank_type ?? '') }}"
                     class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:text-sm"> --}}
 
-                <select name="bank_type" id="bank_type" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:text-sm">
+                <select name="bank_type" id="bank_type" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                     <option value="" selected disabled>Select Bank</option>
                     <option value="Maybank" {{ (old('bank_type', $seller->bankAccount->bank_type ?? '') == 'Maybank') ? 'selected' : '' }}>Maybank</option>
                     <option value="CIMB Bank" {{ (old('bank_type', $seller->bankAccount->bank_type ?? '') == 'CIMB Bank') ? 'selected' : '' }}>CIMB Bank</option>

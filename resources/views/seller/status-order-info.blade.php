@@ -12,7 +12,7 @@
                     'textColor' => 'text-green-100'
                 ],
                 'cancelled' => [
-                    'text' => 'Failed', 
+                    'text' => 'Cancelled', 
                     'bg' => 'bg-red-500', 
                     'icon' => '❌',
                     'headerGradient' => 'bg-gradient-to-r from-red-600 to-red-700',
@@ -33,7 +33,7 @@
             <div class="container mx-auto p-6">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h1 class="text-2xl font-bold mb-2">Order #{{ $order->id }}</h1>
+                        <h1 class="text-2xl font-bold mb-2 dark:text-gray-100">Order #{{ $order->id }}</h1>
                         <p class="{{ $statusConfig['textColor'] }}">Placed on {{ $order->created_at->format('M d, Y') }}</p>
                     </div>
                     <div class="text-right">
@@ -59,20 +59,20 @@
                 <div class="lg:col-span-2 space-y-6">
                     
                     <!-- Payment Status Section -->
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                        <h2 class="text-lg font-semibold mb-6 flex items-center">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 dark:bg-gray-800 dark:border-gray-700">
+                        <h2 class="text-lg font-semibold mb-6 flex items-center dark:text-gray-100">
                             <span class="w-2 h-2 bg-purple-600 rounded-full mr-3"></span>
                             Order Status
                         </h2>
-                        <div class="bg-gray-50 rounded-lg p-6">
+                        <div class="bg-gray-50 rounded-lg p-6 dark:bg-gray-700">
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center space-x-4">
                                     <div class="w-16 h-16 rounded-full flex items-center justify-center text-2xl
                                         {{ match($order->order_status) {
-                                            'completed' => 'bg-green-100 text-green-600',
-                                            'pending' => 'bg-yellow-100 text-yellow-600',
-                                            'cancelled' => 'bg-red-100 text-red-600',
-                                            default => 'bg-gray-100 text-gray-600'
+                                            'completed' => 'bg-green-100 text-green-600 dark:bg-green-600 dark:text-green-100',
+                                            'pending' => 'bg-yellow-100 text-yellow-600 dark:bg-yellow-600 dark:text-yellow-100',
+                                            'cancelled' => 'bg-red-100 text-red-600 dark:bg-red-600 dark:text-red-100',
+                                            default => 'bg-gray-100 text-gray-600 dark:bg-gray-600 dark:text-gray-100'
                                         } }}">
                                         {{ match($order->order_status) {
                                             'completed' => '✅',
@@ -84,10 +84,10 @@
                                     <div>
                                         <p class="text-xl font-bold
                                             {{ match($order->order_status) {
-                                                'completed' => 'text-green-600',
-                                                'pending' => 'text-yellow-600',
-                                                'cancelled' => 'text-red-600',
-                                                default => 'text-gray-600'
+                                                'completed' => 'text-green-600 dark:text-green-400',
+                                                'pending' => 'text-yellow-600 dark:text-yellow-400',
+                                                'cancelled' => 'text-red-600 dark:text-red-400',
+                                                default => 'text-gray-600 dark:text-gray-400'
                                             } }}">
                                             {{ match($order->order_status) {
                                                 'completed' => 'Order Completed',
@@ -98,36 +98,36 @@
                                         </p>
 
                                         @if($order->order_status == 'completed')
-                                            <p class="text-gray-600 mt-1">
+                                            <p class="text-gray-600 mt-1 dark:text-gray-300">
                                                 {{ $order->order_status == 'completed' ? 'Paid' : '' }} {{ $order->order_status == 'cancelled' ? '' : 'via ' }} {{ ucfirst($order->payment_method === 'cod' ? 'Cash on Delivery' : 'Online Banking' ) }}
                                             </p>
                                         @endif
                                     </div>
                                 </div>
                                 <div class="text-right">
-                                    <p class="text-2xl font-bold text-gray-900">RM{{ number_format($order->total, 2) }}</p>
-                                    <p class="text-gray-500 text-sm">Total Amount</p>
+                                    <p class="text-2xl font-bold text-gray-900 dark:text-gray-100">RM{{ number_format($order->total, 2) }}</p>
+                                    <p class="text-gray-500 text-sm dark:text-gray-400">Total Amount</p>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Product Section -->
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                        <h2 class="text-lg font-semibold mb-6 flex items-center">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 dark:bg-gray-800 dark:border-gray-700">
+                        <h2 class="text-lg font-semibold mb-6 flex items-center dark:text-gray-100">
                             <span class="w-2 h-2 bg-green-600 rounded-full mr-3"></span>
                             Product
                         </h2>
                         
                         <!-- Seller Information -->
-                        <div class="mb-6 bg-gray-50 rounded-lg p-4">
+                        <div class="mb-6 bg-gray-50 rounded-lg p-4 dark:bg-gray-700">
                             <div class="flex items-center">
                                 <div class="w-12 h-12 bg-gradient-to-br from-orange-400 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-lg mr-4">
                                     {{ substr(optional($order->seller)->name ?? 'N', 0, 1) }}
                                 </div>
                                 <div>
-                                    <p class="font-semibold text-gray-900">{{ optional($order->seller)->name ?? 'N/A' }}</p>
-                                    <p class="text-gray-600 text-sm">{{ optional($order->seller)->phone_number ?? 'N/A' }}</p>
+                                    <p class="font-semibold text-gray-900 dark:text-gray-100">{{ optional($order->seller)->name ?? 'N/A' }}</p>
+                                    <p class="text-gray-600 text-sm dark:text-gray-300">{{ optional($order->seller)->phone_number ?? 'N/A' }}</p>
                                 </div>
                             </div>
                         </div>
@@ -144,39 +144,39 @@
                                 @php
                                     $product = \App\Models\Product::find($productId);
                                 @endphp
-                                <div class="flex items-start p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                                    <div class="w-20 h-20 bg-white rounded-lg overflow-hidden shadow-sm mr-4">
+                                <a href="{{ route('products.show', $productId) }}" class="flex items-start p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors dark:bg-gray-700 dark:hover:bg-gray-600">
+                                    <div class="w-20 h-20 bg-white rounded-lg overflow-hidden shadow-sm mr-4 dark:bg-gray-800">
                                         <img src="{{ asset('storage/' . $item['image']) }}" 
                                              alt="{{ $item['name'] }}" 
                                              class="w-full h-full object-cover">
                                     </div>
                                     <div class="flex-1">
-                                        <h3 class="font-semibold text-gray-900 mb-1">{{ $item['name'] }}</h3>
-                                        <p class="text-gray-600 text-sm mb-2 leading-relaxed">
+                                        <h3 class="font-semibold text-gray-900 mb-1 dark:text-gray-100">{{ $item['name'] }}</h3>
+                                        <p class="text-gray-600 text-sm mb-2 leading-relaxed dark:text-gray-300">
                                             {{ $product->description ?? 'No description available' }}
                                         </p>
                                         <div class="flex items-center justify-between">
-                                            <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">
+                                            <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm font-medium dark:bg-blue-900 dark:text-blue-300">
                                                 Quantity: {{ $item['quantity'] }}
                                             </span>
-                                            <span class="font-bold text-gray-900 text-lg">RM{{ number_format($item['price'], 2) }}</span>
+                                            <span class="font-bold text-gray-900 dark:text-gray-100 text-lg">RM{{ number_format($item['price'], 2) }}</span>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
                             @endforeach
                         </div>
 
                         <!-- Shipping Fee -->
-                        <div class="mt-6 pt-6 border-t border-gray-200">
-                            <div class="flex items-center justify-between bg-blue-50 rounded-lg p-4">
+                        <div class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+                            <div class="flex items-center justify-between bg-blue-50 rounded-lg p-4 dark:bg-blue-900">
                                 <div class="flex items-center">
                                     <span class="text-xl mr-3">🚚</span>
                                     <div>
-                                        <p class="font-semibold text-gray-900">Shipping Fee</p>
-                                        <p class="text-gray-600 text-sm"></p>
+                                        <p class="font-semibold text-gray-900 dark:text-gray-100">Shipping Fee</p>
+                                        <p class="text-gray-600 text-sm dark:text-gray-300"></p>
                                     </div>
                                 </div>
-                                <p class="text-lg font-bold text-gray-900">RM{{ number_format($shippingTotal, 2) }}</p>
+                                <p class="text-lg font-bold text-gray-900 dark:text-gray-100">RM{{ number_format($shippingTotal, 2) }}</p>
                             </div>
                         </div>
                     </div>
@@ -186,38 +186,38 @@
                 <div class="space-y-6">
                     
                     <!-- Delivery Information Card -->
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                        <h3 class="font-semibold mb-4 flex items-center">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 dark:bg-gray-800 dark:border-gray-700">
+                        <h3 class="font-semibold mb-4 flex items-center dark:text-gray-100">
                             <span class="w-2 h-2 bg-blue-600 rounded-full mr-3"></span>
                             Delivery Information
                         </h3>
                         
                         <!-- Buyer Details -->
                         <div class="mb-6">
-                            <h4 class="text-sm font-medium text-gray-700 mb-3">Buyer Details</h4>
+                            <h4 class="text-sm font-medium text-gray-700 mb-3 dark:text-gray-300">Buyer Details</h4>
                             <div class="space-y-3">
                                 <div>
-                                    <p class="text-xs text-gray-500 mb-1">Name</p>
-                                    <p class="font-medium text-gray-900">{{ optional($order->buyer)->name ?? 'N/A' }}</p>
+                                    <p class="text-xs text-gray-500 mb-1 dark:text-gray-400">Name</p>
+                                    <p class="font-medium text-gray-900 dark:text-gray-100">{{ optional($order->buyer)->name ?? 'N/A' }}</p>
                                 </div>
                                 <div>
-                                    <p class="text-xs text-gray-500 mb-1">Phone Number</p>
-                                    <p class="font-medium text-gray-900">{{ optional($order->buyer)->phone_number ?? 'N/A' }}</p>
+                                    <p class="text-xs text-gray-500 mb-1 dark:text-gray-400">Phone Number</p>
+                                    <p class="font-medium text-gray-900 dark:text-gray-100">{{ optional($order->buyer)->phone_number ?? 'N/A' }}</p>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Delivery Address -->
                         <div>
-                            <h4 class="text-sm font-medium text-gray-700 mb-3">Delivery Address</h4>
+                            <h4 class="text-sm font-medium text-gray-700 mb-3 dark:text-gray-300">Delivery Address</h4>
                             @php
                                 $address_id = $items['delivery_address_id'] ?? null;
                                 $address = \App\Models\DeliveryAddress::find($address_id);
                             @endphp
-                            <div class="bg-gray-50 rounded-lg p-4">
+                            <div class="bg-gray-50 rounded-lg p-4 dark:bg-gray-700">
                                 <div class="flex items-start">
                                     <span class="text-lg mr-3 mt-1">📍</span>
-                                    <p class="text-gray-700 leading-relaxed text-sm">
+                                    <p class="text-gray-700 leading-relaxed text-sm dark:text-gray-300">
                                         {{ $address ? implode(', ', array_filter([
                                             $address->address_line_1,
                                             $address->address_line_2,
@@ -232,8 +232,8 @@
                     </div>
 
                     <!-- Order Information Card -->
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                        <h3 class="font-semibold mb-4 flex items-center">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 dark:bg-gray-800 dark:border-gray-700">
+                        <h3 class="font-semibold mb-4 flex items-center dark:text-gray-100">
                             <span class="w-2 h-2 bg-orange-600 rounded-full mr-3"></span>
                             Order Information
                         </h3>
@@ -242,16 +242,16 @@
                             <div class="flex items-center">
                                 <span class="text-xl mr-3">📋</span>
                                 <div>
-                                    <p class="text-xs text-gray-500 mb-1">Order ID</p>
-                                    <p class="font-bold text-gray-900">#{{ $order->id }}</p>
+                                    <p class="text-xs text-gray-500 mb-1 dark:text-gray-400">Order ID</p>
+                                    <p class="font-bold text-gray-900 dark:text-gray-100">#{{ $order->id }}</p>
                                 </div>
                             </div>
                             <div class="flex items-center">
                                 <span class="text-xl mr-3">📅</span>
                                 <div>
-                                    <p class="text-xs text-gray-500 mb-1">Order Date & Time</p>
-                                    <p class="font-medium text-gray-900">{{ $order->created_at->format('M d, Y') }}</p>
-                                    <p class="text-gray-600 text-xs">{{ $order->created_at->format('g:i A') }}</p>
+                                    <p class="text-xs text-gray-500 mb-1 dark:text-gray-400">Order Date & Time</p>
+                                    <p class="font-medium text-gray-900 dark:text-gray-100">{{ $order->created_at->format('M d, Y') }}</p>
+                                    <p class="text-gray-600 text-xs dark:text-gray-300">{{ $order->created_at->format('g:i A') }}</p>
                                 </div>
                             </div>
                         </div>
@@ -259,7 +259,7 @@
 
                     <!-- Total Summary Card -->
                     <div class="{{ $statusConfig['headerGradient'] }} text-white rounded-xl p-6">
-                        <h3 class="font-semibold mb-3">Order Summary</h3>
+                        <h3 class="font-semibold mb-3 dark:text-gray-100">Order Summary</h3>
                         <div class="space-y-2 text-sm">
                             <div class="flex justify-between">
                                 <span class="text-blue-100">Subtotal</span>
@@ -271,8 +271,8 @@
                             </div>
                             <div class="border-t {{ $statusConfig['borderColor'] }} pt-2 mt-3">
                                 <div class="flex justify-between items-center">
-                                    <span class="font-semibold">Total</span>
-                                    <span class="text-xl font-bold">RM{{ number_format($order->total, 2) }}</span>
+                                    <span class="font-semibold dark:text-gray-100">Total</span>
+                                    <span class="text-xl font-bold dark:text-gray-100">RM{{ number_format($order->total, 2) }}</span>
                                 </div>
                                 <div class="flex items-center justify-between {{ $order->file_receipt ? 'mt-2' : '' }}">
                                     <p class="text-blue-100 text-xs">

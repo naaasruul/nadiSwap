@@ -5,17 +5,17 @@
             $statusConfig = match ($order->delivery_status) {
                 'shipped' => [
                     'text' => 'Shipped', 
-                    'bg' => 'bg-blue-500', 
+                    'bg' => 'bg-yellow-500', 
                     'icon' => '🚚',
-                    'headerGradient' => 'bg-gradient-to-r from-blue-500 to-blue-600',
-                    'textColor' => 'text-blue-100'
+                    'headerGradient' => 'bg-gradient-to-r from-yellow-500 to-orange-600',
+                    'textColor' => 'text-yellow-100'
                 ],
                 'ofd' => [
                     'text' => 'Out for Delivery', 
-                    'bg' => 'bg-purple-500', 
+                    'bg' => 'bg-blue-500', 
                     'icon' => '🚛',
-                    'headerGradient' => 'bg-gradient-to-r from-purple-600 to-indigo-700',
-                    'textColor' => 'text-purple-100'
+                    'headerGradient' => 'bg-gradient-to-r from-blue-600 to-indigo-700',
+                    'textColor' => 'text-blue-100'
                 ],
                 'delivered' => [
                     'text' => 'Delivered', 
@@ -44,12 +44,12 @@
             <div class="container mx-auto p-6">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h1 class="text-2xl font-bold mb-2">Order #{{ $order->id }}</h1>
+                        <h1 class="text-2xl font-bold mb-2 dark:text-gray-100">Order #{{ $order->id }}</h1>
                         <p class="{{ $statusConfig['textColor'] }}">Placed on {{ $order->created_at->format('M d, Y') }}</p>
                     </div>
                     <div class="text-right">
                         <div class="flex items-center space-x-3">
-                            <span class="text-2xl">{{ $statusConfig['icon'] }}</span>
+                            <span class="text-2xl   ">{{ $statusConfig['icon'] }}</span>
                             <div>
                                 <div class="flex justify-end">
                                     <div class="px-4 py-2 {{ $statusConfig['bg'] }} rounded-full text-white font-semibold w-max">
@@ -69,8 +69,8 @@
                 <!-- Main Content -->
                 <div class="lg:col-span-2 space-y-6">
                     <!-- Order Progress Timeline -->
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                        <h2 class="text-lg font-semibold mb-6 flex items-center">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 dark:bg-gray-800 dark:border-gray-700">
+                        <h2 class="text-lg font-semibold mb-6 flex items-center dark:text-gray-100">
                             <span class="w-2 h-2 bg-blue-600 rounded-full mr-3"></span>
                             Order Progress
                         </h2>
@@ -92,13 +92,13 @@
                             <div class="flex items-center justify-between relative">
                                 <!-- Progress Line -->
                                 @if(!$isCancelled)
-                                    <div class="absolute top-6 left-6 right-6 h-0.5 bg-gray-200">
+                                    <div class="absolute top-6 left-6 right-6 h-0.5 bg-gray-200 dark:bg-gray-700">
                                         <div class="h-full bg-gradient-to-r from-blue-500 to-green-500 transition-all duration-500" 
                                              style="width: {{ $order->delivery_status == 'delivered' ? '100' : ($currentStep * 25) }}%"></div>
                                     </div>
                                 @else
                                     <!-- Cancelled state - red line -->
-                                    <div class="absolute top-6 left-6 right-6 h-0.5 bg-red-200">
+                                    <div class="absolute top-6 left-6 right-6 h-0.5 bg-red-200 dark:bg-red-700">
                                         <div class="h-full bg-red-500 transition-all duration-500 w-full"></div>
                                     </div>
                                 @endif
@@ -109,13 +109,13 @@
                                             <div class="w-12 h-12 rounded-full border-4 flex items-center justify-center text-lg z-10
                                                 {{ $index <= $currentStep || $order->delivery_status == $step['key'] 
                                                    ? 'bg-blue-600 border-blue-600 text-white' 
-                                                   : 'bg-white border-gray-300' }}">
+                                                   : 'bg-white border-gray-300 dark:bg-gray-700 dark:border-gray-500 dark:text-white' }}">
                                                 {{ $step['icon'] }}
                                             </div>
                                             <p class="text-sm font-medium mt-2 text-center
                                                 {{ $index <= $currentStep || $order->delivery_status == $step['key'] 
-                                                   ? 'text-blue-600' 
-                                                   : 'text-gray-500' }}">
+                                                   ? 'text-blue-600 dark:text-blue-400' 
+                                                   : 'text-gray-500 dark:text-gray-400' }}">
                                                 {{ $step['label'] }}
                                             </p>
                                         </div>
@@ -127,10 +127,10 @@
                                             <div class="w-16 h-16 rounded-full border-4 bg-red-600 border-red-600 text-white flex items-center justify-center text-2xl z-10">
                                                 ❌
                                             </div>
-                                            <p class="text-lg font-semibold mt-3 text-center text-red-600">
+                                            <p class="text-lg font-semibold mt-3 text-center text-red-600 dark:text-red-400">
                                                 Order Cancelled
                                             </p>
-                                            <p class="text-sm text-gray-500 mt-1 text-center">
+                                            <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 text-center">
                                                 This order has been cancelled and will not be processed
                                             </p>
                                         </div>
@@ -141,8 +141,8 @@
                     </div>
 
                     <!-- Product Details -->
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                        <h2 class="text-lg font-semibold mb-6 flex items-center">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 dark:bg-gray-800 dark:border-gray-700">
+                        <h2 class="text-lg font-semibold mb-6 flex items-center dark:text-gray-100">
                             <span class="w-2 h-2 bg-green-600 rounded-full mr-3"></span>
                             Items Ordered
                         </h2>
@@ -154,19 +154,19 @@
                         
                         <div class="space-y-4">
                             @foreach($cartItems as $item)
-                                <div class="flex items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                                    <div class="w-20 h-20 bg-white rounded-lg overflow-hidden shadow-sm mr-4">
+                                <div class="flex items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors dark:bg-gray-700 dark:hover:bg-gray-600">
+                                    <div class="w-20 h-20 bg-white rounded-lg overflow-hidden shadow-sm mr-4 dark:bg-gray-800">
                                         <img src="{{ asset('storage/' . $item['image']) }}" 
                                              alt="{{ $item['name'] }}" 
                                              class="w-full h-full object-cover">
                                     </div>
                                     <div class="flex-1">
-                                        <h3 class="font-semibold text-gray-900 mb-1">{{ $item['name'] }}</h3>
-                                        <div class="flex items-center space-x-4 text-sm text-gray-600">
-                                            <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">
+                                        <h3 class="font-semibold text-gray-900 mb-1 dark:text-white">{{ $item['name'] }}</h3>
+                                        <div class="flex items-center space-x-4 text-sm text-gray-600 dark:text-gray-300">
+                                            <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm font-medium dark:bg-blue-900 dark:text-blue-300">
                                                 Quantity: {{ $item['quantity'] }}
                                             </span>
-                                            <span class="font-semibold text-gray-900">RM{{ number_format($item['price'], 2) }}</span>
+                                            <span class="font-semibold text-gray-900 dark:text-white">RM{{ number_format($item['price'], 2) }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -174,17 +174,17 @@
                         </div>
 
                         <!-- Order Summary -->
-                        <div class="mt-6 pt-6 border-t border-gray-200">
+                        <div class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
                             <div class="space-y-3">
-                                <div class="flex justify-between text-gray-600">
+                                <div class="flex justify-between text-gray-600 dark:text-gray-300">
                                     <span>Subtotal</span>
                                     <span>RM{{ number_format($order->total - $shippingTotal, 2) }}</span>
                                 </div>
-                                <div class="flex justify-between text-gray-600">
+                                <div class="flex justify-between text-gray-600 dark:text-gray-300">
                                     <span>Shipping</span>
                                     <span>RM{{ number_format($shippingTotal, 2) }}</span>
                                 </div>
-                                <div class="flex justify-between text-lg font-bold text-gray-900 pt-3 border-t border-gray-200">
+                                <div class="flex justify-between text-lg font-bold text-gray-900 pt-3 border-t border-gray-200 dark:border-gray-700 dark:text-white">
                                     <span>Total</span>
                                     <span>RM{{ number_format($order->total, 2) }}</span>
                                 </div>
@@ -196,21 +196,21 @@
                 <!-- Sidebar -->
                 <div class="space-y-6">
                     <!-- Payment Status Card -->
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                        <h3 class="font-semibold mb-4 flex items-center">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 dark:bg-gray-800 dark:border-gray-700">
+                        <h3 class="font-semibold mb-4 flex items-center dark:text-gray-100">
                             <span class="w-2 h-2 bg-purple-600 rounded-full mr-3"></span>
                             Payment Status
                         </h3>
                         <div class="flex items-center justify-between">
-                            <span class="px-4 py-2 text-sm font-semibold rounded-full {{ $order->payment_status == 'paid' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                            <span class="px-4 py-2 text-sm font-semibold rounded-full {{ $order->payment_status == 'paid' ? 'bg-green-100 text-green-800 dark:bg-green-600 dark:text-green-100' : 'bg-red-100 text-red-800 dark:bg-red-600 dark:text-red-100' }}">
                                 {{ $order->payment_status == 'paid' ? '✅ Paid' : '❌ Unpaid' }} {{ $order->payment_status == 'cancelled' ? '' : 'via ' }} {{ ucfirst($order->payment_method === 'cod' ? 'Cash on Delivery' : 'Online Banking' ) }}
                             </span>
                         </div>
                     </div>
 
                     <!-- Delivery Address Card -->
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                        <h3 class="font-semibold mb-4 flex items-center">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 dark:bg-gray-800 dark:border-gray-700">
+                        <h3 class="font-semibold mb-4 flex items-center dark:text-gray-100">
                             <span class="w-2 h-2 bg-red-600 rounded-full mr-3"></span>
                             Delivery Address
                         </h3>
@@ -218,13 +218,13 @@
                             $address_id = $items['delivery_address_id'] ?? null;
                             $address = \App\Models\DeliveryAddress::find($address_id);
                         @endphp
-                        <div class="bg-gray-50 rounded-lg p-4">
+                        <div class="bg-gray-50 rounded-lg p-4 dark:bg-gray-700">
                             <div class="flex items-start">
                                 <span class="text-2xl mr-3">📍</span>
                                 <div>
-                                    <p class="font-semibold text-gray-900 mb-1">{{ optional($order->buyer)->name ?? 'N/A' }}</p>
-                                    <p class="text-gray-600 text-sm mb-2">{{ optional($order->buyer)->phone_number ?? 'N/A' }}</p>
-                                    <p class="text-gray-700 leading-relaxed">
+                                    <p class="font-semibold text-gray-900 mb-1 dark:text-white">{{ optional($order->buyer)->name ?? 'N/A' }}</p>
+                                    <p class="text-gray-600 text-sm mb-2 dark:text-gray-300">{{ optional($order->buyer)->phone_number ?? 'N/A' }}</p>
+                                    <p class="text-gray-700 leading-relaxed dark:text-gray-300">
                                         {{ $address ? implode(', ', array_filter([
                                             $address->address_line_1,
                                             $address->address_line_2,
@@ -239,8 +239,8 @@
                     </div>
 
                     <!-- Seller Information Card -->
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                        <h3 class="font-semibold mb-4 flex items-center">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 dark:bg-gray-800 dark:border-gray-700">
+                        <h3 class="font-semibold mb-4 flex items-center dark:text-gray-100">
                             <span class="w-2 h-2 bg-orange-600 rounded-full mr-3"></span>
                             Seller Information
                         </h3>
@@ -249,8 +249,8 @@
                                 {{ substr(optional($order->seller)->name ?? 'N', 0, 1) }}
                             </div>
                             <div>
-                                <p class="font-semibold text-gray-900">{{ optional($order->seller)->name ?? 'N/A' }}</p>
-                                <p class="text-gray-600 text-sm">{{ optional($order->seller)->phone_number ?? 'N/A' }}</p>
+                                <p class="font-semibold text-gray-900 dark:text-white">{{ optional($order->seller)->name ?? 'N/A' }}</p>
+                                <p class="text-gray-600 text-sm dark:text-gray-300">{{ optional($order->seller)->phone_number ?? 'N/A' }}</p>
                             </div>
                         </div>
                     </div>
