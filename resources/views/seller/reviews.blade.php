@@ -18,7 +18,7 @@
     @endif
     <div class="container mx-auto p-5">
         <h2 class="text-2xl font-bold mb-4">Customer Reviews</h2>
-        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400  border-gray-200">
+        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400  border-gray-200" id="reviews-table">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     <th scope="col" class="px-6 py-3">Product</th>
@@ -36,7 +36,7 @@
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                     <td class="px-6 py-4">{{ $review->product->name }}</td>
                     <td class="px-6 py-4 flex items-center gap-3">
-                        <img class="w-5 h-5 rounded-full" src="{{ $review->user->avatar ? asset('storage/'.$review->user->avatar) : '' }}" alt="Customer Avatar">
+                        <img class="w-5 h-5 rounded-full" src="{{ $review->user->avatar ? asset('storage/'.$review->user->avatar) : 'https://placehold.co/200x200/orange/white?text=' . $review->user->username }}" alt="{{ $review->user->avatar ? "Customer Avatar" : 'Placeholder Avatar' }}" alt="Customer Avatar">
                         <span>{{ $review->user->name }}</span>
                     </td>
                     <td class="px-6 py-4">{{ $review->title }}</td>
@@ -105,4 +105,8 @@
             </tbody>
         </table>
     </div>
+
+    @push('js')
+        <script src="{{ asset('js/reviews-table.js') }}"></script>
+    @endpush
 </x-layouts.app>
