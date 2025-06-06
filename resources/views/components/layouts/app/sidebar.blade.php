@@ -46,10 +46,15 @@
                 @hasrole('seller')
                 {{-- <x-sidebar-item route="seller.dashboard" icon="fa-solid fa-grip-vertical" label="Dashboard" /> --}}
                 <x-sidebar-item route="seller.bank-account.index" icon="fa-solid fa-building-columns" label="Bank Account" />
-                <x-sidebar-item route="seller.products.index" icon="fa-solid fa-shirt" label="My Products" />
                 <x-sidebar-item route="seller.categories.index" icon="fa-solid fa-list" label="Categories" />
+                <x-sidebar-item route="seller.products.index" icon="fa-solid fa-shirt" label="My Products" />
                 <x-sidebar-item route="seller.shippings.index" icon="fa-solid fa-location-dot" label="Shipping Location & Fee" />
-                <x-sidebar-item route="seller.orders.index" icon="fa-solid fa-boxes-stacked" label="Orders" />
+                <x-dropdown-item label="Orders" icon="fa-solid fa-cube" :items="[
+                    ['label' => 'All Orders', 'route' => route('seller.orders.index')],
+                    ['label' => 'Payment Status', 'route' => route('seller.payment-status')],
+                    ['label' => 'Delivery Status', 'route' => route('seller.delivery-status')],
+                    ['label' => 'Order Status', 'route' => route('seller.order-status')],
+                ]" />
                 <x-sidebar-item route="seller.reviews.index" icon="fa-solid fa-star" label="Rating & Review" />
                 <x-sidebar-item route="seller.reports.index" icon="fa-solid fa-square-poll-vertical" label="Report" />
                 @endhasrole

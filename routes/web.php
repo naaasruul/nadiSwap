@@ -78,7 +78,15 @@ Route::middleware(['auth', 'role:seller'])->prefix('seller')->name('seller.')->g
     Route::resource('products', ProductController::class)->except(['show']);
     Route::resource('categories', CategoryController::class)->except(['show']);
     Route::resource('shippings', ShippingController::class)->except(['show']);
+
     Route::resource('orders', OrderController::class)->except(['show']);
+    Route::get('/orders/payment-status', [OrderController::class, 'paymentStatusIndex'])->name('payment-status');
+    Route::get('/orders/payment-status/{order}', [OrderController::class, 'showPayment'])->name('orders.show-payment');
+    Route::get('/orders/delivery-status', [OrderController::class, 'deliveryStatusIndex'])->name('delivery-status');
+    Route::get('/orders/delivery-status/{order}', [OrderController::class, 'showDelivery'])->name('orders.show-delivery');
+    Route::get('/orders/status', [OrderController::class, 'orderStatusIndex'])->name('order-status');
+    Route::get('/orders/status/{order}', [OrderController::class, 'showOrderStatus'])->name('orders.show-status');
+
     Route::resource('reviews', ReviewController::class)->except(['show']);
     Route::resource('reports', ReportController::class)->except(['show']);
     Route::resource('bank-account', BankAccountController::class)->except(['show']);
@@ -92,7 +100,6 @@ Route::middleware(['auth', 'role:seller'])->prefix('seller')->name('seller.')->g
 
     Route::get('/orders/{order}/cancellation', [OrderCancellationController::class, 'sellerShow'])->name('orders.request-cancel');
     Route::patch('/orders/{order}/cancel', [OrderCancellationController::class, 'sellerCancel'])->name('orders.cancel');
-    Route::get('/orders/status/{order}', [SellerController::class, 'showOrderStatus'])->name('orders.show-status');
 });
 
 Route::middleware(['auth'])->prefix('profile')->name('profile.')->group(function () {

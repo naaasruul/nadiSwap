@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Seller;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
 {
@@ -18,6 +19,45 @@ class OrderController extends Controller
         $orders = Order::where('seller_id', auth()->user()->id)->get();
 
         return view('seller.orders',compact('orders'));
+    }
+
+    public function paymentStatusIndex()
+    {
+        //
+        $orders = Order::where('seller_id', auth()->user()->id)->get();
+        return view('seller.payment-orders',compact('orders'));    
+    }
+
+    public function deliveryStatusIndex()
+    {
+        //
+        $orders = Order::where('seller_id', auth()->user()->id)->get();
+        return view('seller.delivery-orders',compact('orders'));    
+    }
+
+    public function orderStatusIndex()
+    {
+        //
+        $orders = Order::where('seller_id', auth()->user()->id)->get();
+        return view('seller.status-orders',compact('orders'));    
+    }
+
+    public function showDelivery(Order $order)
+    {
+        Log::info('Showing delivery for order: ' . $order->id);
+        return view('seller.delivery-order-info',compact('order'));    
+    }
+
+    public function showPayment(Order $order)
+    {
+        Log::info('Showing delivery for order: ' . $order->id);
+        return view('seller.payment-order-info',compact('order'));    
+    }
+
+    public function showOrderStatus(Order $order)
+    {
+        Log::info('Showing delivery for order: ' . $order->id);
+        return view('seller.status-order-info',compact('order'));    
     }
 
     /**
