@@ -54,7 +54,7 @@
                     @foreach ($reviews as $review)
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
                         <td class="px-6 py-4 flex">
-                            <img class="w-5 h-5 me-3 rounded-full" src="{{ asset('storage/'.$review->user->avatar ) }}" alt="Rounded avatar">{{ $review->user->name }}
+                            <img class="w-5 h-5 me-3 rounded-full" src="{{ $review->user->avatar ? asset('storage/'.$review->user->avatar) : 'https://placehold.co/200x200/orange/white?text=' . $review->user->username }}" alt="{{ $review->user->avatar ? "Customer Avatar" : 'Placeholder Avatar' }}" alt="Rounded avatar">{{ $review->user->name }}
                         </td>
                         <td class="px-6 py-4">
                             {{ $review->product->name }}
@@ -181,7 +181,7 @@
                         @foreach ($reviews as $review)
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                             <td class="px-6 py-4 flex">
-                                <img class="w-5 h-5 me-3 rounded-full" src="{{ asset('storage/'.$review->user->avatar ) }}"
+                                <img class="w-5 h-5 me-3 rounded-full" src="{{ $review->user->avatar ? asset('storage/'.$review->user->avatar) : 'https://placehold.co/200x200/orange/white?text=' . $review->user->username }}" alt="{{ $review->user->avatar ? "Customer Avatar" : 'Placeholder Avatar' }}"
                                     alt="Rounded avatar">{{ $review->user->name }}
                             </td>
                             <td class="px-6 py-4">{{ $review->product->name }}</td>
