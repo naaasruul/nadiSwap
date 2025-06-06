@@ -35,7 +35,7 @@
                 </th>
                 <th>
                     <span class="flex items-center">
-                        Buyer ID
+                        Buyer Details
                         <i class="fa-solid fa-sort ms-3"></i>
                     </span>
                 </th>
@@ -79,6 +79,11 @@
                         Order Status
                     </span>
                 </th>
+                <th scope="col" class="px-6 py-3">
+                    <span class="flex items-center">
+                        Actions
+                    </span>
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -87,10 +92,11 @@
                 <td>{{ $loop->iteration }}</td>
                 <td data-tooltip-target="tooltip-{{ $order->id }}"
                     class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    <a href="{{ route('seller.orders.show-status', $order->id) }}"
+                    {{-- <a href="{{ route('seller.orders.show-status', $order->id) }}"
                         class="hover:underline focus:ring-0 focus:outline-none inline-flex items-center bg-primary-700 text-blue-500 hover:bg-primary-800 font-medium rounded-lg text-sm py-2 dark:bg-primary-600 dark:hover:bg-primary-700">
                             {{ $order->id }}
-                        </a>
+                        </a> --}}
+                            {{ $order->id }}
                     @push('modal')
                     <div id="tooltip-{{ $order->id }}" role="tooltip"
                         class="absolute invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
@@ -102,7 +108,7 @@
                         @if (is_array($items['cart_items']))
                             @foreach ($items['cart_items'] as $item)
                                 @if (is_array($item))
-                                    - {{ $item['name'] ?? 'Unknown Product' }} <br>
+                                    {{ $item['name'] ?? 'Unknown Product' }} <br>
                                 @elseif (is_object($item))
                                     {{ $item->name ?? 'Unknown Product' }} <br>
                                 @else
@@ -116,7 +122,7 @@
                     </div>
                     @endpush
                 </td>
-                <td>{{ $order->buyer->id }}</td>
+                <td>ID {{ $order->buyer->id }}: {{ $order->buyer->name }} &bull; {{ $order->buyer->phone_number }}</td>
                 <td>{{ $order->created_at->format('Y-m-d') }}</td>
                 <td>RM{{ number_format($order->total, 2) }}</td>
                 <td>{{ $order->payment_method === 'cod' ? 'Cash On Delivery' : 'Online Banking' }}</td>
@@ -151,6 +157,9 @@
                         <option value="completed" {{ $order->order_status == 'completed' ? 'selected' : '' }}>Completed</option>
                         <option value="request-cancel" {{ $order->order_status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
                     </select>
+                </td>
+                <td>
+                    <a href="{{ route('seller.orders.show-status', $order->id) }}" class="text-blue-600 hover:underline">View</a>
                 </td>
             </tr>
             @endforeach
