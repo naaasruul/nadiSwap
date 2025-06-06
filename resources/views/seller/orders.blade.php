@@ -122,7 +122,7 @@
                     </div>
                     @endpush
                 </td>
-                <td>ID {{ $order->buyer->id }}: {{ $order->buyer->name }} &bull; {{ $order->buyer->phone_number }}</td>
+                <td>{!! '@' . $order->buyer->username !!} &bull; {{ $order->buyer->name }} &bull; {{ $order->buyer->phone_number }}</td>
                 <td>{{ $order->created_at->format('Y-m-d') }}</td>
                 <td>RM{{ number_format($order->total, 2) }}</td>
                 <td>{{ $order->payment_method === 'cod' ? 'Cash On Delivery' : 'Online Banking' }}</td>
@@ -152,7 +152,7 @@
                     @endif
                 </td>
                 <td>
-                    <select data-id="{{ $order->id }}" class="{{ $order->order_status == 'cancelled' ? 'cursor-not-allowed' : '' }} order-status-dropdown bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-pink-500 focus:border-pink-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-pink-500 dark:focus:border-pink-500" {{ $order->order_status == 'cancelled' ? 'disabled' : '' }}>
+                    <select data-id="{{ $order->id }}" class="{{ ($order->order_status == 'cancelled' || $order->order_status == 'completed') ? 'cursor-not-allowed opacity-50' : '' }} order-status-dropdown bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-pink-500 focus:border-pink-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-pink-500 dark:focus:border-pink-500" {{ $order->order_status == 'cancelled' || $order->order_status == 'completed' ? 'disabled' : '' }}>
                         <option value="pending" {{ $order->order_status == 'pending' ? 'selected' : '' }} disabled>Pending</option>
                         <option value="completed" {{ $order->order_status == 'completed' ? 'selected' : '' }}>Completed</option>
                         <option value="request-cancel" {{ $order->order_status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>

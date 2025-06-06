@@ -21,7 +21,7 @@
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                             <td class="px-6 py-4">{{ $loop->iteration }}</td>
                             <td class="px-6 py-4">{{ $order->id }}</td>
-                            <td class="px-6 py-4">{{ $order->buyer->name ?? 'N/A' }} &bull; {{ $order->buyer->phone_number ?? 'N/A' }}</td>
+                            <td class="px-6 py-4">{{ $order->buyer->username ?? 'N/A' }} &bull; {{ $order->buyer->name ?? 'N/A' }} &bull; {{ $order->buyer->phone_number ?? 'N/A' }}</td>
                             <td class="px-6 py-4">{{ $order->seller->name ?? 'N/A' }}</td>
                             <td class="px-6 py-4">
                                 <ul>
