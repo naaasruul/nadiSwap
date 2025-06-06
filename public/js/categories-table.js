@@ -27,15 +27,6 @@ if (document.getElementById("categories-table") && typeof simpleDatatables.DataT
         
         const str = separatorRow + options.lineDelimiter + csv + options.lineDelimiter + separatorRow;
         
-        if (options.download) {
-            const link = document.createElement("a");
-            link.href = encodeURI("data:text/csv;charset=utf-8," + str);
-            link.download = (options.filename || "categories_export") + ".txt";
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
-        
         return str;
     };
 
