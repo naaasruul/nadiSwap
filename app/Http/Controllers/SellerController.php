@@ -16,14 +16,6 @@ class SellerController extends Controller
         return view('seller.dashboard');
     }
 
-    public function showOrderStatus(Order $order)
-    {
-        if (auth()->id() !== $order->seller_id) {
-            abort(403, 'Unauthorized access to order status.');
-            }
-        return view('seller.order-details',compact('order'));    
-    }
-
     /**
      * Show the form for creating a new resource.
      */
