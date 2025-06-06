@@ -75,10 +75,18 @@ $(()=>{
     $('.order-status-dropdown').on('change', function () {
         const orderId = $(this).data('id');
         const newStatus = $(this).val();
+        const statusText = $(this).find(":selected").text();
+        const selectElement = $(this); // Store the select element
 
         if (newStatus === 'request-cancel') {
             // Redirect to cancellation form
             window.location.href = `/seller/orders/${orderId}/cancellation`;
+            return;
+        }
+
+        if (!confirm(`Are you sure you want to change the order status to ${statusText}? This action cannot be undone.`)) {
+            // Revert the dropdown to the original value
+            selectElement.val(selectElement.data('original-value'));
             return;
         }
 
@@ -90,6 +98,14 @@ $(()=>{
             },
             success: function (response) {
                 showAlert('success', 'Order status updated successfully!');
+
+                // Update select element attributes based on new status
+                if (newStatus === 'cancelled' || newStatus === 'completed') {
+                    selectElement.addClass('cursor-not-allowed opacity-50').prop('disabled', true);
+                } else {
+                    selectElement.removeClass('cursor-not-allowed opacity-50').prop('disabled', false);
+                }
+                selectElement.data('original-value', newStatus);
             },
             error: function (xhr) {
                 showAlert('red', 'Failed to order delivery status.');
