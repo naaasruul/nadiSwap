@@ -66,33 +66,6 @@ class OrdersAndAddresses extends Component
         $this->showAddAddressModal = true;
     }
 
-    public function closeAddAddressModal()
-    {
-        $this->showAddAddressModal = false;
-        $this->resetAddressForm();
-    }
-
-    public function openEditAddressModal($addressId)
-    {
-        $address = DeliveryAddress::findOrFail($addressId);
-        $this->editingAddress = $address;
-        $this->addressForm = [
-            'address_line_1' => $address->address_line_1,
-            'address_line_2' => $address->address_line_2,
-            'city' => $address->city,
-            'state' => $address->state,
-            'postal_code' => $address->postal_code,
-            'country' => $address->country,
-            'is_default' => $address->is_default,
-        ];
-    }
-
-    public function closeEditAddressModal()
-    {
-        $this->editingAddress = null;
-        $this->resetAddressForm();
-    }
-
     public function saveAddress()
     {
         $this->validate();
@@ -148,9 +121,13 @@ class OrdersAndAddresses extends Component
     {
         $user = Auth::user();
         
-        $deliveryAddresses = $user->deliveryAddresses;
+        $deliveryAddresses = $user->deliveryAddresses()
+            ->orderBy('created_at', 'desc')
+            ->paginate(5, ['*'], 'addresses_page');
 
-        $latestOrders = $user->orders()->latest()->paginate(5, ['*'], 'orders_page');
+        $latestOrders = $user->orders()
+            ->latest()
+            ->paginate(5, ['*'], 'orders_page');
 
         $latestCancelledOrders = OrderCancellation::where('cancelled_by_user_id', $user->id)
             ->latest()
