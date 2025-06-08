@@ -22,11 +22,11 @@ if (document.getElementById("admin-order-table") && typeof simpleDatatables.Data
 				"</div>" : ""
 			) + 
 			`</div>` + 
-		`<select id="payment-status-filter" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                <option value="">All Payment Status</option>
+            `<select id="order-status-filter" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <option value="">All Order Status</option>
                 <option value="pending">Pending</option>
-                <option value="paid">Paid</option>
-                <option value="failed">Failed</option>
+                <option value="completed">Completed</option>
+                <option value="cancelled">Cancelled</option>
             </select>
             <select id="delivery-status-filter" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <option value="">All Delivery Status</option>
@@ -34,13 +34,12 @@ if (document.getElementById("admin-order-table") && typeof simpleDatatables.Data
                 <option value="shipped">Shipped</option>
                 <option value="ofd">Out for Delivery</option>
                 <option value="delivered">Delivered</option>
-                <option value="cancelled">Cancelled</option>
             </select>
-            <select id="order-status-filter" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                <option value="">All Order Status</option>
+            <select id="payment-status-filter" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <option value="">All Payment Status</option>
                 <option value="pending">Pending</option>
-                <option value="completed">Completed</option>
-                <option value="cancelled">Cancelled</option>
+                <option value="paid">Paid</option>
+                <option value="failed">Failed</option>
             </select>` + 
 			(options.searchable ?
                 `<div class=" + ${options.classes.search} + ">` +
