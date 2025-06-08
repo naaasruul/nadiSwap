@@ -63,7 +63,15 @@ class Profile extends Component
                     Storage::disk('public')->delete($user->avatar);
                 }
 
-                $validated['avatar'] = $this->avatar->store('avatars', 'public');
+                // Generate a filename using the username and preserve the file extension
+                $extension = $this->avatar->getClientOriginalExtension();
+                $filename = $user->username . '.' . $extension;
+
+                // Store the avatar with the custom filename
+                $path = $this->avatar->storeAs('avatars', $filename, 'public');
+
+                // Save the path in the validated data
+                $validated['avatar'] = $path;
             }
 
             // Update user with validated data

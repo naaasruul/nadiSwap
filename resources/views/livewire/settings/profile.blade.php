@@ -19,7 +19,7 @@
                         @endif
                     </div>
                     <div class="flex-1">
-                        <input type="file" wire:model="avatar" accept="image/*" class="w-full border rounded-lg p-2">
+                        <flux:input type="file" wire:model="avatar" accept="image/*" class="w-full border rounded-lg p-2" />
                         <p class="mt-1 text-xs text-gray-500">PNG, JPG or GIF (max. 5MB)</p>
                     </div>
                 </div>
