@@ -47,7 +47,7 @@ class OrderCancellationController extends Controller
         // Check if order can be cancelled
         if (!$this->canCancelOrder($order)) {
             // Redirect to my account page with error
-            return redirect()->route('my-account')
+            return redirect()->route('settings.orders-and-addresses')
                 ->with('error', 'This order cannot be cancelled at this time.');
         }
 
@@ -74,7 +74,7 @@ class OrderCancellationController extends Controller
             $this->sendCancellationNotifications($order);
 
             // Redirect to my account page with success message
-            return redirect()->route('my-account')
+            return redirect()->route('settings.orders-and-addresses')
                 ->with('success', 'Order #' . $order->id . ' has been cancelled successfully.');
 
         } catch (\Exception $e) {
