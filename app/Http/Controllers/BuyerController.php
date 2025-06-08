@@ -713,6 +713,20 @@ class BuyerController extends Controller
         return back()->with('success', 'Address updated.');
     }
 
+    public function orderStatusIndex(Request $request)
+    {
+        $orders = Order::where('buyer_id', auth()->id())->get();
+        
+        // Get filter parameters from URL
+        $filters = [
+            'payment_status' => $request->get('payment_status', ''),
+            'delivery_status' => $request->get('delivery_status', ''),
+            'order_status' => $request->get('order_status', '')
+        ];
+        
+        return view('buyer.status-orders', compact('orders', 'filters'));
+    }
+
     public function showOrderStatus(Order $order)
     {
         if (auth()->id() !== $order->buyer_id) {

@@ -62,6 +62,71 @@
               </div>
             </li>
             <li>
+            <div class="relative">
+              <!-- Updated dropdown button using provided styling -->
+              <button id="category-dropdown-header" data-dropdown-toggle="paymentsDropdown" type="button" class="cursor-pointer text-gray-900 dark:text-white  hover:text-primary-700  dark:hover:text-primary-500  focus:ring-0 focus:outline-none font-medium rounded-lg text-sm px-2 py-2.5 inline-flex items-center dark:focus:bg-gray-600">
+                Payment
+                <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                </svg>
+              </button>
+              <!-- Updated dropdown container with small paginator -->
+              <div id="paymentsDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700">
+                <ul id="paymentsList" class="py-2 text-sm text-gray-700 dark:text-gray-200">
+                  <li>
+                    <a class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600" href="{{ route('buyer.orders.order-status', ['payment_status' => 'pending']) }}">To Pay</a>
+                  </li>
+                  <li>
+                    <a class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600" href="{{ route('buyer.orders.order-status', ['payment_status' => 'paid']) }}">Paid</a>
+                  </li>
+                  <li>
+                    <a class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600" href="{{ route('buyer.orders.order-status', ['payment_status' => 'failed']) }}">Failed</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="relative">
+              <!-- Updated dropdown button using provided styling -->
+              <button id="category-dropdown-header" data-dropdown-toggle="deliveriesDropdown" type="button" class="cursor-pointer text-gray-900 dark:text-white  hover:text-primary-700  dark:hover:text-primary-500  focus:ring-0 focus:outline-none font-medium rounded-lg text-sm px-2 py-2.5 inline-flex items-center dark:focus:bg-gray-600">
+                Delivery
+                <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                </svg>
+              </button>
+              <!-- Updated dropdown container with small paginator -->
+              <div id="deliveriesDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700">
+                <ul id="deliveriesList" class="py-2 text-sm text-gray-700 dark:text-gray-200">
+                  <li><a class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600" href="{{ route('buyer.orders.order-status', ['delivery_status' => 'pending']) }}">To Ship</a></li>
+                  <li><a class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600" href="{{ route('buyer.orders.order-status', ['delivery_status' => 'shipped']) }}">Shipped</a></li>
+                  <li><a class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600" href="{{ route('buyer.orders.order-status', ['delivery_status' => 'ofd']) }}">Out For Delivery</a></li>
+                  <li><a class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600" href="{{ route('buyer.orders.order-status', ['delivery_status' => 'delivered']) }}">Delivered</a></li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="relative">
+              <!-- Updated dropdown button using provided styling -->
+              <button id="category-dropdown-header" data-dropdown-toggle="ordersDropdown" type="button" class="cursor-pointer text-gray-900 dark:text-white  hover:text-primary-700  dark:hover:text-primary-500  focus:ring-0 focus:outline-none font-medium rounded-lg text-sm px-2 py-2.5 inline-flex items-center dark:focus:bg-gray-600">
+                Order
+                <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                </svg>
+              </button>
+              <!-- Updated dropdown container with small paginator -->
+              <div id="ordersDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700">
+                <ul id="ordersList" class="py-2 text-sm text-gray-700 dark:text-gray-200">
+                  <li><a class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600" href="{{ route('buyer.orders.order-status') }}">All Orders</a></li>
+                  <li><a class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600" href="{{ route('buyer.orders.order-status', ['order_status' => 'pending']) }}">Pending Orders</a></li>
+                  <li><a class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600" href="{{ route('buyer.orders.order-status', ['order_status' => 'completed']) }}">Completed Orders</a></li>
+                  <li><a class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600" href="{{ route('buyer.orders.order-status', ['order_status' => 'cancelled']) }}">Cancelled Orders</a></li>
+                </ul>
+              </div>
+            </div>
+          </li>
+            <li>
               <a href="{{ Route('contact.index') }}" title=""
                 class="flex text-sm font-medium px-2 py-2.5 text-gray-900 hover:text-primary-700 dark:text-white dark:hover:text-primary-500">
                 Contact
@@ -318,6 +383,7 @@
       renderCategoriesPage(currentPage);
     });
   </script>
+  @stack('js')
 </body>
 
 

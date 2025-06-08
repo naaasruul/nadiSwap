@@ -133,6 +133,7 @@ Route::middleware(['auth', 'role:buyer'])->group(function () {
 
     Route::get('/invoice/{order}', [BuyerController::class, 'showInvoice'])->name('invoice.show');
 
+    Route::get('/orders/status', [BuyerController::class, 'orderStatusIndex'])->name('buyer.orders.order-status');
     Route::get('/orders/status/{order}', [BuyerController::class, 'showOrderStatus'])->name('buyer.orders.show-status');
 
     Route::patch('/buyer/orders/{order}/cancel', [OrderCancellationController::class, 'cancel'])->name('buyer.orders.cancel');
