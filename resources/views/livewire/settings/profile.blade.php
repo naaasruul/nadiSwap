@@ -1,5 +1,11 @@
 <section class="w-full">
-    @include('partials.settings-heading')
+    @hasrole('buyer')
+        @include('partials.customer-header')
+    @endhasrole
+
+    @hasanyrole('admin|seller')
+        @include('partials.settings-heading')
+    @endhasanyrole
 
     <x-settings.layout :heading="__('Profile')" :subheading="__('Update your profile information')">
         <form wire:submit="updateProfileInformation" class="my-6 w-full space-y-6">

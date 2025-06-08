@@ -4,7 +4,7 @@
 <head>
     @include('partials.head')
 </head>
-
+@hasanyrole('admin|seller')
 <body class="min-h-screen w-full bg-white dark:bg-gray-900">
     <button data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar" aria-controls="default-sidebar"
         type="button"
@@ -76,6 +76,8 @@
             </ul>
         </div>
     </aside>
+@endhasanyrole
+
     {{ $slot }}
 
     {{-- <flux:sidebar sticky stashable
@@ -159,5 +161,4 @@
 
 
 </body>
-
 </html>

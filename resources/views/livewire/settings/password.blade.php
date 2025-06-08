@@ -1,5 +1,11 @@
 <section class="w-full">
-    @include('partials.settings-heading')
+    @hasrole('buyer')
+        @include('partials.customer-header')
+    @endhasrole
+
+    @hasanyrole('admin|seller')
+        @include('partials.settings-heading')
+    @endhasanyrole
 
     <x-settings.layout :heading="__('Update password')" :subheading="__('Ensure your account is using a long, random password to stay secure')">
         <form wire:submit="updatePassword" class="mt-6 space-y-6">

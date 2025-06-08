@@ -1,5 +1,11 @@
-<div class="flex flex-col items-start">
-    @include('partials.settings-heading')
+<div class="w-full">
+    @hasrole('buyer')
+        @include('partials.customer-header')
+    @endhasrole
+
+    @hasanyrole('admin|seller')
+        @include('partials.settings-heading')
+    @endhasanyrole
 
     <x-settings.layout :heading="__('Appearance')" :subheading=" __('Update the appearance settings for your account')">
         <flux:radio.group x-data variant="segmented" x-model="$flux.appearance">
