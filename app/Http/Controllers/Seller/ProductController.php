@@ -9,6 +9,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 use Throwable;
 
 class ProductController extends Controller
@@ -52,8 +53,8 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        try{
-            $validated = $request->validate([
+        try {
+            $validator = Validator::make($request->all(), [
                 'name' => 'required|string|max:255',
                 'description' => 'required|string',
                 'price' => 'required|numeric|min:0',
@@ -61,12 +62,24 @@ class ProductController extends Controller
                 'category_id' => 'required|exists:categories,id',
                 'images.*' => 'nullable|image|max:10240',
             ]);
-    
+
+            // If validation fails, redirect back with errors
+            if ($validator->fails()) {
+                return redirect()
+                    ->back()
+                    ->withErrors($validator)
+                    ->withInput()
+                    ->with('error', 'Please correct the form and try again.');
+            }
+
+            // Get validated data
+            $validated = $validator->validated();
+
+            // Process images
             $imagePaths = [];
     
             if ($request->hasFile('images')) {
                 foreach ($request->file('images') as $image) {
-                    // Log image details
                     Log::info('Image Details:', [
                         'original_name' => $image->getClientOriginalName(),
                         'size' => $image->getSize(), // File size in bytes
@@ -80,21 +93,22 @@ class ProductController extends Controller
             $validated['seller_id'] = auth()->id();
             
             Product::create([
-            'name' => $validated['name'],
-            'description' => $validated['description'],
-            'price' => $validated['price'],
-            'stock' => $validated['stock'],
-            'category_id' => $validated['category_id'],
-            'seller_id' => $validated['seller_id'],
-            'images' => json_encode($imagePaths), // Save images as JSON
-        ]);
-    
+                'name' => $validated['name'],
+                'description' => $validated['description'],
+                'price' => $validated['price'],
+                'stock' => $validated['stock'],
+                'category_id' => $validated['category_id'],
+                'seller_id' => $validated['seller_id'],
+                'images' => json_encode($imagePaths),
+            ]);
+
             return redirect()->back()->with('success', 'Product created successfully.');
-        }catch(Throwable $e){
-            return redirect()->back()->with('error', 'Product cannot be upload because: '.$e);
+
+        } catch (Throwable $e) {
+            Log::error('Product creation failed', ['error' => $e]);
+            return redirect()->back()->with('error', 'Product could not be uploaded. Please try again.');
         }
     }
-
     /**
      * Show the form for editing the specified resource.
      */
@@ -108,20 +122,65 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'price' => 'required|numeric|min:0',
-            'image' => 'nullable|image|max:2048',
-        ]);
+        try {
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|string|max:255',
+                'description' => 'required|string',
+                'price' => 'required|numeric|min:0',
+                'stock' => 'required|integer|min:0',
+                'category_id' => 'required|exists:categories,id',
+                'new_images.*' => 'nullable|image|max:10240',
+                'existing_images' => 'nullable|array'
+            ]);
 
-        if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')->store('products', 'public');
+            if ($validator->fails()) {
+                return redirect()
+                    ->back()
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+
+            $validated = $validator->validated();
+            
+            // Handle existing images
+            $existingImages = $request->input('existing_images', []);
+            
+            // Handle new images
+            $imagePaths = $existingImages;
+            if ($request->hasFile('new_images')) {
+                foreach ($request->file('new_images') as $image) {
+                    $imagePaths[] = $image->store('products', 'public');
+                }
+            }
+            
+            // Delete removed images
+            if ($product->images) {
+                $oldImages = json_decode($product->images, true);
+                if (is_array($oldImages)) {
+                    foreach ($oldImages as $oldImage) {
+                        if (!in_array($oldImage, $existingImages)) {
+                            \Storage::disk('public')->delete($oldImage);
+                        }
+                    }
+                }
+            }
+
+            // Update product with all data
+            $product->update([
+                'name' => $validated['name'],
+                'description' => $validated['description'],
+                'price' => $validated['price'],
+                'stock' => $validated['stock'],
+                'category_id' => $validated['category_id'],
+                'images' => json_encode($imagePaths)
+            ]);
+
+            return redirect()->route('seller.products.index')->with('success', 'Product updated successfully.');
+            
+        } catch (Throwable $e) {
+            Log::error('Product update failed', ['error' => $e]);
+            return redirect()->back()->with('error', 'Product could not be updated. Please try again.');
         }
-
-        $product->update($validated);
-
-        return redirect()->route('seller.products.index')->with('success', 'Product updated successfully.');
     }
 
     /**

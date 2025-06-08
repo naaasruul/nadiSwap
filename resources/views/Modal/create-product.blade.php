@@ -67,7 +67,7 @@ class="hidden fixed top-0 left-0 right-0 z-50 flex items-center justify-center w
                         class="block text-sm font-medium text-gray-900 dark:text-white">Description</label>
                     <textarea id="description" name="description" rows="4"
                         class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-pink-500 focus:border-pink-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                        placeholder="Product Description"></textarea>
+                        placeholder="Product Description" required></textarea>
                 </div>
                 <div class="mb-4">
 
@@ -98,13 +98,38 @@ class="hidden fixed top-0 left-0 right-0 z-50 flex items-center justify-center w
         const previewContainer = document.getElementById('image-preview');
         previewContainer.innerHTML = ''; // Clear previous previews
 
-        Array.from(files).forEach(file => {
+        Array.from(files).forEach((file, index) => {
             const reader = new FileReader();
             reader.onload = function(e) {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'relative';
+
                 const img = document.createElement('img');
                 img.src = e.target.result;
                 img.classList.add('w-full', 'h-32', 'object-cover', 'rounded-lg', 'border');
-                previewContainer.appendChild(img);
+                
+                const removeBtn = document.createElement('button');
+                removeBtn.innerHTML = '&times;';
+                removeBtn.className = 'absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600';
+                removeBtn.onclick = function(e) {
+                    e.preventDefault();
+                    wrapper.remove();
+                    
+                    // Update the file input
+                    const dt = new DataTransfer();
+                    const input = document.getElementById('add-images');
+                    const { files } = input;
+                    
+                    for(let i = 0; i < files.length; i++) {
+                        if(i !== index) dt.items.add(files[i]);
+                    }
+                    
+                    input.files = dt.files;
+                };
+
+                wrapper.appendChild(img);
+                wrapper.appendChild(removeBtn);
+                previewContainer.appendChild(wrapper);
             };
             reader.readAsDataURL(file);
         });
