@@ -30,14 +30,14 @@
                 <!-- Profile Header -->
                 <div class="flex items-center gap-4 mb-6 mt-6">
                     <div class="flex-shrink-0">
-                        <img src="{{ $review->user->avatar ? asset('storage/'.$review->user->avatar) : 'https://placehold.co/200x200/orange/white?text=' . $review->user->username }}" alt="{{ $review->user->avatar ? "Customer Avatar" : 'Placeholder Avatar' }}" alt="Profile picture"
+                        <img src="{{ $user->avatar ? asset('storage/'.$user->avatar) : 'https://placehold.co/200x200/orange/white?text=' . $user->username }}" alt="{{ $user->avatar ? "Customer Avatar" : 'Placeholder Avatar' }}" alt="Profile picture"
                             class="w-20 h-20 rounded-full object-cover">
-                        <div class="w-20 h-20 rounded-full bg-gray-200 flex items-center justify-center">
+                        {{-- <div class="w-20 h-20 rounded-full bg-gray-200 flex items-center justify-center">
                             <svg class="w-10 h-10 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
                                     clip-rule="evenodd" />
                             </svg>
-                        </div>
+                        </div> --}}
                         @endif
                     </div>
                     <div class="flex-grow">
@@ -228,7 +228,6 @@
                         
                         <!-- Edit Address Modal (You need to create this partial or inline modal for each address) -->
                         @endforeach
-                        @endif
 
                     </ul>
                 </div>
