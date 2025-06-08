@@ -705,6 +705,7 @@ class BuyerController extends Controller
         // $this->authorize('update', $address); // Optional: add policy
         $validated = $request->validate([
             'address_line_1' => 'required|string|max:255',
+            'address_line_2' => 'nullable|string|max:255',
             'city' => 'required|string|max:255',
             'state' => 'required|string|max:255',
             'postal_code' => 'required|string|max:20',
