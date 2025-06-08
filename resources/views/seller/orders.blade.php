@@ -139,7 +139,6 @@
                         <option value="shipped" {{ $order->delivery_status == 'shipped' ? 'selected' : '' }}>Shipped</option>
                         <option value="ood" {{ $order->delivery_status == 'ofd' ? 'selected' : '' }}>Out For Delivery</option>
                         <option value="delivered" {{ $order->delivery_status == 'delivered' ? 'selected' : '' }}>Delivered</option>
-                        <option value="cancelled" {{ $order->delivery_status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
                     </select>
                 </td>
                 <td>

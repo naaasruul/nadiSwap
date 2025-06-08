@@ -141,7 +141,7 @@ class OrderController extends Controller
         try {
             // Validate the request
             $request->validate([
-                'delivery_status' => 'required|string|in:ofd,shipped,delivered,cancelled',
+                'delivery_status' => 'required|string|in:ofd,shipped,delivered',
             ]);
 
             // Update the delivery status

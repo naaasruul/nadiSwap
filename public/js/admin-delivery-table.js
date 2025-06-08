@@ -28,7 +28,6 @@ if (document.getElementById("admin-order-table") && typeof simpleDatatables.Data
                 <option value="shipped">Shipped</option>
                 <option value="ofd">Out for Delivery</option>
                 <option value="delivered">Delivered</option>
-                <option value="cancelled">Cancelled</option>
             </select>` + 
 			(options.searchable ?
                 `<div class=" + ${options.classes.search} + ">` +
