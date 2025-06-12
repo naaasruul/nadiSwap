@@ -743,4 +743,21 @@ class BuyerController extends Controller
         }
         return view('buyer.request-order-cancel',compact('order'));    
     }
+    public function completeOrder(Order $order)
+    {
+        if (auth()->id() !== $order->buyer_id) {
+            abort(403, 'Unauthorized access to order.');
+        }
+
+        if ($order->order_status !== 'pending') {
+            return back()->with('error', 'Only pending orders can be marked as completed.');
+        }
+
+        $order->update([
+            'order_status' => 'completed',
+            'delivery_status' => 'delivered'
+        ]);
+
+        return back()->with('success', 'Order marked as completed successfully.');
+    }
 }

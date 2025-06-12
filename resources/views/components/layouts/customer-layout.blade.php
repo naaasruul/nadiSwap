@@ -195,7 +195,7 @@
               </li>
               <li>
                 @hasrole('buyer')
-                <a href="{{ Route('settings.orders-and-addresses') }}" title=""
+                <a href="{{ Route('settings.profile') }}" title=""
                   class="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600">
                   My Account
                 </a>

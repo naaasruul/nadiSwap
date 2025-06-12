@@ -8,6 +8,11 @@
             <tr>
                 <th>
                     <span class="flex items-center">
+                        No.
+                    </span>
+                </th>
+                <th>
+                    <span class="flex items-center">
                         Username
                     </span>
                 </th>
@@ -31,6 +36,7 @@
         <tbody>
             @foreach ($buyers as $buyer)
             <tr>
+                <td class="font-medium text-gray-900  dark:text-white">{{ $loop->iteration }}</td>
                 <td class="font-medium text-gray-900  dark:text-white">{{ $buyer->name }}</td>
                 <td class=" whitespace-nowrap dark:text-white">{{ $buyer->name }}</td>
                 <td class="  dark:text-white">{{ $buyer->phone_number }}</td>

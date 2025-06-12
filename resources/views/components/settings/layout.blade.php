@@ -1,10 +1,10 @@
 <div class="flex items-start max-md:flex-col">
     <div class="mr-10 w-full pb-4 md:w-[220px]">
         <flux:navlist>
+            <flux:navlist.item :href="route('settings.profile')">{{ __('Profile') }}</flux:navlist.item>
             @if (auth()->user()->hasRole('buyer'))
                 <flux:navlist.item :href="route('settings.orders-and-addresses')">{{ __('Orders and Addresses') }}</flux:navlist.item>
             @endif
-            <flux:navlist.item :href="route('settings.profile')">{{ __('Profile') }}</flux:navlist.item>
             <flux:navlist.item :href="route('settings.password')">{{ __('Password') }}</flux:navlist.item>
             <flux:navlist.item :href="route('settings.appearance')" wire:navigate>{{ __('Appearance') }}</flux:navlist.item>
         </flux:navlist>
