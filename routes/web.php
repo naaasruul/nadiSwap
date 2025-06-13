@@ -18,7 +18,9 @@ use App\Http\Controllers\Seller\CategoryController;
 use App\Http\Controllers\Seller\OrderController;
 use App\Http\Controllers\Seller\ReportController;
 use App\Http\Controllers\Seller\ShippingController;
+use App\Livewire\Settings\Addresses;
 use App\Livewire\Settings\Appearance;
+use App\Livewire\Settings\Orders;
 use App\Livewire\Settings\OrdersAndAddresses;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
@@ -46,7 +48,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/profile', Profile::class)->name('settings.profile');
     Route::get('settings/password', Password::class)->name('settings.password');
     Route::get('settings/appearance', Appearance::class)->name('settings.appearance');
-    Route::get('settings/orders-and-addresses', OrdersAndAddresses::class)->name('settings.orders-and-addresses');
+    Route::get('settings/orders', Orders::class)->name('settings.orders');
+    Route::get('settings/addresses', Addresses::class)->name('settings.addresses');
 
     Route::get('/contact', [ContactController::class, 'show'])->name('contact.index');
     Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
@@ -124,7 +127,7 @@ Route::middleware(['auth', 'role:buyer'])->group(function () {
     Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
 
     // buyer account
-    // Route::get('/settings.orders-and-addresses', [BuyerController::class, 'showAccount'])->name('settings.orders-and-addresses');
+    // Route::get('/settings.orders', [BuyerController::class, 'showAccount'])->name('settings.orders');
     Route::resource('delivery-addresses', DeliveryAddressController::class);
     Route::post('/buyer/profile/update', [ProfileController::class, 'update'])->name('buyer.profile.update');
     

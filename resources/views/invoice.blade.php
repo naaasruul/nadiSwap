@@ -3,7 +3,7 @@
 		<div class="max-w-5xl mx-auto px-6">
 			<!-- Added Back to Account button at top with arrow -->
 			<div class="mb-4">
-				<a href="{{ route('settings.orders-and-addresses') }}"
+				<a href="{{ route('settings.orders') }}"
 					class="hover:underline focus:ring-0 focus:outline-none inline-flex items-center bg-primary-700 hover:bg-primary-800 text-white font-medium rounded-lg text-sm py-2 dark:bg-primary-600 dark:hover:bg-primary-700">
 					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mr-4"
 						viewBox="0 0 16 16">

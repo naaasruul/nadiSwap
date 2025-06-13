@@ -181,7 +181,7 @@
                             <div class="mx-auto max-w-screen-xl 2xl:px-0 mt-6">
                                 @if($addresses->isEmpty())
                                 <div class="mb-4 p-4 bg-yellow-100 text-yellow-800 rounded">
-                                    Warning: You have no delivery addresses. Please <a class="underline font-bold" href="{{ route('settings.orders-and-addresses') }}#delivery-addresses">add one.</a>
+                                    Warning: You have no delivery addresses. Please <a class="underline font-bold" href="{{ route('settings.addresses') }}#delivery-addresses">add one.</a>
                                 </div>
                                 @endif
                                 <div>

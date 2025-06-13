@@ -3,7 +3,8 @@
         <flux:navlist>
             <flux:navlist.item :href="route('settings.profile')">{{ __('Profile') }}</flux:navlist.item>
             @if (auth()->user()->hasRole('buyer'))
-                <flux:navlist.item :href="route('settings.orders-and-addresses')">{{ __('Orders and Addresses') }}</flux:navlist.item>
+                <flux:navlist.item :href="route('settings.orders')">{{ __('Orders') }}</flux:navlist.item>
+                <flux:navlist.item :href="route('settings.addresses')" wire:navigate>{{ __('Addresses') }}</flux:navlist.item>
             @endif
             <flux:navlist.item :href="route('settings.password')">{{ __('Password') }}</flux:navlist.item>
             <flux:navlist.item :href="route('settings.appearance')" wire:navigate>{{ __('Appearance') }}</flux:navlist.item>
