@@ -47,16 +47,17 @@ class OrderCancellationController extends Controller
         // Check if order can be cancelled
         if (!$this->canCancelOrder($order)) {
             // Redirect to my account page with error
-            return redirect()->route('settings.orders-and-addresses')
+            return redirect()->route('settings.orders')
                 ->with('error', 'This order cannot be cancelled at this time.');
         }
 
         try {
             // Update order status using model
             $order->update([
-                'order_status' => 'cancelled'
+                'order_status' => 'cancelled',
+                'delivery_status' => 'cancelled',
+                'payment_status' => 'failed',
             ]);
-
             // Create cancellation record using model
             $order->cancellation()->create([
                 'cancelled_by_user_id' => Auth::id(),
@@ -74,7 +75,7 @@ class OrderCancellationController extends Controller
             $this->sendCancellationNotifications($order);
 
             // Redirect to my account page with success message
-            return redirect()->route('settings.orders-and-addresses')
+            return redirect()->route('settings.orders')
                 ->with('success', 'Order #' . $order->id . ' has been cancelled successfully.');
 
         } catch (\Exception $e) {
@@ -147,7 +148,9 @@ class OrderCancellationController extends Controller
         try {
             // Update order status using model
             $order->update([
-                'order_status' => 'cancelled'
+                'order_status' => 'cancelled',
+                'delivery_status' => 'cancelled',
+                'payment_status' => 'failed',
             ]);
 
             // Create cancellation record using model
