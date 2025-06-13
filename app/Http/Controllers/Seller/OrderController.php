@@ -32,7 +32,7 @@ class OrderController extends Controller
     {
         //
         $orders = Order::where('seller_id', auth()->user()->id)->get();
-        return view('seller.delivery-orders',compact('orders'));    
+        return view('seller.delivery-orders',compact('orders'));
     }
 
     public function orderStatusIndex()
@@ -45,19 +45,22 @@ class OrderController extends Controller
     public function showDelivery(Order $order)
     {
         Log::info('Showing delivery for order: ' . $order->id);
-        return view('seller.delivery-order-info',compact('order'));    
+        $cancelledOrder = $order->cancellation()->latest()->first();
+        return view('seller.delivery-order-info',compact('order', 'cancelledOrder'));    
     }
 
     public function showPayment(Order $order)
     {
         Log::info('Showing delivery for order: ' . $order->id);
-        return view('seller.payment-order-info',compact('order'));    
+        $cancelledOrder = $order->cancellation()->latest()->first();
+        return view('seller.payment-order-info',compact('order', 'cancelledOrder'));    
     }
 
     public function showOrderStatus(Order $order)
     {
         Log::info('Showing delivery for order: ' . $order->id);
-        return view('seller.status-order-info',compact('order'));    
+        $cancelledOrder = $order->cancellation()->latest()->first();
+        return view('seller.status-order-info',compact('order', 'cancelledOrder'));    
     }
 
     /**

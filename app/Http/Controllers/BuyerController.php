@@ -733,7 +733,8 @@ class BuyerController extends Controller
         if (auth()->id() !== $order->buyer_id) {
             abort(403, 'Unauthorized access to order status.');
         }
-        return view('buyer.status-order-info',compact('order'));    
+        $cancelledOrder = $order->cancellation()->latest()->first();
+        return view('buyer.status-order-info',compact('order', 'cancelledOrder'));    
     }
 
     public function requestOrderCancel(Order $order)

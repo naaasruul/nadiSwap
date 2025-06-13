@@ -43,19 +43,25 @@ class ListOrderController extends Controller
     public function showDelivery(Order $order)
     {
         Log::info('Showing delivery for order: ' . $order->id);
-        return view('admin.delivery-order-info',compact('order'));    
+
+        $cancelledOrder = $order->cancellation()->latest()->first();
+        return view('admin.delivery-order-info',compact('order', 'cancelledOrder'));    
     }
 
     public function showPayment(Order $order)
     {
         Log::info('Showing delivery for order: ' . $order->id);
-        return view('admin.payment-order-info',compact('order'));    
+
+        $cancelledOrder = $order->cancellation()->latest()->first();
+        return view('admin.payment-order-info',compact('order', 'cancelledOrder'));    
     }
 
     public function showOrderStatus(Order $order)
     {
         Log::info('Showing delivery for order: ' . $order->id);
-        return view('admin.status-order-info',compact('order'));    
+
+        $cancelledOrder = $order->cancellation()->latest()->first();
+        return view('admin.status-order-info',compact('order', 'cancelledOrder'));
     }
 
     /**
