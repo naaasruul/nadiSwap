@@ -10,7 +10,7 @@ use App\Models\OrderCancellation;
 use App\Models\Review;
 use Illuminate\Support\Facades\Auth;
 
-class OrdersAndAddresses extends Component
+class Orders extends Component
 {
     use WithPagination;
 
@@ -133,7 +133,7 @@ class OrdersAndAddresses extends Component
             ->latest()
             ->paginate(5, ['*'], 'cancelled_orders_page');
 
-        return view('livewire.settings.orders-and-addresses', [
+        return view('livewire.settings.orders', [
             'deliveryAddresses' => $deliveryAddresses,
             'latestOrders' => $latestOrders,
             'latestCancelledOrders' => $latestCancelledOrders,
