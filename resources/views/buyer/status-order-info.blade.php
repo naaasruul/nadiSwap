@@ -1,4 +1,4 @@
-<x-layouts.app :title="__('Payment Status')">
+<x-layouts.customer-layout :title="__('Order Details')">
     <div class="bg-gray-50 py-8 antialiased dark:bg-gray-900 md:py-12 mx-auto max-w-screen-xl px-4 2xl:px-0">
         <!-- Header -->
         @php
@@ -95,6 +95,25 @@
                                                 'cancelled' => 'Order Cancelled',
                                                 default => 'Unknown Status'
                                             } }}
+
+                                            @if($cancelledOrder)
+                                                <div class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                                                    <div class="mb-1">
+                                                        Cancelled by {{ ucfirst($cancelledOrder->cancelled_by_role) }} on {{ $cancelledOrder->created_at->format('M d, Y') }}
+                                                    </div>
+                                                    <div class="text-xs">
+                                                        <span class="font-medium">Reason:</span> {{ $cancelledOrder->cancellation_reason }}
+                                                        @if($cancelledOrder->custom_cancellation_reason)
+                                                            - {{ $cancelledOrder->custom_cancellation_reason }}
+                                                        @endif
+                                                    </div>
+                                                    @if($cancelledOrder->additional_comments)
+                                                        <div class="text-xs mt-1">
+                                                            <span class="font-medium">Comments:</span> {{ $cancelledOrder->additional_comments }}
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            @endif
                                         </p>
 
                                         @if($order->order_status == 'completed')
@@ -308,4 +327,4 @@
             </div>
         </div>
     </div>
-</x-layouts.app>
+</x-layouts.customer-layout>

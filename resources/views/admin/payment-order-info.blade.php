@@ -95,6 +95,25 @@
                                                 'failed' => 'Payment Failed',
                                                 default => 'Unknown Status'
                                             } }}
+
+                                            @if($cancelledOrder)
+                                                <div class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                                                    <div class="mb-1">
+                                                        Cancelled by {{ ucfirst($cancelledOrder->cancelled_by_role) }} on {{ $cancelledOrder->created_at->format('M d, Y') }}
+                                                    </div>
+                                                    <div class="text-xs">
+                                                        <span class="font-medium">Reason:</span> {{ $cancelledOrder->cancellation_reason }}
+                                                        @if($cancelledOrder->custom_cancellation_reason)
+                                                            - {{ $cancelledOrder->custom_cancellation_reason }}
+                                                        @endif
+                                                    </div>
+                                                    @if($cancelledOrder->additional_comments)
+                                                        <div class="text-xs mt-1">
+                                                            <span class="font-medium">Comments:</span> {{ $cancelledOrder->additional_comments }}
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            @endif
                                         </p>
                                         @php
                                             $items = json_decode($order->items, true);

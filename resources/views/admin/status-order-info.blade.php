@@ -12,7 +12,7 @@
                     'textColor' => 'text-green-100'
                 ],
                 'cancelled' => [
-                    'text' => 'Failed', 
+                    'text' => 'Cancelled', 
                     'bg' => 'bg-red-500', 
                     'icon' => '❌',
                     'headerGradient' => 'bg-gradient-to-r from-red-600 to-red-700',
@@ -95,6 +95,25 @@
                                                 'cancelled' => 'Order Cancelled',
                                                 default => 'Unknown Status'
                                             } }}
+
+                                            @if($cancelledOrder)
+                                                <div class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                                                    <div class="mb-1">
+                                                        Cancelled by {{ ucfirst($cancelledOrder->cancelled_by_role) }} on {{ $cancelledOrder->created_at->format('M d, Y') }}
+                                                    </div>
+                                                    <div class="text-xs">
+                                                        <span class="font-medium">Reason:</span> {{ $cancelledOrder->cancellation_reason }}
+                                                        @if($cancelledOrder->custom_cancellation_reason)
+                                                            - {{ $cancelledOrder->custom_cancellation_reason }}
+                                                        @endif
+                                                    </div>
+                                                    @if($cancelledOrder->additional_comments)
+                                                        <div class="text-xs mt-1">
+                                                            <span class="font-medium">Comments:</span> {{ $cancelledOrder->additional_comments }}
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            @endif
                                         </p>
 
                                         @if($order->order_status == 'completed')
@@ -144,7 +163,7 @@
                                 @php
                                     $product = \App\Models\Product::find($productId);
                                 @endphp
-                                <a href="{{ route('products.show', $productId) }}" class="flex items-start p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors dark:bg-gray-700 dark:hover:bg-gray-600">
+                                <a href="{{ route('products.show', $productId) }}" class="flex items-start p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors dark:bg-gray-700 dark:hover:bg-gray-600 cursor-pointer">
                                     <div class="w-20 h-20 bg-white rounded-lg overflow-hidden shadow-sm mr-4 dark:bg-gray-800">
                                         <img src="{{ asset('storage/' . $item['image']) }}" 
                                              alt="{{ $item['name'] }}" 

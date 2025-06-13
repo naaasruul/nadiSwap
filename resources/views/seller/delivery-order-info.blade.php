@@ -1,4 +1,4 @@
-<x-layouts.app :title="__('Order Details')">
+<x-layouts.app :title="__('Delivery Details')">
     <div class="bg-gray-50 py-8 antialiased dark:bg-gray-900 md:py-12 mx-auto max-w-screen-xl px-4 2xl:px-0">
         <!-- Header with Order Status -->
         @php
@@ -86,12 +86,11 @@
                                 
                                 $currentStep = array_search($order->delivery_status, array_column($steps, 'key'));
                                 if ($currentStep === false) $currentStep = 0;
-                                $isCancelled = $order->delivery_status === 'cancelled';
                             @endphp
                             
                             <div class="flex items-center justify-between relative">
                                 <!-- Progress Line -->
-                                @if(!$isCancelled)
+                                @if(!$cancelledOrder)
                                     <div class="absolute top-6 left-6 right-6 h-0.5 bg-gray-200 dark:bg-gray-700">
                                         <div class="h-full bg-gradient-to-r from-blue-500 to-green-500 transition-all duration-500" 
                                              style="width: {{ $order->delivery_status == 'delivered' ? '100' : ($currentStep * 25) }}%"></div>
@@ -103,7 +102,7 @@
                                     </div>
                                 @endif
                                 
-                                @if(!$isCancelled)
+                                @if(!$cancelledOrder)
                                     @foreach(array_slice($steps, 0, 4) as $index => $step)
                                         <div class="relative flex flex-col items-center">
                                             <div class="w-12 h-12 rounded-full border-4 flex items-center justify-center text-lg z-10
@@ -131,7 +130,10 @@
                                                 Order Cancelled
                                             </p>
                                             <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 text-center">
-                                                This order has been cancelled and will not be processed
+                                                This order has been cancelled by the {{ $cancelledOrder->cancelled_by_role }} and will not be processed
+                                            </p>
+                                            <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 text-center">
+                                                Reason: {{ $cancelledOrder->cancellation_reason ?? 'N/A' }} {{ $cancelledOrder->custom_cancellation_reason ? ' - ' . $cancelledOrder->custom_cancellation_reason : '' }} {{ $cancelledOrder->additional_comments ? ' - ' . $cancelledOrder->additional_comments : '' }}
                                             </p>
                                         </div>
                                     </div>
