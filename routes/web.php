@@ -144,9 +144,7 @@ Route::middleware(['auth', 'role:buyer'])->group(function () {
     Route::patch('/buyer/orders/{order}/cancel', [OrderCancellationController::class, 'cancel'])->name('buyer.orders.cancel');
     Route::get('/buyer/orders/{order}/cancellation', [OrderCancellationController::class, 'show'])->name('buyer.orders.request-cancel');
 
-    Route::get('/orders/{order}/complete', [BuyerController::class, 'completeOrder'])
-    ->name('buyer.orders.complete')
-    ->middleware(['auth', 'role:buyer']);
+    Route::get('/orders/{order}/complete', [BuyerController::class, 'completeOrder'])->name('buyer.orders.complete');
 });     
 
 Route::middleware(['auth'])->group(function () {

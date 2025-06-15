@@ -756,6 +756,7 @@ class BuyerController extends Controller
 
         $order->update([
             'order_status' => 'completed',
+            'payment_status' => 'paid',
             'delivery_status' => 'delivered'
         ]);
 
