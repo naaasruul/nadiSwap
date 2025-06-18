@@ -84,13 +84,7 @@ if (document.getElementById("reviews-table") && typeof simpleDatatables.DataTabl
 							"</div>" +
 						"</div>" : ""
 					) +
-						`<div class="w-full flex justify-end">
-							<button data-modal-target="create-category" data-modal-toggle="create-category"
-								class="block text-white bg-pink-700 hover:bg-pink-800 focus:ring-4 focus:outline-none focus:ring-pink-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-pink-600 dark:hover:bg-pink-700 dark:focus:ring-pink-800"
-								type="button">
-								Add Category
-							</button>
-						</div>
+						`
                     </div>
                 </div>
                 <div class="${options.classes.container}"></div>
