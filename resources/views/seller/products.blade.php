@@ -113,15 +113,19 @@
                             </td>
                             <td> {{ $product->reviews->count() }}</td>
                             <td>
-                                <!-- Edit Button -->
-                                <button data-modal-target="edit-modal-{{ $product->id }}"
-                                    data-modal-toggle="edit-modal-{{ $product->id }}" class="btn">
+                                <!-- Edit Button with data attributes and modal toggle -->
+                                <button class="btn edit-product-btn" 
+                                        data-modal-target="edit-product-modal"
+                                        data-modal-toggle="edit-product-modal"
+                                        data-product-id="{{ $product->id }}"
+                                        data-product-name="{{ $product->name }}"
+                                        data-product-price="{{ $product->price }}"
+                                        data-product-stock="{{ $product->stock }}"
+                                        data-product-description="{{ $product->description }}"
+                                        data-product-category="{{ $product->category_id }}"
+                                        data-product-images="{{ $product->images }}">
                                     Edit
                                 </button>
-                                @push('modal')
-                                @include('Modal.edit-product')
-                                @endpush
-
                             </td>
                             <td>
                                 <!-- Delete Form -->
@@ -253,12 +257,11 @@
         </div>
 
         @include('Modal.create-product')
+        @include('Modal.edit-product')
     </div>
 
     @push('js')
         <script src="{{ asset('js/sold-product-table.js') }}"></script>
         <script src="{{ asset('js/unsold-product-table.js') }}"></script>
     @endpush
-
-
 </x-layouts.app>
