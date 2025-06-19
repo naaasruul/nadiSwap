@@ -106,6 +106,8 @@ $(()=>{
                     selectElement.removeClass('cursor-not-allowed opacity-50').prop('disabled', false);
                 }
                 selectElement.data('original-value', newStatus);
+
+                window.location.reload(); // Reload the page to reflect changes
             },
             error: function (xhr) {
                 showAlert('red', 'Failed to order delivery status.');

@@ -173,7 +173,11 @@ class OrderController extends Controller
             ]);
 
             // Update the delivery status
-            $order->update(['order_status' => $request->order_status]);
+            $order->update([
+                'order_status' => 'completed',
+                'payment_status' => 'paid',
+                'delivery_status' => 'delivered'
+            ]);
 
             // Return success response
             return response()->json([
