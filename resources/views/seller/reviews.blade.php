@@ -46,7 +46,7 @@
                     <td class="px-6 py-4">{{ $review->created_at->format('Y-m-d') }}</td>
                     <td class="px-6 py-4">
                         <button data-modal-target="response-modal-{{ $review->id }}" data-modal-toggle="response-modal-{{ $review->id }}"
-                            class="text-white bg-accent hover:bg-pink-700 focus:ring-4 focus:outline-none focus:ring-pink-300 font-medium rounded-lg text-sm px-4 py-2">
+                            class="text-white bg-accent hover:bg-orange-700 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-4 py-2">
                             Respond
                         </button>
                     </td>
@@ -89,11 +89,11 @@
                                             Your Response
                                         </label>
                                         <textarea id="response-{{ $review->id }}" name="response" rows="4"
-                                            class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-pink-500 focus:border-pink-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                            class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                             placeholder="Write your response here..." required></textarea>
                                     </div>
                                     <button type="submit"
-                                        class="w-full text-white bg-pink-600 hover:bg-pink-700 focus:ring-4 focus:outline-none focus:ring-pink-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-pink-600 dark:hover:bg-pink-700 dark:focus:ring-pink-800">
+                                        class="w-full text-white bg-orange-600 hover:bg-orange-700 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800">
                                         Submit Response
                                     </button>
                                 </form>

@@ -4,7 +4,7 @@
     <div class="flex print:hidden justify-between items-center mb-4">
         <h2 class="text-3xl font-semibold">Sales Report</h2>
         <button onclick="window.print()"
-            class="px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-pink-500">
+            class="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500">
             Print Report
         </button>
     </div>

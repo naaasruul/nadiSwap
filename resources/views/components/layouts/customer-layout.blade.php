@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NadiSwap</title>
+  <title>Farabee</title>
   @include('partials.head')
 </head>
 
@@ -13,7 +13,7 @@
       use App\Models\Category;
       $categories = Category::all();
   @endphp
-  <nav class="bg-pink dark:bg-gray-800 antialiased">
+  <nav class="bg-orange dark:bg-gray-800 antialiased">
     <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0 py-4">
       <div class="flex items-center justify-between">
 
@@ -326,7 +326,7 @@
     <div class="sm:flex sm:items-center sm:justify-between">
       <a href="https://flowbite.com/" class="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse">
         <x-app-icon/>
-        <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Nadiswap</span>
+        <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Farabee</span>
       </a>
       {{-- <ul class="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
         <li>
@@ -344,8 +344,8 @@
       </ul> --}}
     </div>
     <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
-    <span class="block text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2023 <a href="#"
-        class="hover:underline">Nadiswap™</a>. All Rights Reserved.</span>
+    <span class="block text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2025 <a href="#"
+        class="hover:underline">Farabee™</a>. All Rights Reserved.</span>
   </div>
 </footer>
 

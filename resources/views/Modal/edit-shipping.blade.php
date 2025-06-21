@@ -32,7 +32,7 @@
                             class="block text-sm font-medium text-gray-900 dark:text-white">Name</label>
                         <input type="text" id="name-{{ $shipping->id }}" name="place"
                             value="{{ $shipping->place }}"
-                            class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-pink-500 focus:border-pink-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                            class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                             required>
                     </div>
                     <div class="mb-4">
@@ -40,7 +40,7 @@
                             class="block text-sm font-medium text-gray-900 dark:text-white">Price</label>
                         <input type="number" step="any" id="price-{{ $shipping->id }}" name="shipping_fee"
                             value="{{ $shipping->shipping_fee }}"
-                            class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-pink-500 focus:border-pink-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                            class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                             required>
                     </div>
                     <div class="flex justify-end space-x-2">
@@ -49,7 +49,7 @@
                             Cancel
                         </button>
                         <button type="submit"
-                            class="edit-modal-save text-white bg-pink-700 hover:bg-pink-800 focus:ring-4 focus:outline-none focus:ring-pink-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-pink-600 dark:hover:bg-pink-700 dark:focus:ring-pink-800">
+                            class="edit-modal-save text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800">
                             Save
                         </button>
                     </div>

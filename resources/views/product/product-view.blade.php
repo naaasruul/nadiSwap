@@ -29,7 +29,7 @@
                     <!-- Thumbnail Grid -->
                     <div id="thumbnailGrid" class="mt-4 flex space-x-2 overflow-x-auto whitespace-nowrap">
                         @foreach(json_decode($product->images) as $img)
-                            <img class="thumb inline-block cursor-pointer w-20 h-20 object-contain border border-transparent hover:border-pink-500" src="{{ asset('storage/'.$img) }}" alt="Thumbnail">
+                            <img class="thumb inline-block cursor-pointer w-20 h-20 object-contain border border-transparent hover:border-orange-500" src="{{ asset('storage/'.$img) }}" alt="Thumbnail">
                         @endforeach
                     </div>
                 </div>
@@ -73,7 +73,7 @@
                             <input type="hidden" name="product_id" value="{{ $product->id }}">
                             <!-- Added max attribute to restrict quantity -->
                             <input type="number" name="quantity" value="1" min="1" max="{{ $product->stock }}"
-                                class="bg-gray-50 border border-pink-500 text-gray-900 text-sm rounded-lg focus:ring-pink-600 focus:border-pink-600 block w-15 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-pink-500 dark:focus:border-pink-500">
+                                class="bg-gray-50 border border-orange-500 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-15 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500">
 
                             <button type="submit" 
                                 class="ml-4 text-accent-content dark:text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 flex items-center justify-center">
@@ -88,7 +88,7 @@
                             <input type="hidden" name="product_id" value="{{ $product->id }} " disabled>
                             <!-- Optionally, you can add max attribute even for disabled input -->
                             <input type="number" name="quantity" value="1" min="1" max="{{ $product->stock }}" disabled
-                                class="bg-gray-50 border cursor-not-allowed border-pink-500 text-gray-900 text-sm rounded-lg focus:ring-pink-600 focus:border-pink-600 block w-15 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-pink-500 dark:focus:border-pink-500">
+                                class="bg-gray-50 border cursor-not-allowed border-orange-500 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-15 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500">
 
                             <button type="button" disabled
                                 class="ml-4 text-accent-content cursor-not-allowed dark:text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 flex items-center justify-center">
@@ -222,7 +222,7 @@
     <style>
         /* Add border effect on the focused thumbnail */
         #thumbnailGrid img.thumb.active {
-            border-color: #ec4899; /* pink-500 */
+            border-color: #ec4899; /* orange-500 */
         }
     </style>
     @endpush

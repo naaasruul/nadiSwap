@@ -73,7 +73,7 @@
                             <div class="space-y-2">
                                 <label for="username" class="block text-sm font-medium">Username</label>
                                 <input type="text" name="username" id="username" value="{{ $user->username }}" required
-                                    class="mt-1 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-pink-500 focus:border-pink-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-pink-500 dark:focus:border-pink-500"
+                                    class="mt-1 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-orange-500 dark:focus:border-orange-500"
                                     value="Disabled input" readonly>
                                 @error('username')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -133,7 +133,7 @@
                 <!-- Submit Button -->
                 <div class="mt-8">
                     <button type="submit"
-                        class="w-full sm:w-auto px-6 py-3 bg-pink-700 text-white font-medium rounded-lg hover:bg-pink-800 focus:ring-4 focus:ring-pink-300">
+                        class="w-full sm:w-auto px-6 py-3 bg-orange-700 text-white font-medium rounded-lg hover:bg-orange-800 focus:ring-4 focus:ring-orange-300">
                         Save Changes
                     </button>
                 </div>
@@ -144,7 +144,7 @@
                 <h3 class="text-lg font-semibold mb-4">Delivery Addresses</h3>
                 <div class="flex space-x-2">
                     <button type="button" id="dropdownHelperRadioButton" data-dropdown-toggle="dropdownHelperRadio"
-                        class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-pink-700 rounded-lg hover:bg-pink-800">
+                        class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-orange-700 rounded-lg hover:bg-orange-800">
                         <span>My Addresses</span>
                         <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                             fill="none" viewBox="0 0 10 6">
@@ -153,7 +153,7 @@
                         </svg>
                     </button>
                     <button type="button" data-modal-target="addAddressModal" data-modal-toggle="addAddressModal"
-                        class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-pink-700 rounded-lg hover:bg-pink-800">
+                        class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-orange-700 rounded-lg hover:bg-orange-800">
                         <i class="fa-solid fa-plus me-2"></i>
                         <span>Add Address</span>
                     </button>
@@ -184,7 +184,7 @@
                         <li class="flex items-center justify-between p-2 rounded-sm hover:bg-gray-100 dark:hover:bg-gray-600">
                             <div class="flex items-center">
                                 <input id="address-{{ $address->id }}" name="delivery_address" type="radio" value="{{ $address->id }}"
-                                    class="w-4 h-4 text-pink-600 bg-gray-100 border-gray-300 focus:ring-pink-500 dark:focus:ring-pink-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                    class="w-4 h-4 text-orange-600 bg-gray-100 border-gray-300 focus:ring-orange-500 dark:focus:ring-orange-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
                                 <div class="ms-2 text-sm">
                                     <label for="address-{{ $address->id }}" class="font-medium text-gray-900 dark:text-gray-300">
                                         <div>{{ $address->address_line_1 }}</div>
@@ -269,13 +269,13 @@
                             <span class="sr-only">Danger icon</span>
                         </div>
                         <p class="mb-3.5 text-gray-900 dark:text-white"><a href="#"
-                                class="font-medium text-pink-700 hover:underline dark:text-pink-500">@heleneeng</a>,
+                                class="font-medium text-orange-700 hover:underline dark:text-orange-500">@heleneeng</a>,
                             are you
                             sure you want to delete this order from your account?</p>
                         <p class="mb-4 text-gray-500 dark:text-gray-300">This action cannot be undone.</p>
                         <div class="flex items-center justify-center space-x-4">
                             <button data-modal-toggle="deleteOrderModal" type="button"
-                                class="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-900 focus:z-10 focus:outline-none focus:ring-4 focus:ring-pink-300 dark:border-gray-500 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-600">No,
+                                class="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-900 focus:z-10 focus:outline-none focus:ring-4 focus:ring-orange-300 dark:border-gray-500 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-600">No,
                                 cancel</button>
                             <button type="submit"
                                 class="rounded-lg bg-red-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Yes,

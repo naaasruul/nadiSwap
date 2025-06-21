@@ -238,7 +238,7 @@
                                         Send Receipt
                                     </label>
                                     <input id='file_receipt' name='file_receipt'
-                                        class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-pink-50 dark:text-gray-400 focus:outline-none dark:bg-pink-700 dark:border-gray-600 dark:placeholder-pink-400"
+                                        class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-orange-50 dark:text-gray-400 focus:outline-none dark:bg-orange-700 dark:border-gray-600 dark:placeholder-orange-400"
                                         type="file">
                             </div>
                          
@@ -247,7 +247,7 @@
                             @endif
                             </div>
                                <button type="submit"
-                                class="{{ ($addresses->isEmpty() || $disableCheckout) ? 'hover:cursor-not-allowed text-white bg-pink-400 dark:bg-pink-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center' : 'hover:cursor-pointer text-white bg-pink-700 hover:bg-pink-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-pink-600 dark:hover:bg-pink-700 focus:outline-none dark:focus:ring-pink-800' }} w-full"
+                                class="{{ ($addresses->isEmpty() || $disableCheckout) ? 'hover:cursor-not-allowed text-white bg-orange-400 dark:bg-orange-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center' : 'hover:cursor-pointer text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-orange-600 dark:hover:bg-orange-700 focus:outline-none dark:focus:ring-orange-800' }} w-full"
                                 @if($addresses->isEmpty() || $disableCheckout) disabled @endif>
                                 Proceed to Checkout
                             </button>

@@ -5,7 +5,7 @@
          <!-- Print Button -->
          <div class="mb-4 flex justify-end">
             <button onclick="window.print()" 
-                class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-opacity-75">
+                class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-opacity-75">
                 Print Dashboard
             </button>
         </div>
@@ -26,15 +26,15 @@
         </div>
 
         <div class="grid grid-cols-3 gap-4 ">
-            <div class="row-span-3 col-span-1 border border-pink-200 rounded-lg bg-base-200 p-4 shadow-md">
+            <div class="row-span-3 col-span-1 border border-orange-200 rounded-lg bg-base-200 p-4 shadow-md">
                 <h3 class="text-lg text-center font-semibold">Sellers & Buyers</h3>
                 <div id="pie-chart" class="w-full"></div>
             </div>
-            <div class="row-span-3 col-span-2 border border-pink-200 rounded-lg bg-base-200 p-4 shadow-md">
+            <div class="row-span-3 col-span-2 border border-orange-200 rounded-lg bg-base-200 p-4 shadow-md">
                 <h3 class="text-lg text-center font-semibold">Transactions</h3>
                 <div id="area-chart" class="w-full h-full"></div>
             </div>
-            <div class="col-span-2 border border-pink-200 rounded-lg bg-base-200 p-4 shadow-md">
+            <div class="col-span-2 border border-orange-200 rounded-lg bg-base-200 p-4 shadow-md">
                 <h3 class="text-lg text-center font-semibold mb-4">Rating & Reviews</h3>
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -69,7 +69,7 @@
                 </table>
 
             </div>
-            <div class="col-span-1 border border-pink-200 rounded-lg bg-base-200 p-4 shadow-md">
+            <div class="col-span-1 border border-orange-200 rounded-lg bg-base-200 p-4 shadow-md">
                 <div id="donut-chart" class="w-full h-full"></div>
 
             </div>
@@ -95,7 +95,7 @@
 
         <div class="grid grid-cols-4 gap-4">
             <!-- Sellers -->
-            <div class="col-span-4 border border-pink-200 rounded-lg bg-base-200 p-4 shadow-md">
+            <div class="col-span-4 border border-orange-200 rounded-lg bg-base-200 p-4 shadow-md">
                 <h3 class="text-lg text-center font-semibold">Sellers</h3>
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -121,7 +121,7 @@
                 </div>
             </div>
             <!-- Buyers -->
-            <div class="col-span-4 border border-pink-200 rounded-lg bg-base-200 p-4 shadow-md">
+            <div class="col-span-4 border border-orange-200 rounded-lg bg-base-200 p-4 shadow-md">
                 <h3 class="text-lg text-center font-semibold">Buyers</h3>
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -147,7 +147,7 @@
                 </div>
             </div>
             <!-- Transactions -->
-            <div class="row-span-3 col-span-4 border border-pink-200 rounded-lg bg-base-200 p-4 shadow-md">
+            <div class="row-span-3 col-span-4 border border-orange-200 rounded-lg bg-base-200 p-4 shadow-md">
                 <h3 class="text-lg text-center font-semibold">Transactions</h3>
                 <table class="w-full text-sm text-center text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -167,7 +167,7 @@
                 </table>
             </div>
            <!-- Ratings and Reviews -->
-            <div class="col-span-4 border border-pink-200 rounded-lg bg-base-200 p-4 shadow-md">
+            <div class="col-span-4 border border-orange-200 rounded-lg bg-base-200 p-4 shadow-md">
                 <h3 class="text-lg text-center font-semibold mb-4">Rating & Reviews</h3>
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">

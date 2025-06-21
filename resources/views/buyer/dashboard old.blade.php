@@ -559,9 +559,9 @@
                           <h6 class="mb-2 text-sm font-medium text-black dark:text-white">Colour</h6>
                           <div class="space-y-2">
                             <div class="flex items-center">
-                              <input id="pink" type="checkbox" value="" class="h-4 w-4 rounded border-gray-300 bg-gray-100 text-primary-600 focus:ring-2 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600" />
+                              <input id="orange" type="checkbox" value="" class="h-4 w-4 rounded border-gray-300 bg-gray-100 text-primary-600 focus:ring-2 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600" />
 
-                              <label for="pink" class="ml-2 flex items-center text-sm font-medium text-gray-900 dark:text-gray-300">
+                              <label for="orange" class="ml-2 flex items-center text-sm font-medium text-gray-900 dark:text-gray-300">
                                 <div class="mr-2 h-3.5 w-3.5 rounded-full bg-primary-600"></div>
                                 Blue
                               </label>
@@ -586,10 +586,10 @@
                             </div>
 
                             <div class="flex items-center">
-                              <input id="pink" type="checkbox" value="" class="h-4 w-4 rounded border-gray-300 bg-gray-100 text-primary-600 focus:ring-2 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600" />
+                              <input id="orange" type="checkbox" value="" class="h-4 w-4 rounded border-gray-300 bg-gray-100 text-primary-600 focus:ring-2 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600" />
 
-                              <label for="pink" class="ml-2 flex items-center text-sm font-medium text-gray-900 dark:text-gray-300">
-                                <div class="mr-2 h-3.5 w-3.5 rounded-full bg-pink-400"></div>
+                              <label for="orange" class="ml-2 flex items-center text-sm font-medium text-gray-900 dark:text-gray-300">
+                                <div class="mr-2 h-3.5 w-3.5 rounded-full bg-orange-400"></div>
                                 Pink
                               </label>
                             </div>

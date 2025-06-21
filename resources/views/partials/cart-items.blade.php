@@ -41,7 +41,7 @@
           </span>
         </div>
         <a href="{{ route('cart.index') }}"
-           class="block rounded-lg w-full text-center px-4 py-2 text-sm font-medium text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
+           class="block rounded-lg w-full text-center px-4 py-2 text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">
            Proceed to Checkout
         </a>
       </div>

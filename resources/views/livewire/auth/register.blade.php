@@ -42,7 +42,7 @@
                 {{ __('Gender') }}
             </label>
             <select wire:model="gender" id="gender" name="gender" required
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-pink-500 focus:ring-pink-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                 <option value="">{{ __('Select your gender') }}</option>
                 <option value="male">{{ __('Male') }}</option>
                 <option value="female">{{ __('Female') }}</option>
@@ -56,7 +56,7 @@
                 {{ __('Register as') }}
             </label>
             <select wire:model="role" id="role" name="role" required
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-pink-500 focus:ring-pink-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                 <option value="">{{ __('Select a role') }}</option>
                 <option value="buyer">{{ __('Buyer') }}</option>
                 <option value="seller">{{ __('Seller') }}</option>

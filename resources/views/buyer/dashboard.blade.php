@@ -114,7 +114,7 @@
                       {{ $category->name }}
                       @if(isset($preferredCategories[$category->id]))
                       <span
-                        class="ml-2 inline-flex items-center rounded-full bg-pink-100 px-2 py-0.5 text-xs font-medium text-pink-800 dark:bg-pink-900 dark:text-pink-300">
+                        class="ml-2 inline-flex items-center rounded-full bg-orange-100 px-2 py-0.5 text-xs font-medium text-orange-800 dark:bg-orange-900 dark:text-orange-300">
                         Recommended
                       </span>
                       @endif
@@ -180,7 +180,7 @@
             <form action="{{ route('buyer.reset_recommendations') }}" method="POST">
               @csrf
               <button type="submit"
-                class="hover:cursor-pointer inline-flex items-center rounded-lg border border-pink-600 bg-pink-600 px-3 py-2 text-sm font-medium text-white hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-pink-400">
+                class="hover:cursor-pointer inline-flex items-center rounded-lg border border-orange-600 bg-orange-600 px-3 py-2 text-sm font-medium text-white hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-400">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mr-2"
                   viewBox="0 0 16 16">
                   <path
@@ -413,9 +413,9 @@
             
             // Create the toast element
             const toast = $(`
-                <div class="flex items-center p-4 mb-4 rounded-lg shadow ${type === 'success' ? 'bg-green-100 text-green-800' : 'bg-pink-100 text-pink-800'}" role="alert">
+                <div class="flex items-center p-4 mb-4 rounded-lg shadow ${type === 'success' ? 'bg-green-100 text-green-800' : 'bg-orange-100 text-orange-800'}" role="alert">
                     <div class="text-sm font-medium">${message}</div>
-                    <button type="button" class="ml-auto -mx-1.5 -my-1.5 rounded-lg p-1.5 inline-flex h-8 w-8 ${type === 'success' ? 'bg-green-100 text-green-500 hover:bg-green-200' : 'bg-pink-100 text-pink-500 hover:bg-pink-200'}" aria-label="Close">
+                    <button type="button" class="ml-auto -mx-1.5 -my-1.5 rounded-lg p-1.5 inline-flex h-8 w-8 ${type === 'success' ? 'bg-green-100 text-green-500 hover:bg-green-200' : 'bg-orange-100 text-orange-500 hover:bg-orange-200'}" aria-label="Close">
                         <span class="sr-only">Close</span>
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>

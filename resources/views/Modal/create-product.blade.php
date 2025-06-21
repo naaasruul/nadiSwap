@@ -28,7 +28,7 @@ class="hidden fixed top-0 left-0 right-0 z-50 flex items-center justify-center w
                     <label for="name"
                         class="block text-sm font-medium text-gray-900 dark:text-white">Name</label>
                     <input type="text" id="name" name="name"
-                        class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-pink-500 focus:border-pink-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                        class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                         placeholder="Product Name" required>
                 </div>
                 <div class="mb-4">
@@ -36,14 +36,14 @@ class="hidden fixed top-0 left-0 right-0 z-50 flex items-center justify-center w
                         class="block text-sm font-medium text-gray-900 dark:text-white">Price</label>
                     <input type="number" id="price" name="price"
                     step="any"
-                        class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-pink-500 focus:border-pink-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                        class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                         placeholder="Product Price" required>
                 </div>
                 <div class="mb-4">
                     <label for="stock"
                         class="block text-sm font-medium text-gray-900 dark:text-white">Stock</label>
                     <input type="number" id="stock" name="stock"
-                        class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-pink-500 focus:border-pink-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                        class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                         placeholder="Product Stock" required>
                 </div>
 
@@ -66,7 +66,7 @@ class="hidden fixed top-0 left-0 right-0 z-50 flex items-center justify-center w
                     <label for="description"
                         class="block text-sm font-medium text-gray-900 dark:text-white">Description</label>
                     <textarea id="description" name="description" rows="4"
-                        class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-pink-500 focus:border-pink-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                        class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                         placeholder="Product Description"></textarea>
                 </div>
                 <div class="mb-4">
@@ -74,7 +74,7 @@ class="hidden fixed top-0 left-0 right-0 z-50 flex items-center justify-center w
                     <label for="category_id"
                         class="block text-sm font-medium text-gray-900 dark:text-white">Category</label>
                     <select id="category_id" name="category_id"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-pink-500 focus:border-pink-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-pink-500 dark:focus:border-pink-500"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500"
                         required>
                         @foreach ($categories as $category)
                         <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -83,7 +83,7 @@ class="hidden fixed top-0 left-0 right-0 z-50 flex items-center justify-center w
 
                 </div>
                 <button type="submit"
-                    class="w-full text-white bg-pink-700 hover:bg-pink-800 focus:ring-4 focus:outline-none focus:ring-pink-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-pink-600 dark:hover:bg-pink-700 dark:focus:ring-pink-800">
+                    class="w-full text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800">
                     Save Product
                 </button>
             </form>

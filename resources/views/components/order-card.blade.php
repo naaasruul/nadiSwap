@@ -1,7 +1,7 @@
 @props(['icon', 'title', 'count', 'percentage' => null])
 
 <div>
-    <i class="{{ $icon }} fa-xl h-8 w-8 text-pink-400 dark:text-gray-500"></i>
+    <i class="{{ $icon }} fa-xl h-8 w-8 text-orange-400 dark:text-gray-500"></i>
     <h3 class="mb-2 text-gray-500 dark:text-gray-400">{{ $title }}</h3>
     <span class="flex items-center text-2xl font-bold text-gray-900 dark:text-white">
         {{ $count }}

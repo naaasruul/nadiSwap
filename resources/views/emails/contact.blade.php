@@ -62,7 +62,7 @@
 			<p style="white-space: pre-line;">{{ $contact_message }}</p>
 		</div>
 		<div class="footer">
-			<p>This email was sent via the NadiSwap contact form.</p>
+			<p>This email was sent via the Farabee contact form.</p>
 		</div>
 	</div>
 </body>

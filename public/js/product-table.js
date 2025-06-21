@@ -85,7 +85,7 @@ const table = new simpleDatatables.DataTable("#product-table", {
             Delete Selection
         </button>
         <button data-modal-target="crud-modal" data-modal-toggle="crud-modal"
-                class="block text-white bg-pink-700 hover:bg-pink-800 focus:ring-4 focus:outline-none focus:ring-pink-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-pink-600 dark:hover:bg-pink-700 dark:focus:ring-pink-800"
+                class="block text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800"
                 type="button">
                 Add Product
         </button>

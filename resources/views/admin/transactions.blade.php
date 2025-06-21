@@ -38,7 +38,7 @@
                             </td>
                             <td class="px-6 py-4">RM{{ number_format($order->total, 2) }}</td>
                             {{-- <td class="px-6 py-4">
-                                <a href="{{ route('admin.transactions.index', $order->id) }}" class="text-pink-600 hover:underline">View</a>
+                                <a href="{{ route('admin.transactions.index', $order->id) }}" class="text-orange-600 hover:underline">View</a>
                             </td> --}}
                             <td class="px-6 py-4">{{ $order->created_at->format('l, F j, Y, g:i A')  ?? 'N/A' }}</td>
                         </tr>

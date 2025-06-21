@@ -56,7 +56,7 @@
             @for ($i = $start; $i <= $end; $i++) <li>
                 @if ($i == $currentPage)
                 <span aria-current="page"
-                    class="flex items-center justify-center px-3 h-8 text-pink-600 border border-gray-300 bg-pink-50 hover:bg-pink-100 hover:text-pink-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
+                    class="flex items-center justify-center px-3 h-8 text-orange-600 border border-gray-300 bg-orange-50 hover:bg-orange-100 hover:text-orange-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
                     {{ $i }}
                 </span>
                 @else

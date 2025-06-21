@@ -126,7 +126,7 @@
                     <td>
                         <!-- View Reviews Button -->
                         <a href="{{ route('products.show', $product->id) }}"
-                            class="btn text-pink-500 hover:text-pink-700">
+                            class="btn text-orange-500 hover:text-orange-700">
                             View Product
                         </a>
                     </td>
@@ -244,7 +244,7 @@
                     <td>
                         <!-- View Reviews Button -->
                         <a href="{{ route('products.show', $product->id) }}"
-                            class="btn text-pink-500 hover:text-pink-700">
+                            class="btn text-orange-500 hover:text-orange-700">
                             View Product
                         </a>
                     </td>
