@@ -191,7 +191,7 @@
         // Left arrow: show previous image and update active thumbnail
         $('#prevBtn').on('click', function(){
             currentIndex = (currentIndex - 1 + images.length) % images.length;
-            var newSrc = "{{ asset('storage/') }}" + images[currentIndex];
+            var newSrc = "{{ asset('storage') }}" +'/' + images[currentIndex];
             $('#mainImage, #mainImageDark').attr('src', newSrc);
             $('#thumbnailGrid img.thumb').removeClass('active');
             $('#thumbnailGrid img.thumb').eq(currentIndex).addClass('active');
@@ -201,7 +201,7 @@
         // Right arrow: show next image and update active thumbnail
         $('#nextBtn').on('click', function(){
             currentIndex = (currentIndex + 1) % images.length;
-            var newSrc = "{{ asset('storage/') }}" + images[currentIndex];
+            var newSrc = "{{ asset('storage') }}" +'/' + images[currentIndex];
             $('#mainImage, #mainImageDark').attr('src', newSrc);
             $('#thumbnailGrid img.thumb').removeClass('active');
             $('#thumbnailGrid img.thumb').eq(currentIndex).addClass('active');
