@@ -14,7 +14,7 @@ class ProductController extends Controller
     {
         // Logic to retrieve all products for the authenticated seller
         // This is just a placeholder; you would typically fetch products from the database
-        $products = Product::all();
+        $products = Product::where('stock','>',0)->get();
 
         return response()->json($products);
     }
