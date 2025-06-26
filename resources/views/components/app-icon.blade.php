@@ -1,1 +1,1 @@
-<img src="{{ asset('farabytelogo.png') }}" alt="" width="100" height="100" class="fill-current">
+<img src="{{ asset('farabytelogo.png') }}" alt="" width="50" height="50" class="fill-current">

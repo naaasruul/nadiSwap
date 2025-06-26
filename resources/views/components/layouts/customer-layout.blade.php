@@ -19,7 +19,7 @@
 
         <div class="flex items-center space-x-8">
           <div class="shrink-0">
-            <a href="#" title="" class="">
+            <a href="{{ route('buyer.dashboard') }}" title="" class="">
               <x-app-icon/>
             </a>
           </div>
@@ -111,7 +111,7 @@
               <path stroke="currentColor" stroke-width="2"
                 d="M7 17v1a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1a3 3 0 0 0-3-3h-4a3 3 0 0 0-3 3Zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
             </svg>
-            Account
+            <span class="max-[600px]:hidden">Account</span>
             <svg class="w-4 h-4 text-gray-900 dark:text-white ms-1" aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -160,43 +160,10 @@
             </div>
           @endif
 
-          <button type="button" data-collapse-toggle="ecommerce-navbar-menu-1" aria-controls="ecommerce-navbar-menu-1"
-            aria-expanded="false"
-            class="inline-flex lg:hidden items-center justify-center hover:bg-gray-100 rounded-md dark:hover:bg-gray-700 p-2 text-gray-900 dark:text-white">
-            <span class="sr-only">
-              Open Menu
-            </span>
-            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-              fill="none" viewBox="0 0 24 24">
-              <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M5 7h14M5 12h14M5 17h14" />
-            </svg>
-          </button>
         </div>
       </div>
 
-      <div id="ecommerce-navbar-menu-1"
-        class="bg-gray-50 dark:bg-gray-700 dark:border-gray-600 border border-gray-200 rounded-lg py-3 hidden px-4 mt-4">
-        <ul class="text-gray-900 text-sm font-medium dark:text-white space-y-3">
-          <li>
-            <a href="#" class="hover:text-primary-700 dark:hover:text-primary-500">Home</a>
-          </li>
-          <li>
-            <a href="#" class="hover:text-primary-700 dark:hover:text-primary-500">Best Sellers</a>
-          </li>
-          <li>
-            <a href="#" class="hover:text-primary-700 dark:hover:text-primary-500">Gift Ideas</a>
-          </li>
-          <li>
-            <a href="#" class="hover:text-primary-700 dark:hover:text-primary-500">Games</a>
-          </li>
-          <li>
-            <a href="#" class="hover:text-primary-700 dark:hover:text-primary-500">Electronics</a>
-          </li>
-          <li>
-            <a href="#" class="hover:text-primary-700 dark:hover:text-primary-500">Home & Garden</a>
-          </li>
-        </ul>
-      </div>
+      
     </div>
   </nav>
 

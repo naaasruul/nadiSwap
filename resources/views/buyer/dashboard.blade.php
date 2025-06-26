@@ -1,7 +1,11 @@
 <x-layouts.customer-layout>
   
+@include('buyer.partials._dashboard-banner')
+
+@include('buyer.partials._categories')
+
   <!-- Section Title -->
-  <section class="bg-gray-50 py-8 antialiased dark:bg-gray-900 md:py-12 mx-auto max-w-screen-xl px-4 2xl:px-0">
+  <section id='product-main' class="bg-gray-50 py-8 antialiased dark:bg-gray-900 md:py-10 mx-auto max-w-screen-xl px-4 2xl:px-0">
   @if (session('success'))
     <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400">
         {{ session('success') }}
@@ -41,7 +45,7 @@
           </nav>
 
           <!-- Page Title with dynamic content based on what we're showing -->
-          <h2 class="mt-3 text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
+          <h2  class="mt-3 text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
             @if($isSearchResults)
                 Search Results for "{{ $searchTerm }}"
             @elseif(request('category'))

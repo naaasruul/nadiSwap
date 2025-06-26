@@ -58,7 +58,7 @@
                                     ({{ number_format($averageRating, 1)}})
                                 </p>
                                 <a href="#review-section"
-                                    class="text-sm font-medium leading-none text-gray-900 underline hover:no-underline dark:text-white">
+                                    class="text-sm font-medium max-[600px]:hidden leading-none text-gray-900 underline hover:no-underline dark:text-white">
                                     {{ $product->reviews_count }} Reviews
                                 </a>
                             </div>
@@ -66,8 +66,8 @@
                     </div>
 
                     <!-- Add to Cart Form -->
-                    <div class="mt-6 sm:gap-4 sm:items-center sm:flex sm:mt-8">
-                        <form action="{{ route('cart.add') }}" method="POST" class="flex items-center">
+                    <div class="mt-6 sm:gap-4 sm:items-center sm:flex sm:mt-8 ">
+                        <form action="{{ route('cart.add') }}" method="POST" class="flex  md:items-center max-[600px]:justify-end">
                             @csrf
                             @role('buyer')
                             <input type="hidden" name="product_id" value="{{ $product->id }}">
@@ -76,13 +76,15 @@
                                 class="bg-gray-50 border border-orange-500 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-15 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500">
 
                             <button type="submit" 
-                                class="ml-4 text-accent-content dark:text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 flex items-center justify-center">
+                                class="ml-4  text-accent-content dark:text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 flex items-center justify-center">
                                 <svg class="w-5 h-5 -ms-2 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                     fill="none" viewBox="0 0 24 24">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6" />
                                 </svg>
-                                Add to cart
+                                <span class="max-[600px]:hidden">
+                                    Add to cart
+                                </span>
                             </button>
                             @elserole('seller')
                             <input type="hidden" name="product_id" value="{{ $product->id }} " disabled>
