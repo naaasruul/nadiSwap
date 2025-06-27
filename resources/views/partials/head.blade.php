@@ -13,6 +13,6 @@
 <script src="https://kit.fontawesome.com/d46a78d0a5.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@9.0.3"></script>
 @stack('scripts')
-@vite(['resources/css/app.css', 'resources/js/app.js'])
+@vite(['resources/css/app.css', 'resources/js/app.js','resources/css/app-CsdDytoL.css','resources/js/app-l0sNRNKZ.js'])
 @fluxAppearance
 @fluxScripts()
