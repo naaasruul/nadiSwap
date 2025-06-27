@@ -11,9 +11,9 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
         <!-- Styles / Scripts -->
-        <link rel="stylesheet" href="{{ asset('build/assets/app-CsdDytoL.css') }}">
+        <link rel="stylesheet" href="{{ asset('build/assets/app-CrBWweLn.css') }}">
         <script src="{{ asset('build/assets/app-l0sNRNKZ.js') }}"></script>
-        {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body>
         @yield('content')

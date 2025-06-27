@@ -1,6 +1,6 @@
 <section class="bg-white dark:bg-gray-900">
     <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
-        <div class="mr-auto place-self-center lg:col-span-7 max-[600px]:text-center ">
+        <div class="mr-auto place-self-center lg:col-span-6 max-[600px]:text-center ">
             <h1 class="max-w-2xl mb-4 text-4xl  max-[600px]:leading-15 leading-18 font-extrabold   md:text-5xl xl:text-6xl dark:text-white  ">Built to Simplify Every  Student's<span class='text-purple-600'> Lifestyle</span></h1>
             <p class="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">House rentals, food orders, and marketplace — all at your fingertips.</p>
            
