@@ -47,7 +47,9 @@ class Register extends Component
                 'username' => ['required', 'string', 'max:255', 'unique:users,username'], // Validate unique username
                 'gender' => ['required', 'in:male,female,other'], // Validate gender
                 'name' => ['nullable', 'string', 'max:255'],
-                'email' => ['nullable', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class, 'regex:/^[a-zA-Z0-9._%+-]+@beranang\.kpm\.edu\.my$/'],
+                # enable ni kalau nak vaildation untuk student beranang je
+                // 'email' => ['nullable', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class, 'regex:/^[a-zA-Z0-9._%+-]+@beranang\.kpm\.edu\.my$/'],
+                'email' => ['nullable', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class, ],
                 'password' => [
                     'required',
                     'string',
