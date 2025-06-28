@@ -61,7 +61,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
 
 
-Route::middleware(['auth', 'role:seller'])->prefix('seller')->name('seller.')->group(function () {
+Route::middleware(['auth', 'role:seller','verified'])->prefix('seller')->name('seller.')->group(function () {
     Route::get('/dashboard', [SellerController::class, 'index'])->name('dashboard');
     
     Route::resource('products', ProductController::class)->except(['show']);
