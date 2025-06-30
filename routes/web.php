@@ -110,9 +110,11 @@ Route::middleware(['auth', 'role:buyer'])->group(function () {
     // Add this route for all categories
     Route::get('/categories', [BuyerController::class, 'allCategories'])->name('buyer.all_categories');
     Route::get('/invoice/{order}', [BuyerController::class, 'showInvoice'])->name('invoice.show');
-
+    
+    Route::get('/rent', [RentController::class, 'index'])->name('rent.index');
     Route::get('/find-housemate', [RentController::class, 'findHousemate'])->name('rent.view');
     Route::post('/post-housemate', [RentController::class, 'store'])->name('rent.store');
+    Route::get('/rent/{id}', [RentController::class, 'show'])->name('rent.details');
 });
 
 Route::middleware(['auth'])->group(function () {

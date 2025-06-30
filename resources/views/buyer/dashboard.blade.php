@@ -139,31 +139,7 @@
             </div> --}}
           </div>
 
-          {{-- broken af --}}
-          {{-- <!-- Featured Categories Display - New Section -->
-          <div class="mt-6 mb-8">
-            <div class="flex items-center justify-between mb-4">
-              <h3 class="text-lg font-medium text-gray-900 dark:text-white">Featured Categories</h3>
-              <a href="{{ route('buyer.all_categories') }}"
-                class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">
-                View all
-              </a>
-            </div>
-
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-              @if(isset($trendingCategories))
-              @foreach($trendingCategories->take(6) as $category)
-              <a href="{{ route('buyer.dashboard', ['category' => $category['id']]) }}"
-                class="category-card flex flex-col items-center justify-center p-4 border border-gray-200 rounded-lg bg-white hover:bg-gray-50 transition-all dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-                <span class="text-sm font-medium text-center text-gray-900 dark:text-white">{{ $category['name'] }}</span>
-                @if(isset($category['count']))
-                <span class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ $category['count'] }} products</span>
-                @endif
-              </a>
-              @endforeach
-              @endif
-            </div>
-          </div> --}}
+          
 
           <!-- Recommendation Section (Only show if there's a recommended category) -->
           @if(isset($recommendedCategory) && $recommendedCategory && !$isSearchResults && !request('category'))

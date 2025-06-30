@@ -68,7 +68,7 @@
               </a>
             </li>
             <li>
-              <a href="{{ Route('rent.view') }}" title=""
+              <a href="{{ Route('rent.index') }}" title=""
                 class="flex text-sm font-medium px-2 py-2.5 text-gray-900 hover:text-primary-700 dark:text-white dark:hover:text-primary-500">
                 Find Housemate
               </a>
