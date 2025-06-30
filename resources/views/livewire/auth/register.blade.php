@@ -51,15 +51,15 @@
         </div>
 
         <!-- Role Selection -->
-        <div class='hidden'>
+        <div class=''>
             <label for="role" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
                 {{ __('Register as') }}
             </label>
             <select wire:model="role" id="role" name="role" required
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                 <option value="">{{ __('Select a role') }}</option>
-                <option value="buyer" selected>{{ __('Buyer') }}</option>
-                <option value="seller">{{ __('Seller') }}</option>
+                <option value="buyer" >{{ __('Buyer') }}</option>
+                <option value="seller" disabled>{{ __('Seller') }}</option>
             </select>
             @error('role') <span class="text-sm text-red-600">{{ $message }}</span> @enderror
         </div>
