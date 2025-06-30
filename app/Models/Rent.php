@@ -12,6 +12,7 @@ class Rent extends Model
         'house_type',
         'rent',
         'deposit',
+        'tenant_total',
         'facilities',
         'preferred_gender',
         'other_preferences',
