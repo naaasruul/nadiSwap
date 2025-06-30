@@ -17,8 +17,8 @@
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@9.0.3"></script>
 @stack('scripts')
 
- <link rel="stylesheet" href="{{ asset('build/assets/app-CrBWweLn.css') }}">
+ <link rel="stylesheet" href="{{ asset('build/assets/app-D5qDo9yE.css') }}">
         <script src="{{ asset('build/assets/app-l0sNRNKZ.js') }}"></script>
-@vite(['resources/css/app.css', 'resources/js/app.js'])
+{{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
 @fluxAppearance
 @fluxScripts()
