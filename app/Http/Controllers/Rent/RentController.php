@@ -7,12 +7,24 @@ use App\Models\Rent;
 use Illuminate\Http\Request;
 
 class RentController extends Controller
-{
+{   
     //
+    public function index(){
+        // Logic to show the rent index page
+        $products = Rent::all(); // Fetch all rent posts from the database
+        return view('buyer.rent-view',compact('products')); // Return the view for rent index
+    }
         public function findHousemate()
     {
         // Logic to show the find housemate page
         return view('buyer.find-housemate-form'); // Return the view for finding housemates
+    }
+
+    public function show($id)
+    {
+        // Logic to show the details of a specific rent post
+        $product = Rent::findOrFail($id); // Fetch the rent post by ID
+        return view('buyer.rent-details', compact('product')); // Return the view with the product details
     }
 
     public function store(Request $request)
