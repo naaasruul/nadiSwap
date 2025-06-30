@@ -18,27 +18,27 @@
             src="https://ajax.googleapis.com/ajax/libs/@googlemaps/extended-component-library/0.6.11/index.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bs-stepper/dist/js/bs-stepper.min.js"></script>
         <script>
-            $(()=>{
+            $(() => {
                 $('#post_find_housemate').on('click', function(e) {
-                e.preventDefault();
-                alert('Submitting your housemate post...');
-                console.log('Form submitting');
+                    e.preventDefault();
+                    console.log('Form submitting');
 
                 var formData = new FormData();
 
-                formData.append('address', $('#selected-address').val());
-                formData.append('house_type', $('#house-type').val());
-                formData.append('rent', $('#rent').val());
-                formData.append('deposit', $('#deposit').val());
-                formData.append('facilities', $('#facilities-hidden').val());
-                formData.append('preferred_gender', $('#preferred-gender').val());
-                formData.append('other_preferences', $('#preferences-hidden').val());
+                    formData.append('address', $('#selected-address').val());
+                    formData.append('house_type', $('#house-type').val());
+                    formData.append('tenant_total   ', $('#tenant_total').val());
+                    formData.append('rent', $('#rent').val());
+                    formData.append('deposit', $('#deposit').val());
+                    formData.append('facilities', $('#facilities-hidden').val());
+                    formData.append('preferred_gender', $('#preferred-gender').val());
+                    formData.append('other_preferences', $('#preferences-hidden').val());
 
-                // Images
-                var files = $('#house-images')[0].files;
-                for (let i = 0; i < files.length; i++) {
-                    formData.append('house_images[]', files[i]);
-                }
+                    // Images
+                    var files = $('#house-images')[0].files;
+                    for (let i = 0; i < files.length; i++) {
+                        formData.append('house_images[]', files[i]);
+                    }
 
                 // Other payments
                 $('#other-payments-list .payment-row').each(function(index) {
@@ -70,6 +70,7 @@
                 console.log('Form submitted');
             });
             })
+            
             $(document).ready(function() {
                 var stepper = new Stepper($('.bs-stepper')[0],{
                     linear: false,
@@ -221,6 +222,11 @@
                     });
 
                     stepper.next();
+
+                    // If moving to review step, update it
+                    if ($('#review-part').is(':visible')) {
+                        updateReviewStep();
+                    }
                 });
 
                 $('.prev-btn').click(function() {
