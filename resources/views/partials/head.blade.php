@@ -7,6 +7,9 @@
 <link rel="preconnect" href="https://fonts.bunny.net">
 <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bs-stepper/dist/css/bs-stepper.min.css">
+<script src="https://cdn.jsdelivr.net/npm/bs-stepper/dist/js/bs-stepper.min.js"></script>
+
 <!-- Include Flowbite JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -16,6 +19,6 @@
 
  <link rel="stylesheet" href="{{ asset('build/assets/app-CrBWweLn.css') }}">
         <script src="{{ asset('build/assets/app-l0sNRNKZ.js') }}"></script>
-{{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
+@vite(['resources/css/app.css', 'resources/js/app.js'])
 @fluxAppearance
 @fluxScripts()
