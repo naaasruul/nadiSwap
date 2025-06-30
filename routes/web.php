@@ -12,6 +12,7 @@ use App\Http\Controllers\Buyer\ReviewController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DeliveryAddressController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Rent\RentController;
 use App\Http\Controllers\Seller\BankAccountController;
 use App\Http\Controllers\Seller\CategoryController;
 use App\Http\Controllers\Seller\OrderController;
@@ -108,8 +109,10 @@ Route::middleware(['auth', 'role:buyer'])->group(function () {
     
     // Add this route for all categories
     Route::get('/categories', [BuyerController::class, 'allCategories'])->name('buyer.all_categories');
-
     Route::get('/invoice/{order}', [BuyerController::class, 'showInvoice'])->name('invoice.show');
+
+    Route::get('/find-housemate', [RentController::class, 'findHousemate'])->name('rent.view');
+    Route::post('/post-housemate', [RentController::class, 'store'])->name('rent.store');
 });
 
 Route::middleware(['auth'])->group(function () {
