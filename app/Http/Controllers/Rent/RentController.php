@@ -21,6 +21,7 @@ class RentController extends Controller
         'address' => 'required|string',
         'house_type' => 'required|string',
         'rent' => 'required|numeric',
+        'tenant_total' => 'required|numeric',
         'deposit' => 'nullable|numeric',
         'facilities' => 'nullable|string',
         'preferred_gender' => 'nullable|string',
@@ -44,6 +45,7 @@ class RentController extends Controller
         'address' => $validated['address'],
         'house_type' => $validated['house_type'],
         'rent' => $validated['rent'],
+        'tenant_total' => $validated['tenant_total'],
         'deposit' => $validated['deposit'],
         'facilities' => $validated['facilities'], // comma-separated
         'preferred_gender' => $validated['preferred_gender'],
