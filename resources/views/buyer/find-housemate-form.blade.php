@@ -276,9 +276,41 @@
                         reader.readAsDataURL(file);
                     });
                 }
-            });
 
-            
+              
+
+                function updateReviewStep() {
+                    // Address
+                    $('#review-address').text($('#selected-address').val() || '-');
+                    // House Type
+                    $('#review-house-type').text($('#house-type').val() || '-');
+                    // Rent
+                    $('#review-rent').text($('#rent').val() ? 'RM ' + $('#rent').val() : '-');
+                    // Deposit
+                    $('#review-deposit').text($('#deposit').val() ? 'RM ' + $('#deposit').val() : '-');
+                    // Facilities
+                    let facilities = $('#facilities-hidden').val();
+                    $('#review-facilities').text(facilities ? facilities.split(',').join(', ') : '-');
+                    // Preferred Gender
+                    $('#review-gender').text($('#preferred-gender').val() || '-');
+                    // Other Preferences
+                    let preferences = $('#preferences-hidden').val();
+                    $('#review-preferences').text(preferences ? preferences.split(',').join(', ') : '-');
+                    // Description
+                    $('#review-description').text($('#description').val() || '-');
+                    // Other Payments
+                    let $payments = $('#review-other-payments');
+                    $payments.html('');
+                    $('#other-payments-list .payment-row').each(function() {
+                        let name = $(this).find('input[name$="[name]"]').val();
+                        let amount = $(this).find('input[name$="[amount]"]').val();
+                        if (name && amount) {
+                            $payments.append(`<li>${name}: RM ${amount}</li>`);
+                        }
+                    });
+                   
+                }
+            });
         </script>
     @endpush
 </x-layouts.customer-layout>
