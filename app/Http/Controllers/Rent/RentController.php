@@ -36,7 +36,7 @@ class RentController extends Controller
         'address' => 'required|string',
         'house_type' => 'required|string',
         'rent' => 'required|numeric',
-        'tenant_total' => 'required|numeric',
+        'tenant_total' => 'required',
         'deposit' => 'nullable|numeric',
         'facilities' => 'nullable|string',
         'preferred_gender' => 'nullable|string',
