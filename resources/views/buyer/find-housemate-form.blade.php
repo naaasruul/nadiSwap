@@ -5,7 +5,7 @@
 
         <div class="max-w-4xl mx-auto">
             <x-dashboard-header>Find Housemate 🏠</x-dashboard-header>
-            <div class="bs-stepper bg-white p-3 rounded-lg "> <!-- add .vertical kalau nak straight -->
+            <div class="bs-stepper dark:bg-gray-800 bg-white p-3 rounded-lg "> <!-- add .vertical kalau nak straight -->
                 @include('buyer.partials.stepper._stepper-header')
 
                 @include('buyer.partials.stepper._stepper-content')
