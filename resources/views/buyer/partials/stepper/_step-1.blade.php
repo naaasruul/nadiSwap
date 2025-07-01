@@ -16,7 +16,7 @@
                 </gmpx-api-loader>
                 <div id="place-picker-box">
                     <div id="place-picker-container">
-                        <gmpx-place-picker id="placePicker" placeholder="Enter an address"></gmpx-place-picker>
+                        <gmpx-place-picker id="placePicker" country='my' placeholder="Enter an address"></gmpx-place-picker>
                     </div>
                     <input type="text" id="selected-address" name="selected_address"
                         class="hidden" value=""/>

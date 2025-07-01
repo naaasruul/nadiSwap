@@ -4,6 +4,7 @@
     <section class="bg-gray-50 py-8 antialiased dark:bg-gray-900 md:py-10 mx-auto max-w-screen-xl px-4 2xl:px-0">
 
         <div class="max-w-4xl mx-auto">
+
             <x-dashboard-header>Find Housemate 🏠</x-dashboard-header>
             <div class="bs-stepper dark:bg-gray-800 bg-white p-3 rounded-lg "> <!-- add .vertical kalau nak straight -->
                 @include('buyer.partials.stepper._stepper-header')
@@ -13,17 +14,62 @@
         </div>
     </section>
 
+    @push('modal')
+        <div id="modalEl" tabindex="-1"
+            class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+            <div class="relative p-4 w-full max-w-md max-h-full">
+                <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
+                    <div class="p-4 md:p-5 text-center">
+                        {{-- Loading Spinner --}}
+                        <div id="modal-loading">
+                            <svg aria-hidden="true"
+                                class="mx-auto mb-4 w-12 h-12 text-gray-200 animate-spin fill-purple-600"
+                                viewBox="0 0 100 101" fill="none">
+                                <circle cx="50" cy="50" r="45" stroke="currentColor" stroke-width="10"
+                                    fill="none" />
+                                <path d="M50 15a35 35 0 1 1-24.75 59.75" stroke="currentColor" stroke-width="10"
+                                    stroke-linecap="round" />
+                            </svg>
+                            <p class="text-gray-500 dark:text-gray-400 text-lg">Processing...</p>
+                        </div>
+                        {{-- Success Message --}}
+                        <div id="modal-success" class="hidden">
+                            <svg class="mx-auto mb-4 text-green-500 w-12 h-12" fill="none" stroke="currentColor"
+                                stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M9 12l2 2l4-4m5 2a9 9 0 1 1-18 0a9 9 0 0 1 18 0z" />
+                            </svg>
+                            <h3 class="mb-5 text-lg font-normal text-gray-700 dark:text-gray-200">Your housemate request was
+                                submitted successfully!</h3>
+                            <a href="{{ route('rent.index') }}" data-modal-hide="modalEl" type="button"
+                                class="text-white bg-purple-600 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
+                                Back to Home Page
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endpush
+
     @push('scripts')
         <script type="module"
             src="https://ajax.googleapis.com/ajax/libs/@googlemaps/extended-component-library/0.6.11/index.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bs-stepper/dist/js/bs-stepper.min.js"></script>
         <script>
             $(() => {
+
+
+            })
+        </script>
+        <script>
+            $(() => {
+
                 $('#post_find_housemate').on('click', function(e) {
                     e.preventDefault();
                     console.log('Form submitting');
 
-                var formData = new FormData();
+                    var formData = new FormData();
 
                     formData.append('address', $('#selected-address').val());
                     formData.append('house_type', $('#house-type').val());
@@ -40,39 +86,55 @@
                         formData.append('house_images[]', files[i]);
                     }
 
-                // Other payments
-                $('#other-payments-list .payment-row').each(function(index) {
-                    var name = $(this).find('input[name^="other_payments"][name$="[name]"]').val();
-                    var amount = $(this).find('input[name^="other_payments"][name$="[amount]"]').val();
-                    if (name && amount) {
-                        formData.append(`other_payments[${index}][name]`, name);
-                        formData.append(`other_payments[${index}][amount]`, amount);
-                    }
-                });
+                    // Other payments
+                    $('#other-payments-list .payment-row').each(function(index) {
+                        var name = $(this).find('input[name^="other_payments"][name$="[name]"]').val();
+                        var amount = $(this).find('input[name^="other_payments"][name$="[amount]"]')
+                            .val();
+                        if (name && amount) {
+                            formData.append(`other_payments[${index}][name]`, name);
+                            formData.append(`other_payments[${index}][amount]`, amount);
+                        }
+                    });
 
-                $.ajax({
-                    url: '{{ route('rent.store') }}',
-                    type: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    success: function(response) {
-                        alert('Success! Your housemate post has been created.');
-                        // Optionally redirect or reset form
-                    },
-                    error: function(xhr) {
-                        alert('Error: ' + (xhr.responseJSON?.message || 'Submission failed.'));
-                    }
+                    $.ajax({
+                        url: '{{ route('rent.store') }}',
+                        type: 'POST',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        success: function(response) {
+                            const $targetEl = document.getElementById('modalEl');
+                            const options = {
+                                /* ...your options... */ };
+                            const instanceOptions = {
+                                id: 'modalEl',
+                                override: true
+                            };
+                            const modal = new Modal($targetEl, options, instanceOptions);
+                            modal.show();
+
+                            // Show loading first, then success after 1.5s
+                            $('#modal-loading').show();
+                            $('#modal-success').hide();
+                            setTimeout(() => {
+                                $('#modal-loading').hide();
+                                $('#modal-success').show();
+                            }, 1500);
+                        },
+                        error: function(xhr) {
+                            alert('Error: ' + (xhr.responseJSON?.message || 'Submission failed.'));
+                        }
+                    });
+                    console.log('Form submitted');
                 });
-                console.log('Form submitted');
-            });
             })
-            
+
             $(document).ready(function() {
-                var stepper = new Stepper($('.bs-stepper')[0],{
+                var stepper = new Stepper($('.bs-stepper')[0], {
                     linear: false,
                     animation: true
                 });
@@ -279,7 +341,7 @@
                     });
                 }
 
-              
+
 
                 function updateReviewStep() {
                     // Address
@@ -310,7 +372,7 @@
                             $payments.append(`<li>${name}: RM ${amount}</li>`);
                         }
                     });
-                   
+
                 }
             });
         </script>
