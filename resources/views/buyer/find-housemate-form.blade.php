@@ -187,6 +187,7 @@
                     var facilities = $('#facilities-hidden').val();
                     var preferred_gender = $('#preferred-gender').val();
                     var other_preferences = $('#preferences-hidden').val();
+                    var tenant_total = $('#tenant_total').val();
 
                     // Get images
                     var images = [];
@@ -218,7 +219,8 @@
                         preferred_gender,
                         other_preferences: other_preferences ? other_preferences.split(',') : [],
                         images,
-                        other_payments
+                        other_payments,
+                        tenant: tenant_total
                     });
 
                     stepper.next();
