@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Rent;
 use App\Http\Controllers\Controller;
 use App\Models\Rent;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class RentController extends Controller
 {   
@@ -29,6 +30,8 @@ class RentController extends Controller
 
     public function store(Request $request)
 {
+    Log::info('RentController@store called', ['request' => $request->all()]);
+
     $validated = $request->validate([
         'address' => 'required|string',
         'house_type' => 'required|string',
