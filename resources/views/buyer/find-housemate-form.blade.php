@@ -27,7 +27,7 @@
 
                     formData.append('address', $('#selected-address').val());
                     formData.append('house_type', $('#house-type').val());
-                    formData.append('tenant_total   ', $('#tenant_total').val());
+                    formData.append('tenant_total', $('#tenant_total').val());
                     formData.append('rent', $('#rent').val());
                     formData.append('deposit', $('#deposit').val());
                     formData.append('facilities', $('#facilities-hidden').val());
